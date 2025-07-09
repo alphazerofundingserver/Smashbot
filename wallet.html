@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Payment - Smash AI Trading Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .payment-container {
+            background: rgba(30, 30, 50, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        .amount {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #f7931a;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .timer-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: #6c757d;
+        }
+
+        .timer {
+            font-weight: 500;
+        }
+
+        .view-details {
+            background: none;
+            border: none;
+            color: #4CAF50;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            text-decoration: underline;
+            padding: 5px 0;
+        }
+
+        .view-details:hover {
+            color: #45a049;
+        }
+
+        .qr-container {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: #000000;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        .bitcoin-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #f7931a;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+            z-index: 10;
+        }
+
+        .address-section {
+            margin-bottom: 30px;
+        }
+
+        .address-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .address-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .address {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #ffffff;
+            flex: 1;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 10px;
+        }
+
+        .copy-btn:hover {
+            color: #ffffff;
+        }
+
+        .pay-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .pay-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .btcpay-logo {
+            color: #f7931a;
+            font-weight: bold;
+        }
+
+        .language-selector {
+            margin-top: 10px;
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .qr-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, #000 15%, transparent 15%),
+                radial-gradient(circle at 80% 20%, #000 15%, transparent 15%),
+                radial-gradient(circle at 40% 40%, #000 15%, transparent 15%),
+                radial-gradient(circle at 60% 60%, #000 15%, transparent 15%),
+                radial-gradient(circle at 30% 70%, #000 15%, transparent 15%),
+                radial-gradient(circle at 70% 30%, #000 15%, transparent 15%);
+            background-size: 20px 20px;
+            border-radius: 10px;
+        }
+
+        .corner-squares {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #000;
+            border-radius: 3px;
+        }
+
+        .corner-squares:nth-child(1) { top: 10px; left: 10px; }
+        .corner-squares:nth-child(2) { top: 10px; right: 10px; }
+        .corner-squares:nth-child(3) { bottom: 10px; left: 10px; }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h1 class="title">SMASH AI TRADING BOT</h1>
+        
+        <div class="amount">0.00355019 BTC</div>
+        
+        <div class="timer-container">
+            <svg class="timer-icon" viewBox="0 0 24 24">
+                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/>
+            </svg>
+            <span>This invoice will expire in <span class="timer" id="timer">359:50</span></span>
+        </div>
+        
+        <button class="view-details" onclick="toggleDetails()">View Details ▼</button>
+        
+        <div class="qr-container" style="position:relative;display:inline-block;">
+            <img src="bitcoin.jpg" alt="BTC QR Code" class="qr-code" style="width:200px;height:200px;border-radius:10px;" />
+            <div class="bitcoin-logo" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#f7931a;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:28px;color:white;z-index:10;pointer-events:none;">₿</div>
+        </div>
+        
+        <div class="address-section">
+            <div class="address-label">ADDRESS</div>
+            <div class="address-container">
+                <span class="address" id="address">bc1qk7wkatvqf0knadazee2qjds5dc59xce03w6g32</span>
+                <button class="copy-btn" onclick="copyAddress()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <button class="pay-button" onclick="payInWallet()">Pay in wallet</button>
+        
+        <div class="footer">
+            <div>Powered by <span class="btcpay-logo">BTCPAY</span></div>
+            <button class="language-selector" onclick="changeLanguage()">English ▼</button>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        let timeLeft = 359 * 60 + 50; // 359:50 in seconds
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                document.getElementById('timer').textContent = 'EXPIRED';
+                document.getElementById('timer').style.color = '#ff4444';
+            }
+        }
+        
+        function copyAddress() {
+            const address = document.getElementById('address').textContent;
+            navigator.clipboard.writeText(address).then(() => {
+                showNotification('Address copied to clipboard!');
+            }).catch(() => {
+                showNotification('Failed to copy address');
+            });
+        }
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function toggleDetails() {
+            const btn = document.querySelector('.view-details');
+            if (btn.textContent.includes('▼')) {
+                btn.textContent = 'Hide Details ▲';
+                showNotification('Details expanded');
+            } else {
+                btn.textContent = 'View Details ▼';
+                showNotification('Details collapsed');
+            }
+        }
+        
+        function payInWallet() {
+            const address = document.getElementById('address').textContent;
+            const amount = '0.00355019';
+            const bitcoinUri = `bitcoin:${address}?amount=${amount}`;
+            
+            // Try to open in wallet app
+            window.open(bitcoinUri, '_blank');
+            showNotification('Opening wallet application...');
+        }
+        
+        function changeLanguage() {
+            const languages = ['English', 'Español', 'Français', 'Deutsch', '中文'];
+            const current = document.querySelector('.language-selector').textContent.split(' ')[0];
+            const currentIndex = languages.indexOf(current);
+            const nextIndex = (currentIndex + 1) % languages.length;
+            
+            document.querySelector('.language-selector').textContent = languages[nextIndex] + ' ▼';
+            showNotification(`Language changed to ${languages[nextIndex]}`);
+        }
+        
+        // Start the timer
+        updateTimer();
+        
+        // Add some interactive animations
+        document.querySelector('.qr-container').addEventListener('click', () => {
+            showNotification('QR code contains payment information');
+        });
+        
+        // Add hover effects
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mouseenter', (e) => {
+                e.target.style.transform = 'scale(1.05)';
+            });
+            
+            button.addEventListener('mouseleave', (e) => {
+                e.target.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

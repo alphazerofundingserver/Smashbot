@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Payment Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .payment-container {
+            background: #2d2d2d;
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .product-icon {
+            width: 50px;
+            height: 50px;
+            background: #ffffff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2d2d2d;
+        }
+
+        .product-info h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .product-info .price {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .product-info .order-id {
+            font-size: 14px;
+            color: #999999;
+        }
+
+        .payment-section {
+            margin-top: 30px;
+        }
+
+        .payment-section h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .payment-warning {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            color: #ffa500;
+            font-size: 14px;
+        }
+
+        .warning-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #ffa500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            background: #3a3a3a;
+            border: 1px solid #555555;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #007bff;
+        }
+
+        .search-input::placeholder {
+            color: #999999;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999999;
+            font-size: 18px;
+        }
+
+        .crypto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .crypto-option {
+            background: #3a3a3a;
+            border: 1px solid #555555;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .crypto-option:hover {
+            background: #4a4a4a;
+            border-color: #007bff;
+            transform: translateY(-2px);
+        }
+
+        .crypto-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        .bitcoin { background: #f7931a; }
+        .usdt { background: #26a17b; }
+        .dogecoin { background: #c2a633; }
+        .ethereum { background: #627eea; }
+        .litecoin { background: #bfbbbb; color: #333; }
+        .bitcoin-cash { background: #8dc351; }
+        .solana { background: #9945ff; }
+
+        .crypto-info {
+            flex: 1;
+        }
+
+        .crypto-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+            font-size: 14px;
+        }
+
+        .crypto-amount {
+            font-size: 12px;
+            color: #999999;
+        }
+
+        .payment-id {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 12px;
+            color: #999999;
+            font-family: monospace;
+        }
+
+        .report-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .report-button {
+            background: #444444;
+            border: 1px solid #666666;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .report-button:hover {
+            background: #555555;
+        }
+
+        .powered-by {
+            text-align: center;
+            font-size: 12px;
+            color: #999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .blockbee-logo {
+            color: #ffa500;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .payment-container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .crypto-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .product-info .price {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .payment-container {
+                padding: 15px;
+            }
+            
+            .crypto-option {
+                padding: 12px;
+            }
+            
+            .search-input {
+                font-size: 14px;
+            }
+        }
+
+        /* Payment Details Styles */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: #3a3a3a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background: #4a4a4a;
+            transform: scale(1.1);
+        }
+
+        .payment-details {
+            margin-top: 20px;
+        }
+
+        .qr-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .qr-container {
+            position: relative;
+        }
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 10px;
+            position: relative;
+        }
+
+        .qr-placeholder {
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMwIiBoZWlnaHQ9IjEzMCIgdmlld0JveD0iMCAwIDEzMCAxMzAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMzAiIGhlaWdodD0iMTMwIiBmaWxsPSJibGFjayIgZmlsbC1vcGFjaXR5PSIwLjEiLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMTAiIGhlaWdodD0iMTEwIiB2aWV3Qm94PSIwIDAgMTEwIDExMCIgZmlsbD0ibm9uZSI+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iYmxhY2siLz4KPHN2ZyB4PSIxMCIgeT0iMT
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="product-header">
+            <div class="product-icon">S</div>
+            <div class="product-info">
+                <h1>SMASH Forex Robot</h1>
+                <div class="price">$390.00 USD</div>
+                <div class="order-id">#425</div>
+            </div>
+        </div>
+
+        <div class="payment-section">
+            <h2>Pay with crypto</h2>
+            <div class="payment-warning">
+                <div class="warning-icon">!</div>
+                <span>Make sure you send the right crypto on the right network/blockchain.</span>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search cryptocurrencies" id="cryptoSearch">
+                <div class="search-icon">🔍</div>
+            </div>
+
+            <div class="crypto-grid" id="cryptoGrid">
+                <div class="crypto-option" data-crypto="bitcoin">
+                    <div class="crypto-icon bitcoin">₿</div>
+                    <div class="crypto-info">
+                        <div class="crypto-name">Bitcoin</div>
+                        <div class="crypto-amount">≈0.00630281 BTC</div>
+                    </div>
+                </div>
+
+                <div class="crypto-option" data-crypto="usdt">
+                    <div class="crypto-icon usdt">₮</div>
+                    <div class="crypto-info">
+                        <div class="crypto-name">USDT (TRC20)</div>
+                        <div class="crypto-amount">≈389.85400000 USDT</div>
+                    </div>
+                </div>
+
+                <div class="crypto-option" data-crypto="dogecoin">
+                    <div class="crypto-icon dogecoin">Ð</div>
+                    <div class="crypto-info">
+                        <div class="crypto-name">Dogecoin</div>
+                        <div class="crypto-amount">≈2337.15000000 DOGE</div>
+                    </div>
+                </div>
+
+                <div class="crypto-option" data-crypto="ethereum">
+                    <div class="crypto-icon ethereum">Ξ</div>
+                    <div class="crypto-info">
+                        <div class="crypto-name">Ethereum (ERC20)</div>
+                        <div class="crypto-amount">≈0.15476300 ETH</div>
+                    </div>
+                </div>
+
+                <div class="crypto-option" data-crypto="litecoin">
+                    <div class="crypto-icon litecoin">Ł</div>
+                    <div class="crypto-info">
+                        <div class="crypto-name">Litecoin</div>
+                        <div class="crypto-amount">≈4.46140000 LTC</div>
+                    </div>
+                </div>
+
+                <div class="crypto-option" data-crypto="bitcoin-cash">
+                    <div class="crypto-icon bitcoin-cash">₿</div>
+                    <div class="crypto-info">
+                        <div class="crypto-name">Bitcoin Cash</div>
+                        <div class="crypto-amount">≈0.79908300 BCH</div>
+                    </div>
+                </div>
+
+                <div class="crypto-option" data-crypto="solana">
+                    <div class="crypto-icon solana">◎</div>
+                    <div class="crypto-info">
+                        <div class="crypto-name">Solana (SOL)</div>
+                        <div class="crypto-amount">≈2.61992000 SOL</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-id">
+                📋 Q9fw7ObrosuTczDkxhrMcdEiL4NtgoM0
+            </div>
+
+            <div class="report-section">
+                <button class="report-button">📢 Report Merchant</button>
+                <div class="powered-by">
+                    Powered by <span class="blockbee-logo">🐝 BlockBee</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('cryptoSearch');
+        const cryptoGrid = document.getElementById('cryptoGrid');
+        const cryptoOptions = document.querySelectorAll('.crypto-option');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            cryptoOptions.forEach(option => {
+                const cryptoName = option.querySelector('.crypto-name').textContent.toLowerCase();
+                if (cryptoName.includes(searchTerm)) {
+                    option.style.display = 'flex';
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+        });
+
+        // Crypto selection and payment details
+        cryptoOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const cryptoName = this.querySelector('.crypto-name').textContent;
+                const cryptoAmount = this.querySelector('.crypto-amount').textContent;
+                const cryptoType = this.getAttribute('data-crypto');
+                
+                showPaymentDetails(cryptoType, cryptoName, cryptoAmount);
+            });
+        });
+
+        function showPaymentDetails(cryptoType, cryptoName, cryptoAmount) {
+            // Define crypto data
+            const cryptoData = {
+                bitcoin: {
+                    symbol: 'BTC',
+                    amount: '0.00360281 BTC',
+                    address: '32RA5HYCyQYgetrlf8rJPKZqBatqp5NeTi',
+                    icon: '₿',
+                    color: '#f7931a'
+                },
+                usdt: {
+                    symbol: 'USDT',
+                    amount: '389.85400000 USDT',
+                    address: 'TQn9Y2khEsLJW1ChVWFMSMeRDow5oRP7sP',
+                    icon: '₮',
+                    color: '#26a17b'
+                },
+                ethereum: {
+                    symbol: 'ETH',
+                    amount: '0.15476300 ETH',
+                    address: '0x742d35Cc6634C0532925a3b8D4B5b8F7b8B2A9e3',
+                    icon: 'Ξ',
+                    color: '#627eea'
+                },
+                litecoin: {
+                    symbol: 'LTC',
+                    amount: '4.46140000 LTC',
+                    address: 'LTC1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4',
+                    icon: 'Ł',
+                    color: '#bfbbbb'
+                },
+                'bitcoin-cash': {
+                    symbol: 'BCH',
+                    amount: '0.79908300 BCH',
+                    address: 'bitcoincash:qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a',
+                    icon: '₿',
+                    color: '#8dc351'
+                },
+                dogecoin: {
+                    symbol: 'DOGE',
+                    amount: '2337.15000000 DOGE',
+                    address: 'DH5yaieqoZN36fDVciNyRueRGvGLR3mr7L',
+                    icon: 'Ð',
+                    color: '#c2a633'
+                },
+                solana: {
+                    symbol: 'SOL',
+                    amount: '2.61992000 SOL',
+                    address: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
+                    icon: '◎',
+                    color: '#9945ff'
+                }
+            };
+
+            const crypto = cryptoData[cryptoType];
+            
+            // Create payment details HTML
+            const paymentDetailsHTML = `
+                <div class="back-button" onclick="showCryptoSelection()">
+                    <div class="back-icon">←</div>
+                </div>
+                
+                <div class="product-header">
+                    <div class="product-icon">S</div>
+                    <div class="product-info">
+                        <h1>SMASH Forex Robot</h1>
+                        <div class="price">$390.00 USD</div>
+                        <div class="order-id">#425</div>
+                    </div>
+                </div>
+
+                <div class="payment-details">
+                    <div class="qr-section">
+                        <div class="qr-container">
+                            <div class="qr-code">
+                                <div class="qr-placeholder">
+                                    <div class="qr-pattern"></div>
+                                    <div class="crypto-icon-overlay" style="background: ${crypto.color}">
+                                        ${crypto.icon}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="crypto-header">
+                            <h2>${crypto.symbol}</h2>
+                        </div>
+                    </div>
+
+                    <div class="payment-info">
+                        <div class="info-row">
+                            <label>Amount</label>
+                            <div class="copy-field">
+                                <span class="amount-value">${crypto.amount}</span>
+                                <button class="copy-btn" onclick="copyToClipboard('${crypto.amount}', this)">📋</button>
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <label>Address</label>
+                            <div class="copy-field">
+                                <span class="address-value">${crypto.address}</span>
+                                <button class="copy-btn" onclick="copyToClipboard('${crypto.address}', this)">📋</button>
+                            </div>
+                        </div>
+
+                        <div class="min-transaction">
+                            Min Transaction Amount • 0.00008 ${crypto.symbol}
+                        </div>
+
+                        <div class="toggle-buttons">
+                            <button class="toggle-btn active">ADDRESS</button>
+                            <button class="toggle-btn">WITH VALUE</button>
+                        </div>
+                    </div>
+
+                    <div class="exchange-warning">
+                        <span class="warning-icon">⚠️</span>
+                        If you're sending the payment from an exchange, ensure it doesn't deduct fees from the sent amount. If it does, send the requested amount plus the exchange fees to avoid underpayment.
+                    </div>
+
+                    <div class="payment-id">
+                        📋 Q9fw7ObrosuTczDkxhrMcdEiL4NtgoM0
+                    </div>
+
+                    <div class="report-section">
+                        <button class="report-button">📢 Report Merchant</button>
+                    </div>
+                </div>
+            `;
+
+            // Replace the content
+            document.querySelector('.payment-container').innerHTML = paymentDetailsHTML;
+        }
+
+        function showCryptoSelection() {
+            location.reload(); // Simple way to go back to selection screen
+        }
+
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = '✅';
+                button.style.color = '#4CAF50';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.color = '#999999';
+                }, 2000);
+            });
+        }
+
+        // Copy payment ID functionality
+        const paymentId = document.querySelector('.payment-id');
+        paymentId.addEventListener('click', function() {
+            const text = 'Q9fw7ObrosuTczDkxhrMcdEiL4NtgoM0';
+            navigator.clipboard.writeText(text).then(() => {
+                // Show copied feedback
+                const originalText = this.innerHTML;
+                this.innerHTML = '✅ Copied!';
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1316 @@
+<html lang="en"><script src="chrome-extension://dngmlblcodfobpdpecaadgfbcggfjfnm/src/extension/inpage/index.js"></script><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal Login - SMASH AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            33% { transform: translateX(-20px) translateY(-20px); }
+            66% { transform: translateX(20px) translateY(20px); }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: #4ecdc4;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            padding: 0.5rem;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 0.5rem;
+        }
+
+        /* Mobile Navigation Styles */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .nav-links li {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.3s ease;
+            }
+
+            .nav-links.active li {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .nav-links.active li:nth-child(1) { transition-delay: 0.1s; }
+            .nav-links.active li:nth-child(2) { transition-delay: 0.2s; }
+            .nav-links.active li:nth-child(3) { transition-delay: 0.3s; }
+            .nav-links.active li:nth-child(4) { transition-delay: 0.4s; }
+            .nav-links.active li:nth-child(5) { transition-delay: 0.5s; }
+            .nav-links.active li:nth-child(6) { transition-delay: 0.6s; }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 1rem;
+                text-align: center;
+                display: block;
+                width: 100%;
+            }
+
+            .cart-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            /* Close button for mobile menu */
+            .mobile-menu-close {
+                position: absolute;
+                top: 2rem;
+                right: 2rem;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 2rem;
+                cursor: pointer;
+                z-index: 1001;
+                display: none;
+            }
+
+            .nav-links.active .mobile-menu-close {
+                display: block;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 0.5rem;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 0.8rem;
+            }
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Flash Messages */
+        .flash-messages {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .flash-message {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            color: white;
+            animation: slideIn 0.3s ease-out;
+            max-width: 300px;
+        }
+
+        .flash-message.success {
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .flash-message.error {
+            border-left: 4px solid #ff6b6b;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile flash messages */
+        @media (max-width: 768px) {
+            .flash-messages {
+                right: 10px;
+                left: 10px;
+                top: 90px;
+            }
+
+            .flash-message {
+                max-width: none;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #4ecdc4;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #4ecdc4;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+        }
+
+        /* Mobile Footer */
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 0 1rem;
+            }
+
+            .footer {
+                padding: 2rem 0 1rem;
+            }
+        }
+
+        /* Utility Classes */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #4ecdc4;
+            color: #4ecdc4;
+        }
+
+        .btn-secondary:hover {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+    </style>
+<script src="chrome-extension://idnnbdplmphpflfnlkomgpfbpcgelopg/inpage.js" id="xverse-wallet-provider" data-is-priority="true"></script></head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">SMASH</a>
+
+            <ul class="nav-links" id="navLinks">
+                <button class="mobile-menu-close" id="mobileMenuClose">×</button>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="https://www.smashthemarketdashboard.co.za/login" target="_blank">Trading Dashboard</a></li>
+                <li><a href="bot.html">Client Portal Login</a></li>
+                <li>
+                    <a href="cart.html" class="cart-icon">
+                        🛒
+                        
+                        <span class="cart-count">1</span>
+                        
+                    </a>
+                </li>
+            </ul>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    
+        
+    
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+<style>
+    .login-section {
+        padding: 6rem 0;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-container {
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .login-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1rem;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        padding: 2rem;
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .login-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+        border-radius: 0.75rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+    }
+
+    .login-logo svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: white;
+    }
+
+    .login-title {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .login-subtitle {
+        color: #94a3b8;
+        font-size: 0.875rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        color: white;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 0.5rem;
+        color: white;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: #4ecdc4;
+        box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+    }
+
+    .form-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .login-button {
+        width: 100%;
+        padding: 0.75rem;
+        background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+        border: none;
+        border-radius: 0.5rem;
+        color: white;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 1rem;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    }
+
+    .login-button:hover {
+        background: linear-gradient(135deg, #ff4757, #3dc1d3);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    }
+
+    .login-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .login-help {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .help-text {
+        color: #ccc;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+    }
+
+    .help-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .help-link {
+        color: #4ecdc4;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: color 0.3s ease;
+    }
+
+    .help-link:hover {
+        color: white;
+    }
+
+    .info-box {
+        background: rgba(78, 205, 196, 0.1);
+        border: 1px solid rgba(78, 205, 196, 0.3);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        color: #4ecdc4;
+        font-size: 0.875rem;
+        text-align: center;
+    }
+
+    /* Message Styles */
+    .message {
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+        display: none;
+        animation: slideIn 0.3s ease-in;
+    }
+
+    .message.show {
+        display: block;
+    }
+
+    .message-error {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+    }
+
+    .message-warning {
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        color: #fcd34d;
+    }
+
+    .message-success {
+        background: rgba(34, 197, 94, 0.1);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        color: #86efac;
+    }
+
+    .message-info {
+        background: rgba(59, 130, 246, 0.1);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        color: #93c5fd;
+    }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top: 2px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-right: 0.5rem;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Dashboard Styles */
+    .dashboard {
+        display: none;
+        max-width: 800px;
+        width: 100%;
+    }
+
+    .dashboard.show {
+        display: block;
+    }
+
+    .dashboard-header {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .dashboard-title {
+        color: white;
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .dashboard-subtitle {
+        color: #94a3b8;
+        font-size: 1rem;
+    }
+
+    .accounts-section {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1rem;
+        padding: 2rem;
+    }
+
+    .section-title {
+        color: white;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logout-btn {
+        background: rgba(239, 68, 68, 0.2);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .logout-btn:hover {
+        background: rgba(239, 68, 68, 0.3);
+        color: white;
+    }
+
+    .add-account-form {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .add-account-input {
+        flex: 1;
+        padding: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 0.5rem;
+        color: white;
+        font-size: 0.875rem;
+    }
+
+    .add-account-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .add-account-input:focus {
+        outline: none;
+        border-color: #4ecdc4;
+        box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+    }
+
+    .add-account-btn {
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, #34d399, #10b981);
+        border: none;
+        border-radius: 0.5rem;
+        color: white;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .add-account-btn:hover {
+        background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    .add-account-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background: #666;
+    }
+
+    .accounts-list {
+        space-y: 1rem;
+    }
+
+    .account-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .account-info {
+        color: white;
+        font-weight: 500;
+    }
+
+    .account-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-sm {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+        border-radius: 0.375rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+        background: rgba(59, 130, 246, 0.8);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: rgba(59, 130, 246, 1);
+    }
+
+    .btn-danger {
+        background: rgba(239, 68, 68, 0.8);
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: rgba(239, 68, 68, 1);
+    }
+
+    .empty-state {
+        text-align: center;
+        color: #94a3b8;
+        padding: 2rem;
+        font-style: italic;
+    }
+</style>
+
+<section class="login-section">
+    <div class="container">
+        <!-- Login Form -->
+        <div class="login-container" id="loginContainer">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-logo">
+                        🤖
+                    </div>
+                    <h2 class="login-title">Client Portal</h2>
+                    <p class="login-subtitle">Access your SMASH AI dashboard</p>
+                </div>
+
+                <div class="info-box">
+                    💡 Your Client ID will be sent to your email after purchase
+                </div>
+
+                <div id="loginMessages"></div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="client-id" class="form-label">Client ID</label>
+                        <input type="text" id="client-id" name="client_id" class="form-input" placeholder="Enter your Client ID" required="">
+                    </div>
+
+                    <button type="submit" class="login-button" id="loginBtn">
+                        <span id="loginBtnText">🚀 Access Dashboard</span>
+                        <span id="loginSpinner" class="spinner" style="display: none;"></span>
+                    </button>
+                </form>
+
+                <div class="login-help">
+                    <p class="help-text">Need help accessing your account?</p>
+                    <div class="help-links">
+                        <a href="mailto:classicforextrader@gmail.com" class="help-link">📧 Email Support</a>
+                        <a href="https://wa.me/27680536880" class="help-link" target="_blank">💬 WhatsApp Support</a>
+                        <a href="/shop" class="help-link">🛒 Purchase SMASH AI</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <div class="dashboard-header">
+                <h2 class="dashboard-title">Welcome Back!</h2>
+                <p class="dashboard-subtitle" id="welcomeMessage">Manage your trading accounts</p>
+            </div>
+
+            <div class="accounts-section">
+                <div class="section-title">
+                    <span>🏦 Your Trading Accounts</span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+
+                <div id="dashboardMessages"></div>
+
+                <div class="add-account-form">
+                    <input type="text" id="newAccountInput" class="add-account-input" placeholder="Enter trading account number">
+                    <button class="add-account-btn" onclick="addTradingAccount()">Add Account</button>
+                </div>
+
+                <div class="accounts-list" id="accountsList">
+                    <div class="empty-state">
+                        Loading your accounts...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Configuration
+const API_BASE_URL = 'https://www.smashthemarketdashboard.co.za';
+
+// Global variables
+let currentClientData = null;
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    const savedClientData = localStorage.getItem('smashAI_clientData');
+    if (savedClientData) {
+        try {
+            currentClientData = JSON.parse(savedClientData);
+            showDashboard();
+            showMessage('dashboardMessages', `🎉 Welcome back, ${currentClientData.firstName}!`, 'success');
+        } catch (e) {
+            localStorage.removeItem('smashAI_clientData');
+        }
+    }
+});
+
+// Message display functions
+function showMessage(containerId, message, type = 'error') {
+    const container = document.getElementById(containerId);
+    const messageClass = `message message-${type}`;
+
+    container.innerHTML = `<div class="${messageClass} show">${message}</div>`;
+
+    if (type === 'success') {
+        setTimeout(() => {
+            container.innerHTML = '';
+        }, 5000);
+    }
+}
+
+function setLoading(isLoading) {
+    const loginBtn = document.getElementById('loginBtn');
+    const loginBtnText = document.getElementById('loginBtnText');
+    const loginSpinner = document.getElementById('loginSpinner');
+
+    if (isLoading) {
+        loginBtn.disabled = true;
+        loginBtnText.style.display = 'none';
+        loginSpinner.style.display = 'inline-block';
+    } else {
+        loginBtn.disabled = false;
+        loginBtnText.style.display = 'inline';
+        loginSpinner.style.display = 'none';
+    }
+}
+
+// Login form handler
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const clientID = document.getElementById('client-id').value.trim();
+
+    if (!email || !clientID) {
+        showMessage('loginMessages', '❌ Please enter both email address and Client ID.', 'error');
+        return;
+    }
+
+    setLoading(true);
+    showMessage('loginMessages', '🔍 Validating your credentials...', 'info');
+
+    fetch(`${API_BASE_URL}/validate_client`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: email,
+            clientID: clientID
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        setLoading(false);
+
+        if (data.success) {
+            currentClientData = {
+                email: email,
+                clientID: clientID,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                loginTime: new Date().toISOString()
+            };
+
+            localStorage.setItem('smashAI_clientData', JSON.stringify(currentClientData));
+            showDashboard();
+            showMessage('dashboardMessages', `🎉 Welcome, ${data.firstName}! You can manage up to 2 trading accounts.`, 'success');
+        } else {
+            showMessage('loginMessages', data.message, data.type || 'error');
+        }
+    })
+    .catch(error => {
+        setLoading(false);
+        console.error('Validation error:', error);
+        showMessage('loginMessages', '🌐 Connection error. Please check your internet connection and try again.', 'error');
+    });
+});
+
+function showDashboard() {
+    document.getElementById('loginContainer').style.display = 'none';
+    document.getElementById('dashboard').classList.add('show');
+
+    const welcomeMsg = document.getElementById('welcomeMessage');
+    if (currentClientData && currentClientData.firstName) {
+        welcomeMsg.textContent = `Welcome back, ${currentClientData.firstName}! Manage your trading accounts below (Max: 2 accounts).`;
+    }
+
+    loadTradingAccounts();
+}
+
+// Use URL-based endpoint like the debug that works
+function loadTradingAccounts() {
+    const accountsList = document.getElementById('accountsList');
+    accountsList.innerHTML = '<div class="empty-state">🔄 Loading your accounts...</div>';
+
+    // Use the URL-based endpoint that works like debug
+    fetch(`${API_BASE_URL}/get_accounts/${currentClientData.clientID}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log('Load accounts response:', data); // Debug log
+        accountsList.innerHTML = '';
+
+        if (data.success && data.accounts && data.accounts.length > 0) {
+            const sectionTitle = document.querySelector('.section-title span');
+            sectionTitle.textContent = `🏦 Your Trading Accounts (${data.count}/${data.max_allowed})`;
+
+            data.accounts.forEach((account, index) => {
+                const accountElement = document.createElement('div');
+                accountElement.className = 'account-item';
+                accountElement.innerHTML = `
+                    <div class="account-info">
+                        <strong>Account ${index + 1}:</strong> ${account}
+                    </div>
+                    <div class="account-actions">
+                        <button class="btn-sm btn-primary" onclick="replaceAccount('${account}')">Replace</button>
+                        <button class="btn-sm btn-danger" onclick="removeAccount('${account}')">Remove</button>
+                    </div>
+                `;
+                accountsList.appendChild(accountElement);
+            });
+
+            // Update UI based on account limit
+            updateAddAccountUI(data.count, data.max_allowed);
+        } else {
+            const sectionTitle = document.querySelector('.section-title span');
+            sectionTitle.textContent = `🏦 Your Trading Accounts (0/2)`;
+
+            accountsList.innerHTML = '<div class="empty-state">📝 No trading accounts found. Add your first account above.</div>';
+            updateAddAccountUI(0, 2);
+        }
+    })
+    .catch(error => {
+        console.error('Load accounts error:', error);
+        accountsList.innerHTML = '<div class="empty-state" style="color: #fca5a5;">❌ Error loading accounts. Please refresh the page.</div>';
+        showMessage('dashboardMessages', '❌ Failed to load accounts. Please refresh the page.', 'error');
+    });
+}
+
+function updateAddAccountUI(currentCount, maxAllowed) {
+    const addBtn = document.querySelector('.add-account-btn');
+    const addInput = document.getElementById('newAccountInput');
+    
+    if (currentCount >= maxAllowed) {
+        addBtn.disabled = true;
+        addBtn.textContent = 'Account Limit Reached (2/2)';
+        addInput.disabled = true;
+        addInput.placeholder = 'Remove an account to add a new one';
+        addInput.style.opacity = '0.6';
+    } else {
+        addBtn.disabled = false;
+        addBtn.textContent = 'Add Account';
+        addInput.disabled = false;
+        addInput.placeholder = 'Enter trading account number';
+        addInput.style.opacity = '1';
+    }
+}
+
+// Use URL-based endpoint for adding accounts
+function addTradingAccount() {
+    const newAccountInput = document.getElementById('newAccountInput');
+    const newAccount = newAccountInput.value.trim();
+
+    if (!newAccount) {
+        showMessage('dashboardMessages', '❌ Please enter a trading account number.', 'error');
+        return;
+    }
+
+    const addBtn = document.querySelector('.add-account-btn');
+    const originalText = addBtn.textContent;
+    addBtn.disabled = true;
+    addBtn.textContent = 'Adding...';
+
+    // Use the URL-based endpoint
+    fetch(`${API_BASE_URL}/add_account/${currentClientData.clientID}/${newAccount}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log('Add account response:', data); // Debug log
+        addBtn.disabled = false;
+        addBtn.textContent = originalText;
+
+        if (data.success) {
+            showMessage('dashboardMessages', `✅ ${data.message}`, 'success');
+            loadTradingAccounts();
+            newAccountInput.value = '';
+        } else {
+            showMessage('dashboardMessages', `❌ ${data.message}`, 'error');
+        }
+    })
+    .catch(error => {
+        addBtn.disabled = false;
+        addBtn.textContent = originalText;
+        console.error('Add account error:', error);
+        showMessage('dashboardMessages', '❌ Error adding account. Please try again.', 'error');
+    });
+}
+
+// Use URL-based endpoint for removing accounts
+function removeAccount(accountNumber) {
+    if (!confirm(`Are you sure you want to remove account ${accountNumber}?`)) {
+        return;
+    }
+
+    // Use the URL-based endpoint
+    fetch(`${API_BASE_URL}/remove_account/${currentClientData.clientID}/${accountNumber}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log('Remove account response:', data); // Debug log
+        if (data.success) {
+            showMessage('dashboardMessages', `✅ ${data.message}`, 'success');
+            loadTradingAccounts();
+        } else {
+            showMessage('dashboardMessages', `❌ ${data.message}`, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Remove account error:', error);
+        showMessage('dashboardMessages', '❌ Error removing account. Please try again.', 'error');
+    });
+}
+
+// Use URL-based endpoint for replacing accounts
+function replaceAccount(oldAccount) {
+    const newAccount = prompt(`Enter new trading account number to replace ${oldAccount}:`);
+    if (!newAccount || !newAccount.trim()) {
+        showMessage('dashboardMessages', '❌ Invalid account number.', 'error');
+        return;
+    }
+
+    // Use the URL-based endpoint
+    fetch(`${API_BASE_URL}/replace_account/${currentClientData.clientID}/${oldAccount}/${newAccount.trim()}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log('Replace account response:', data); // Debug log
+        if (data.success) {
+            showMessage('dashboardMessages', `✅ ${data.message}`, 'success');
+            loadTradingAccounts();
+        } else {
+            showMessage('dashboardMessages', `❌ ${data.message}`, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Replace account error:', error);
+        showMessage('dashboardMessages', '❌ Error replacing account. Please try again.', 'error');
+    });
+}
+
+function logout() {
+    localStorage.removeItem('smashAI_clientData');
+    currentClientData = null;
+
+    document.getElementById('loginForm').reset();
+    document.getElementById('loginMessages').innerHTML = '';
+    document.getElementById('dashboardMessages').innerHTML = '';
+
+    document.getElementById('loginContainer').style.display = 'block';
+    document.getElementById('dashboard').classList.remove('show');
+
+    showMessage('loginMessages', '👋 You have been logged out successfully.', 'success');
+}
+</script>
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>SMASH AI</h3>
+                <p>The world's first self-aware forex AI. Built from Sophia's final code to predict the future of trading.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="/">Home</a>
+                <a href="/shop">Shop</a>
+                <a href="/about">About Us</a>
+                <a href="/login">Client Portal</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: classicforextrader@gmail.com</p>
+                <p>WhatsApp: +27680536880</p>
+                <a href="#">Instagram: @classicforextrader_official</a>
+                <a href="#">YouTube Channel</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <p>© 2025 SMASH THE FOREX BRAIN</p>
+                <p>All rights reserved</p>
+                <p>Trading involves risk</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>SMASH AI TRADING BOT: Sees the Market Before You Do</p>
+        </div>
+    </footer>
+
+    <script>
+        // Auto-hide flash messages
+        setTimeout(() => {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(msg => {
+                msg.style.animation = 'slideIn 0.3s ease-out reverse';
+                setTimeout(() => msg.remove(), 300);
+            });
+        }, 5000);
+
+        // Enhanced Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const navLinks = document.getElementById('navLinks');
+
+        function openMobileMenu() {
+            navLinks.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeMobileMenu() {
+            navLinks.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+
+        // Close menu when clicking on a link
+        navLinks.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && !e.target.classList.contains('cart-icon')) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+    </script>
+
+</body></html>

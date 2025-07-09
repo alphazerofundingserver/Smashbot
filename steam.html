@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlockBee Payment Gateway</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .payment-container {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .payment-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .payment-title {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .payment-body {
+            padding: 30px;
+        }
+
+        .amount-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .amount-label {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .amount-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+
+        .amount-fiat {
+            font-size: 16px;
+            color: #6b7280;
+        }
+
+        .payment-method {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        .method-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .method-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .crypto-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #f97316;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+        }
+
+        .method-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .method-network {
+            font-size: 12px;
+            color: #6b7280;
+            background: #e5e7eb;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .qr-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: #000;
+            border-radius: 12px;
+            margin: 0 auto 15px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-pattern {
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, white 2px, transparent 2px),
+                radial-gradient(circle at 75% 25%, white 2px, transparent 2px),
+                radial-gradient(circle at 25% 75%, white 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, white 2px, transparent 2px),
+                radial-gradient(circle at 50% 50%, white 2px, transparent 2px),
+                radial-gradient(circle at 33% 66%, white 2px, transparent 2px),
+                radial-gradient(circle at 66% 33%, white 2px, transparent 2px);
+            background-size: 15px 15px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .qr-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #f97316;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .qr-instruction {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        .address-section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .address-label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .address-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .address-value {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #1f2937;
+            flex: 1;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+
+        .copy-button {
+            background: #4f46e5;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .copy-button:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        .timer-section {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .timer-label {
+            font-size: 14px;
+            color: #92400e;
+            margin-bottom: 5px;
+        }
+
+        .timer-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #92400e;
+            font-family: 'Courier New', monospace;
+        }
+
+        .payment-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .detail-item {
+            text-align: center;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .status-section {
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .status-indicator {
+            width: 20px;
+            height: 20px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .status-indicator::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.5); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .status-text {
+            font-size: 14px;
+            color: #065f46;
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        .footer-info {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .footer-logo {
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .footer-security {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 5px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .payment-container {
+                margin: 10px;
+            }
+            
+            .payment-body {
+                padding: 20px;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <div class="logo">BLOCKBEE</div>
+            <div class="payment-title">Secure Cryptocurrency Payment</div>
+        </div>
+
+        <div class="payment-body">
+            <div class="amount-section">
+                <div class="amount-label">Amount to Pay</div>
+                <div class="amount-value">0.00355019 BTC</div>
+                <div class="amount-fiat">≈ $390.00 USD</div>
+            </div>
+
+            <div class="payment-method">
+                <div class="method-header">
+                    <div class="method-info">
+                        <div class="crypto-icon">₿</div>
+                        <div>
+                            <div class="method-name">Bitcoin</div>
+                            <div class="method-network">BTC Network</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qr-section">
+                    <div class="qr-code">
+                        <div class="qr-pattern"></div>
+                        <div class="qr-center">₿</div>
+                    </div>
+                    <div class="qr-instruction">Scan QR code with your wallet app</div>
+                </div>
+
+                <div class="address-section">
+                    <div class="address-label">Bitcoin Address</div>
+                    <div class="address-container">
+                        <div class="address-value" id="btcAddress">bc1q873a8dcr3oxtuc__jcqkj6p96qvs3jr3pqm7xbwd</div>
+                        <button class="copy-button" onclick="copyAddress()">Copy</button>
+                    </div>
+                </div>
+
+                <div class="timer-section">
+                    <div class="timer-label">Payment expires in</div>
+                    <div class="timer-value" id="countdown">14:59</div>
+                </div>
+
+                <div class="payment-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Network Fee</div>
+                        <div class="detail-value">~$2.50</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Confirmations</div>
+                        <div class="detail-value">1 Required</div>
+                    </div>
+                </div>
+
+                <div class="status-section">
+                    <span class="status-indicator"></span>
+                    <span class="status-text">Waiting for payment...</span>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="openWallet()">
+                    <span>💳</span>
+                    Open Wallet
+                </button>
+                <button class="btn btn-secondary" onclick="refreshStatus()">
+                    <span>🔄</span>
+                    Refresh Status
+                </button>
+            </div>
+
+            <div class="footer-info">
+                <div class="footer-logo">Powered by BlockBee</div>
+                <div class="footer-security">🔒 Secure & Encrypted Payment Gateway</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        let timeLeft = 14 * 60 + 59; // 14:59 in seconds
+        let paymentStatus = 'waiting';
+
+        function updateCountdown() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('countdown').textContent = 
+                ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')};
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateCountdown, 1000);
+            } else {
+                document.getElementById('countdown').textContent = 'EXPIRED';
+                document.getElementById('countdown').style.color = '#dc2626';
+                updatePaymentStatus('expired');
+            }
+        }
+
+        function copyAddress() {
+            const address = document.getElementById('btcAddress').textContent;
+            navigator.clipboard.writeText(address).then(() => {
+                showNotification('Bitcoin address copied to clipboard!');
+            }).catch(() => {
+                showNotification('Failed to copy address');
+            });
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function openWallet() {
+            const address = document.getElementById('btcAddress').textContent;
+            const amount = '0.00355019';
+            const bitcoinUri = bitcoin:${address}?amount=${amount};
+            
+            // Try to open wallet app
+            window.open(bitcoinUri, '_blank');
+            showNotification('Opening wallet application...');
+        }
+
+        function refreshStatus() {
+            showNotification('Checking payment status...');
+            
+            // Simulate status check
+            setTimeout(() => {
+                const statuses = ['waiting', 'pending', 'confirmed'];
+                const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                updatePaymentStatus(randomStatus);
+            }, 1500);
+        }
+
+        function updatePaymentStatus(status) {
+            const statusSection = document.querySelector('.status-section');
+            const statusText = document.querySelector('.status-text');
+            const statusIndicator = document.querySelector('.status-indicator');
+            
+            switch(status) {
+                case 'waiting':
+                    statusSection.style.background = '#ecfdf5';
+                    statusSection.style.borderColor = '#10b981';
+                    statusIndicator.style.background = '#10b981';
+                    statusText.textContent = 'Waiting for payment...';
+                    statusText.style.color = '#065f46';
+                    break;
+                case 'pending':
+                    statusSection.style.background = '#fef3c7';
+                    statusSection.style.borderColor = '#f59e0b';
+                    statusIndicator.style.background = '#f59e0b';
+                    statusText.textContent = 'Payment detected, confirming...';
+                    statusText.style.color = '#92400e';
+                    showNotification('Payment detected! Confirming transaction...');
+                    break;
+                case 'confirmed':
+                    statusSection.style.background = '#dbeafe';
+                    statusSection.style.borderColor = '#3b82f6';
+                    statusIndicator.style.background = '#3b82f6';
+                    statusText.textContent = 'Payment confirmed!';
+                    statusText.style.color = '#1e40af';
+                    showNotification('Payment confirmed! Transaction successful.');
+                    break;
+                case 'expired':
+                    statusSection.style.background = '#fee2e2';
+                    statusSection.style.borderColor = '#ef4444';
+                    statusIndicator.style.background = '#ef4444';
+                    statusText.textContent = 'Payment expired';
+                    statusText.style.color = '#991b1b';
+                    showNotification('Payment session expired. Please start over.');
+                    break;
+            }
+            
+            paymentStatus = status;
+        }
+
+        // Simulate random payment events
+        function simulatePaymentEvents() {
+            const events = [
+                { delay: 30000, status: 'pending', message: 'New transaction detected in mempool' },
+                { delay: 60000, status: 'confirmed', message: 'Payment confirmed with 1 confirmation' }
+            ];
+            
+            events.forEach(event => {
+                setTimeout(() => {
+                    if (paymentStatus === 'waiting') {
+                        updatePaymentStatus(event.status);
+                    }
+                }, event.delay);
+            });
+        }
+
+        // Initialize
+        updateCountdown();
+        simulatePaymentEvents();
+
+        // Add hover effects to payment method
+        document.querySelector('.payment-method').addEventListener('mouseenter', function() {
+            this.style.boxShadow = '0 10px 25px rgba(79, 70, 229, 0.1)';
+        });
+
+        document.querySelector('.payment-method').addEventListener('mouseleave', function() {
+            this.style.boxShadow = 'none';
+        });
+    </script>
+</body>
+</html>

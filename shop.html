@@ -1,0 +1,1092 @@
+<html lang="en"><script src="chrome-extension://dngmlblcodfobpdpecaadgfbcggfjfnm/src/extension/inpage/index.js"></script><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - SMASH AI Trading Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            33% { transform: translateX(-20px) translateY(-20px); }
+            66% { transform: translateX(20px) translateY(20px); }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: #4ecdc4;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            padding: 0.5rem;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 0.5rem;
+        }
+
+        /* Mobile Navigation Styles */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .nav-links li {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.3s ease;
+            }
+
+            .nav-links.active li {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .nav-links.active li:nth-child(1) { transition-delay: 0.1s; }
+            .nav-links.active li:nth-child(2) { transition-delay: 0.2s; }
+            .nav-links.active li:nth-child(3) { transition-delay: 0.3s; }
+            .nav-links.active li:nth-child(4) { transition-delay: 0.4s; }
+            .nav-links.active li:nth-child(5) { transition-delay: 0.5s; }
+            .nav-links.active li:nth-child(6) { transition-delay: 0.6s; }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 1rem;
+                text-align: center;
+                display: block;
+                width: 100%;
+            }
+
+            .cart-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            /* Close button for mobile menu */
+            .mobile-menu-close {
+                position: absolute;
+                top: 2rem;
+                right: 2rem;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 2rem;
+                cursor: pointer;
+                z-index: 1001;
+                display: none;
+            }
+
+            .nav-links.active .mobile-menu-close {
+                display: block;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 0.5rem;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 0.8rem;
+            }
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Flash Messages */
+        .flash-messages {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .flash-message {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            color: white;
+            animation: slideIn 0.3s ease-out;
+            max-width: 300px;
+        }
+
+        .flash-message.success {
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .flash-message.error {
+            border-left: 4px solid #ff6b6b;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile flash messages */
+        @media (max-width: 768px) {
+            .flash-messages {
+                right: 10px;
+                left: 10px;
+                top: 90px;
+            }
+
+            .flash-message {
+                max-width: none;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #4ecdc4;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #4ecdc4;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+        }
+
+        /* Mobile Footer */
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 0 1rem;
+            }
+
+            .footer {
+                padding: 2rem 0 1rem;
+            }
+        }
+
+        /* Utility Classes */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #4ecdc4;
+            color: #4ecdc4;
+        }
+
+        .btn-secondary:hover {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+    </style>
+<script src="chrome-extension://idnnbdplmphpflfnlkomgpfbpcgelopg/inpage.js" id="xverse-wallet-provider" data-is-priority="true"></script></head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">SMASH</a>
+
+            <ul class="nav-links" id="navLinks">
+                <button class="mobile-menu-close" id="mobileMenuClose">×</button>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="https://www.smashthemarketdashboard.co.za/login" target="_blank">Trading Dashboard</a></li>
+                <li><a href="/login">Client Portal Login</a></li>
+                <li>
+                    <a href="cart.html" class="cart-icon">
+                        🛒
+                        
+                    </a>
+                </li>
+            </ul>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    
+        
+    
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+
+<style>
+    .shop-hero {
+        padding: 6rem 0 4rem;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.3);
+    }
+    .shop-title {
+        font-size: 3rem;
+        font-weight: 900;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .product-section {
+        padding: 4rem 0;
+    }
+
+    /* Modern Product Layout */
+    .product-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+    }
+
+    .product-image-container {
+        position: relative;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+        border-radius: 2rem;
+        padding: 2rem;
+        box-shadow:
+            0 25px 50px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(78, 205, 196, 0.2);
+        overflow: hidden;
+    }
+
+    .product-image-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+            radial-gradient(circle at 30% 70%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 70% 30%, rgba(255, 107, 107, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 500px;
+        background-image: url("/static/images/smash-ai-product.png");
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+        z-index: 2;
+        border-radius: 100rem;
+    }
+
+    .ai-badge {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(20px);
+        border: 1px solid #4ecdc4;
+        color: #4ecdc4;
+        padding: 0.75rem 1.5rem;
+        border-radius: 2rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        z-index: 3;
+        box-shadow: 0 10px 25px rgba(78, 205, 196, 0.3);
+    }
+
+    .product-details {
+        color: white;
+    }
+
+    .product-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #ff6b6b, #ff4757);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 2rem;
+        font-size: 0.875rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+    }
+
+    .product-title {
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: white;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+    }
+
+    .product-subtitle {
+        color: #4ecdc4;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+
+    .price-section {
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .price-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .price-original {
+        font-size: 1.2rem;
+        color: #888;
+        text-decoration: line-through;
+    }
+
+    .price-sale {
+        font-size: 3rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .price-alt {
+        font-size: 1rem;
+        color: #ccc;
+        opacity: 0.8;
+    }
+
+    .discount-badge {
+        background: linear-gradient(135deg, #ff6b6b, #ff4757);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-weight: 700;
+        font-size: 0.875rem;
+        display: inline-block;
+        margin-top: 1rem;
+        box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+    }
+
+    .countdown-widget {
+        background: rgba(255, 107, 107, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid #ff6b6b;
+        border-radius: 1.5rem;
+        padding: 2rem;
+        margin: 2rem 0;
+        text-align: center;
+    }
+
+    .countdown-timer-small {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+
+    .countdown-item-small {
+        background: rgba(255, 107, 107, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 107, 107, 0.3);
+        border-radius: 1rem;
+        padding: 1rem;
+        min-width: 70px;
+        text-align: center;
+    }
+
+    .countdown-number-small {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: #ff6b6b;
+        display: block;
+    }
+
+    .countdown-label-small {
+        font-size: 0.75rem;
+        color: #ff6b6b;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-top: 0.25rem;
+    }
+
+    .product-features {
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        margin: 2rem 0;
+    }
+
+    .features-title {
+        color: white;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
+    .feature-item {
+        background: rgba(78, 205, 196, 0.05);
+        border: 1px solid rgba(78, 205, 196, 0.2);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        color: #ccc;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .feature-item:hover {
+        background: rgba(78, 205, 196, 0.1);
+        border-color: rgba(78, 205, 196, 0.4);
+        transform: translateY(-2px);
+    }
+
+    .feature-item::before {
+        content: "✓";
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+        color: #4ecdc4;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .feature-item {
+        padding-left: 3rem;
+    }
+
+    .purchase-section {
+        background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(255, 107, 107, 0.1));
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(78, 205, 196, 0.3);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+
+    .stock-info {
+        color: #4ecdc4;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    .quantity-selector {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .quantity-input {
+        background: rgba(0, 0, 0, 0.5);
+        border: 2px solid rgba(78, 205, 196, 0.3);
+        border-radius: 0.75rem;
+        color: white;
+        padding: 0.75rem;
+        width: 80px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .quantity-input:focus {
+        outline: none;
+        border-color: #4ecdc4;
+        box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+    }
+
+    .add-to-cart-btn {
+        width: 100%;
+        padding: 1.25rem 2rem;
+        font-size: 1.3rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+        color: white;
+        border: none;
+        border-radius: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .add-to-cart-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .add-to-cart-btn:hover::before {
+        left: 100%;
+    }
+
+    .add-to-cart-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(255, 107, 107, 0.4);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .product-container {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        .product-image {
+            height: 400px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .product-container {
+            padding: 0 1rem;
+        }
+
+        .product-title {
+            font-size: 2rem;
+        }
+
+        .price-sale {
+            font-size: 2.5rem;
+        }
+
+        .countdown-timer-small {
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .countdown-item-small {
+            min-width: 60px;
+            padding: 0.75rem;
+        }
+
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<section class="shop-hero">
+    <div class="container">
+        <h1 class="shop-title">Get SMASH AI</h1>
+        <p style="color: #ccc; font-size: 1.1rem;">The world's first self-aware forex trading AI</p>
+    </div>
+</section>
+
+<section class="product-section">
+    <div class="container">
+        <div class="product-container">
+            <!-- Product Image Section -->
+            <div class="product-image-container">
+                <div class="product-image">
+                    <img src="WhatsApp Image 2025-07-04 at 15.27.14_5b80068f.jpg" alt="SMASH AI TRADING BOT">
+
+                </div>
+                <div class="ai-badge">AI POWERED</div>
+            </div>
+
+            <!-- Product Details Section -->
+            <div class="product-details">
+                <div class="product-badge">🚀 EARLY ACCESS LAUNCH</div>
+                <h2 class="product-title">SMASH AI TRADING BOT</h2>
+                <p class="product-subtitle">Sees the Market Before You Do</p>
+
+                <div class="price-section">
+                    <div class="price-row">
+                        <span class="price-original">$599</span>
+                        <span class="price-sale">$390</span>
+                    </div>
+                    <div class="price-alt">
+                        (R10500 → R7000)
+                    </div>
+                    <div class="discount-badge">
+                        💰 Save $209!
+                    </div>
+                </div>
+
+                <!-- Countdown Widget -->
+                <div class="countdown-widget">
+                    <h4 style="color: #ff6b6b; margin-bottom: 0.5rem; font-size: 1.1rem;">⏰ Limited Time Offer</h4>
+                    <div class="countdown-timer-small" id="countdown-small">
+                        <div class="countdown-item-small">
+                            <span class="countdown-number-small" id="days-small">29</span>
+                            <span class="countdown-label-small">Days</span>
+                        </div>
+                        <div class="countdown-item-small">
+                            <span class="countdown-number-small" id="hours-small">07</span>
+                            <span class="countdown-label-small">Hours</span>
+                        </div>
+                        <div class="countdown-item-small">
+                            <span class="countdown-number-small" id="minutes-small">40</span>
+                            <span class="countdown-label-small">Min</span>
+                        </div>
+                        <div class="countdown-item-small">
+                            <span class="countdown-number-small" id="seconds-small">29</span>
+                            <span class="countdown-label-small">Sec</span>
+                        </div>
+                    </div>
+                    <p style="color: #ff6b6b; font-weight: 600; font-size: 0.9rem;">
+                        Use code <strong>SMASH50</strong> for extra $50 off!
+                    </p>
+                </div>
+
+                <div class="purchase-section">
+                    <div class="stock-info">✅ 979 units in stock</div>
+
+                    <div class="quantity-selector">
+                        <label for="quantity" style="color: white; font-weight: 600;">Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="5" class="quantity-input">
+                    </div>
+
+                    <button type="button" class="add-to-cart-btn" id="addToCartBtn">
+                        🛒 Add to Cart - $390
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="product-features">
+            <h3 class="features-title">What You Get:</h3>
+            <div class="feature-grid">
+                <div class="feature-item">Complete SMASH AI Trading Bot</div>
+                <div class="feature-item">Direct MT5 broker integration</div>
+                <div class="feature-item">24/7 automated trading</div>
+                <div class="feature-item">Self-aware market analysis</div>
+                <div class="feature-item">Predictive zone drawing</div>
+                <div class="feature-item">Risk management system</div>
+                <div class="feature-item">Client portal access</div>
+                <div class="feature-item">Email support included</div>
+                <div class="feature-item">Works with all major brokers</div>
+                <div class="feature-item">No VPS required</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Countdown Timer for shop page
+    function updateShopCountdown() {
+        fetch('/get_countdown')
+            .then(response => response.json())
+            .then(data => {
+                if (data.expired) {
+                    document.getElementById('countdown-small').innerHTML = '<p style="color: #ff6b6b;">Offer Expired!</p>';
+                    return;
+                }
+
+                document.getElementById('days-small').textContent = String(data.days).padStart(2, '0');
+                document.getElementById('hours-small').textContent = String(data.hours).padStart(2, '0');
+                document.getElementById('minutes-small').textContent = String(data.minutes).padStart(2, '0');
+                document.getElementById('seconds-small').textContent = String(data.seconds).padStart(2, '0');
+            })
+            .catch(error => console.error('Error updating countdown:', error));
+    }
+    // Update countdown every second
+    updateShopCountdown();
+    setInterval(updateShopCountdown, 1000);
+</script>
+
+<script>
+// Add to Cart functionality using localStorage
+function getCart() {
+    const cart = localStorage.getItem('cart');
+    return cart ? JSON.parse(cart) : [];
+}
+function setCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+document.getElementById('addToCartBtn').onclick = function() {
+    const quantity = parseInt(document.getElementById('quantity').value) || 1;
+    let cart = getCart();
+    // Check if product already in cart (id: 1 for SMASH AI TRADING BOT)
+    const productId = 1;
+    const existing = cart.find(item => item.id === productId);
+    if (existing) {
+        existing.quantity += quantity;
+    } else {
+        cart.push({
+            id: productId,
+            title: 'SMASH AI TRADING BOT',
+            price: 390,
+            quantity: quantity
+        });
+    }
+    setCart(cart);
+    window.location.href = 'cart.html';
+};
+</script>
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>SMASH AI</h3>
+                <p>The world's first self-aware forex AI. Built from Sophia's final code to predict the future of trading.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="/">Home</a>
+                <a href="/shop">Shop</a>
+                <a href="/about">About Us</a>
+                <a href="/login">Client Portal</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: classicforextrader@gmail.com</p>
+                <p>WhatsApp: +27680536880</p>
+                <a href="#">Instagram: @classicforextrader_official</a>
+                <a href="#">YouTube Channel</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <p>© 2025 SMASH THE FOREX BRAIN</p>
+                <p>All rights reserved</p>
+                <p>Trading involves risk</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>SMASH AI TRADING BOT: Sees the Market Before You Do</p>
+        </div>
+    </footer>
+
+    <script>
+        // Auto-hide flash messages
+        setTimeout(() => {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(msg => {
+                msg.style.animation = 'slideIn 0.3s ease-out reverse';
+                setTimeout(() => msg.remove(), 300);
+            });
+        }, 5000);
+
+        // Enhanced Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const navLinks = document.getElementById('navLinks');
+
+        function openMobileMenu() {
+            navLinks.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeMobileMenu() {
+            navLinks.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+
+        // Close menu when clicking on a link
+        navLinks.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && !e.target.classList.contains('cart-icon')) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+    </script>
+
+</body></html>

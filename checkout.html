@@ -1,0 +1,198 @@
+<html lang="en"><script src="chrome-extension://dngmlblcodfobpdpecaadgfbcggfjfnm/src/extension/inpage/index.js"></script><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Smash The Market</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .checkout-container {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            width: 80%;
+            max-width: 700px;
+            text-align: left;
+            margin: 20px;
+        }
+
+        .section-title {
+            color: #f0f0f0;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #bbb;
+            font-size: 0.9em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #333;
+            color: #fff;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: #64b5f6;
+            outline: none;
+            box-shadow: 0 0 5px rgba(100, 181, 246, 0.3);
+        }
+
+        .place-order-btn {
+            background-color: #4caf50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .place-order-btn:hover {
+            background-color: #388e3c;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .payment-method {
+            border: 2px solid #666;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+            flex: 1;
+        }
+
+        .payment-method.active {
+            border-color: #4caf50;
+            background-color: #4caf5020;
+        }
+
+        .payment-method:hover {
+            border-color: #888;
+        }
+
+        .security-notice {
+            background-color: #263238;
+            color: #b0bec5;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+
+<body>
+    <div class="checkout-container">
+        <h1 style="text-align: center; margin-bottom: 30px;">🚀 Checkout</h1>
+
+        <form id="checkout-form">
+            <!-- Personal Information -->
+            <div class="form-section">
+                <h3 class="section-title">👤 Personal Information</h3>
+                <div class="form-group">
+                    <label for="first-name" class="form-label">First Name</label>
+                    <input type="text" id="first-name" name="first_name" class="form-input" placeholder="Enter your first name" required="">
+                </div>
+                <div class="form-group">
+                    <label for="last-name" class="form-label">Last Name</label>
+                    <input type="text" id="last-name" name="last_name" class="form-input" placeholder="Enter your last name" required="">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email address" required="">
+                </div>
+            </div>
+
+            <!-- Coupon Code Section -->
+            <div class="form-section">
+                <h3 class="section-title">🎟️ Coupon Code (Optional)</h3>
+                <div class="form-group">
+                    <label for="coupon-code" class="form-label">Coupon Code</label>
+                    <input type="text" id="coupon-code" name="coupon_code" class="form-input" placeholder="Enter coupon code (e.g., SMASH50)">
+                    <div style="color: #888; font-size: 0.9rem; margin-top: 0.5rem;">
+                        💡 Use code <strong>SMASH50</strong> for $50 off!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="form-section">
+                <h3 class="section-title">💳 Payment Method</h3>
+
+                <div class="payment-methods">
+                    <div class="payment-method active" data-method="btcpay">
+                        ⚡ BTCPay Server
+                        <div style="font-size: 0.8rem; color: #ccc; margin-top: 0.5rem;">
+                            Lightning Network &amp; Bitcoin
+                        </div>
+                    </div>
+                    <div class="payment-method" data-method="cryptocurrency">
+                        ₿ Pay with Cryptocurrency
+                        <div style="font-size: 0.8rem; color: #ccc; margin-top: 0.5rem;">
+                            BTC, ETH, USDT (TRC20) &amp; more
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-section">
+                    <p style="color: #ccc; text-align: center; margin-bottom: 1rem;">
+                        Select your preferred cryptocurrency payment method above.
+                    </p>
+
+                    <div class="security-notice">
+                        🔒 All cryptocurrency payments are processed securely through our payment partners.
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="place-order-btn" id="complete-order-btn">🚀 Complete Order - $390</button>
+        </form>
+    </div>
+
+    <script>
+document.getElementById('checkout-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from submitting
+    window.location.href = 'code.html'; // Redirect to code.html
+});
+    </script>
+
+</body></html>

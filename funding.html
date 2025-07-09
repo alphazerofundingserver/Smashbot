@@ -1,0 +1,1008 @@
+<html lang="en"><script src="chrome-extension://dngmlblcodfobpdpecaadgfbcggfjfnm/src/extension/inpage/index.js"></script><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SMASH FX EA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #581c87 50%, #0f172a 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background Pattern */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%239C92AC' fillOpacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 28rem;
+            z-index: 1;
+        }
+
+        .brand-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 4rem;
+            height: 4rem;
+            background: linear-gradient(135deg, #10b981, #0d9488);
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .logo svg {
+            width: 2rem;
+            height: 2rem;
+            color: white;
+        }
+
+        .brand-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .brand-subtitle {
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* SMASH AI Chat Button - Standout Design */
+        .ai-chat-section {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .ai-chat-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow:
+                0 15px 35px rgba(255, 107, 107, 0.4),
+                0 0 30px rgba(78, 205, 196, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-chat-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .ai-chat-button:hover::before {
+            left: 100%;
+        }
+
+        .ai-chat-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow:
+                0 20px 45px rgba(255, 107, 107, 0.5),
+                0 0 40px rgba(78, 205, 196, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .ai-chat-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .ai-chat-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .ai-chat-subtitle {
+            color: #cbd5e1;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .card-header {
+            text-align: center;
+            padding: 1.5rem 1.5rem 1rem;
+        }
+
+        .card-title {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: #cbd5e1;
+            font-size: 0.875rem;
+        }
+
+        .card-content {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            color: white;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            color: white;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+            padding-right: 2.5rem;
+        }
+
+        .form-select option {
+            background: #1e293b;
+            color: white;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #10b981, #0d9488);
+            border: none;
+            border-radius: 0.5rem;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .login-button:hover:not(:disabled) {
+            background: linear-gradient(135deg, #059669, #0f766e);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .separator {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 1.5rem 0;
+        }
+
+        .create-account-section {
+            text-align: center;
+        }
+
+        .create-account-text {
+            color: #cbd5e1;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .create-account-button {
+            width: 100%;
+            padding: 0.75rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.5rem;
+            color: white;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .create-account-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .features {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: #10b981;
+            margin: 0 auto 0.5rem;
+        }
+
+        .feature-text {
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Professional Error Modal */
+        .error-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .error-modal {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .error-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .error-icon svg {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .error-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .contact-info {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .contact-title {
+            color: #10b981;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: #cbd5e1;
+            font-size: 0.875rem;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: #10b981;
+            flex-shrink: 0;
+        }
+
+        .contact-link {
+            color: #10b981;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .error-button {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            min-width: 120px;
+        }
+
+        .error-button:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            transform: translateY(-1px);
+        }
+
+        .whatsapp-button {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+        }
+
+        .whatsapp-button:hover {
+            background: linear-gradient(135deg, #128c7e, #075e54);
+        }
+
+        .email-button {
+            background: transparent;
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+
+        .email-button:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .loading-spinner {
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                max-width: 100%;
+            }
+
+            .brand-title {
+                font-size: 1.5rem;
+            }
+
+            .ai-chat-button {
+                padding: 0.875rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+            }
+
+            .error-modal {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+<script src="chrome-extension://idnnbdplmphpflfnlkomgpfbpcgelopg/inpage.js" id="xverse-wallet-provider" data-is-priority="true"></script></head>
+<body>
+    <div class="container">
+        <!-- Brand Section -->
+        <div class="brand-section">
+            <div class="logo">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                </svg>
+            </div>
+            <h1 class="brand-title">SMASH FX EA</h1>
+            <p class="brand-subtitle">Advanced Trading Solutions</p>
+        </div>
+
+        <!-- AI Chat Button Section -->
+        <div class="ai-chat-section">
+            <a href="https://www.thevoiceofsmash.com" target="_blank" class="ai-chat-button">
+                <svg class="ai-chat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+                <div class="ai-chat-text">
+                    Chat with SMASH AI
+                    <div class="ai-chat-subtitle">Ask the AI anything about trading</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Login Card -->
+        <div class="login-card">
+            <div class="card-header">
+                <h2 class="card-title">Welcome Back</h2>
+                <p class="card-description">Sign in to access your trading dashboard</p>
+            </div>
+            <div class="card-content">
+                <!-- Enhanced Form with Error Handling -->
+                <form id="loginForm" action="/login" method="post">
+                    <div class="form-group">
+                        <label for="account_number" class="form-label">Account Number</label>
+                        <input type="text" id="account_number" name="account_number" class="form-input" placeholder="Account Number" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" name="password" class="form-input" placeholder="Password" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="server_select" class="form-label">Trading Server</label>
+                        <select id="server_select" name="server_select" class="form-select" onchange="document.getElementById('server').value=this.value;">
+                            <option value="">Select Server</option>
+                            <option value="AccuMarkets-Live">AccuMarkets-Live</option>
+                            <option value="AccuMarkets-Live1">AccuMarkets-Live1</option>
+                            <option value="AccuMarkets-Live2">AccuMarkets-Live2</option>
+                            <option value="AccuMarkets-Live3">AccuMarkets-Live3</option>
+                            <option value="AccuMarkets-Live4">AccuMarkets-Live4</option>
+                            <option value="AccuMarkets-Live5">AccuMarkets-Live5</option>
+                            <option value="AccuMarkets-Live6">AccuMarkets-Live6</option>
+                            <option value="AdmiralMarkets-Live">AdmiralMarkets-Live</option>
+                            <option value="AdmiralMarkets-Live2">AdmiralMarkets-Live2</option>
+                            <option value="AdmiralMarkets-Live3">AdmiralMarkets-Live3</option>
+                            <option value="AdmiralMarkets-Live4">AdmiralMarkets-Live4</option>
+                            <option value="AdmiralMarkets-Live5">AdmiralMarkets-Live5</option>
+                            <option value="AdmiralMarkets-Live6">AdmiralMarkets-Live6</option>
+                            <option value="AvaTrade-Live">AvaTrade-Live</option>
+                            <option value="AvaTrade-Live2">AvaTrade-Live2</option>
+                            <option value="AvaTrade-Live3">AvaTrade-Live3</option>
+                            <option value="AvaTrade-Live4">AvaTrade-Live4</option>
+                            <option value="AvaTrade-Live5">AvaTrade-Live5</option>
+                            <option value="AvaTrade-Live6">AvaTrade-Live6</option>
+                            <option value="BlackBullMarkets-Live">BlackBullMarkets-Live</option>
+                            <option value="BlackBullMarkets-Live2">BlackBullMarkets-Live2</option>
+                            <option value="BlackBullMarkets-Live3">BlackBullMarkets-Live3</option>
+                            <option value="BlackBullMarkets-Live4">BlackBullMarkets-Live4</option>
+                            <option value="BlackBullMarkets-Live5">BlackBullMarkets-Live5</option>
+                            <option value="BlackBullMarkets-Live6">BlackBullMarkets-Live6</option>
+                            <option value="CapitalxtendLLC-MU">Capitalxtend</option>
+                            <option value="CapitalCom-Live">CapitalCom-Live</option>
+                            <option value="CapitalCom-Live2">CapitalCom-Live2</option>
+                            <option value="CapitalCom-Live3">CapitalCom-Live3</option>
+                            <option value="CapitalCom-Live4">CapitalCom-Live4</option>
+                            <option value="CapitalCom-Live5">CapitalCom-Live5</option>
+                            <option value="CapitalCom-Live6">CapitalCom-Live6</option>
+                            <option value="CMCMarkets-Live">CMCMarkets-Live</option>
+                            <option value="CMCMarkets-Live2">CMCMarkets-Live2</option>
+                            <option value="CMCMarkets-Live3">CMCMarkets-Live3</option>
+                            <option value="CMCMarkets-Live4">CMCMarkets-Live4</option>
+                            <option value="CMCMarkets-Live5">CMCMarkets-Live5</option>
+                            <option value="CMCMarkets-Live6">CMCMarkets-Live6</option>
+                            <option value="CMCMarkets-Live6">CMCMarkets-Live6</option>
+                            <option value="Deriv-Server-01">Deriv-Server-01</option>
+                            <option value="Deriv-Server-02">Deriv-Server-02</option>
+                            <option value="Deriv-Server-03">Deriv-Server-03</option>
+                            <option value="Deriv-Server-04">Deriv-Server-04</option>
+                            <option value="Deriv-Server-05">Deriv-Server-05</option>
+                            <option value="Deriv-Server-06">Deriv-Server-06</option>
+                            <option value="DerivBVI-Server">DerivBVI-Server</option>
+                            <option value="DerivBVI-Server-02">DerivBVI-Server-02</option>
+                            <option value="DerivBVI-Server-03">DerivBVI-Server-03</option>
+                            <option value="DerivBVI-Server-04">DerivBVI-Server-04</option>
+                            <option value="DerivBVI-Server-05">DerivBVI-Server-05</option>
+                            <option value="DerivBVI-Server-06">DerivBVI-Server-06</option>
+                            <option value="DerivFX-Server">DerivFX-Server</option>
+                            <option value="DerivFX-Server-02">DerivFX-Server-02</option>
+                            <option value="DerivFX-Server-03">DerivFX-Server-03</option>
+                            <option value="DerivFX-Server-04">DerivFX-Server-04</option>
+                            <option value="DerivFX-Server-05">DerivFX-Server-05</option>
+                            <option value="DerivFX-Server-06">DerivFX-Server-06</option>
+                            <option value="DerivMT-Server">DerivMT-Server</option>
+                            <option value="DerivMT-Server-02">DerivMT-Server-02</option>
+                            <option value="DerivMT-Server-03">DerivMT-Server-03</option>
+                            <option value="DerivMT-Server-04">DerivMT-Server-04</option>
+                            <option value="DerivMT-Server-05">DerivMT-Server-05</option>
+                            <option value="DerivMT-Server-06">DerivMT-Server-06</option>
+                            <option value="DerivSVG-Server">DerivSVG-Server</option>
+                            <option value="DerivSVG-Server-02">DerivSVG-Server-02</option>
+                            <option value="DerivSVG-Server-03">DerivSVG-Server-03</option>
+                            <option value="DerivSVG-Server-04">DerivSVG-Server-04</option>
+                            <option value="DerivSVG-Server-05">DerivSVG-Server-05</option>
+                            <option value="DerivSVG-Server-06">DerivSVG-Server-06</option>
+                            <option value="DerivVU-Server">DerivVU-Server</option>
+                            <option value="DerivVU-Server-02">DerivVU-Server-02</option>
+                            <option value="DerivVU-Server-03">DerivVU-Server-03</option>
+                            <option value="DerivVU-Server-04">DerivVU-Server-04</option>
+                            <option value="DerivVU-Server-05">DerivVU-Server-05</option>
+                            <option value="DerivVU-Server-06">DerivVU-Server-06</option>
+                            <option value="Exness-MT5Real">Exness-MT5Real</option>
+                            <option value="Exness-MT5Real2">Exness-MT5Real2</option>
+                            <option value="Exness-MT5Real3">Exness-MT5Real3</option>
+                            <option value="Exness-MT5Real4">Exness-MT5Real4</option>
+                            <option value="Exness-MT5Real5">Exness-MT5Real5</option>
+                            <option value="Exness-MT5Real6">Exness-MT5Real6</option>
+                            <option value="Exness-MT5Real7">Exness-MT5Real7</option>
+                            <option value="Exness-MT5Real8">Exness-MT5Real8</option>
+                            <option value="Exness-MT5Real9">Exness-MT5Real9</option>
+                            <option value="Exness-MT5Real10">Exness-MT5Real10</option>
+                            <option value="Exness-MT5Real11">Exness-MT5Real11</option>
+                            <option value="Exness-MT5Real12">Exness-MT5Real12</option>
+                            <option value="Exness-MT5Real13">Exness-MT5Real13</option>
+                            <option value="Exness-MT5Real14">Exness-MT5Real14</option>
+                            <option value="Exness-MT5Real15">Exness-MT5Real15</option>
+                            <option value="Exness-MT5Real16">Exness-MT5Real16</option>
+                            <option value="Exness-MT5Real17">Exness-MT5Real17</option>
+                            <option value="Exness-MT5Real18">Exness-MT5Real18</option>
+                            <option value="Exness-MT5Real19">Exness-MT5Real19</option>
+                            <option value="Exness-MT5Real20">Exness-MT5Real20</option>
+                            <option value="Exness-MT5Real21">Exness-MT5Real21</option>
+                            <option value="Exness-MT5Real22">Exness-MT5Real22</option>
+                            <option value="Exness-MT5Real23">Exness-MT5Real23</option>
+                            <option value="Exness-MT5Real24">Exness-MT5Real24</option>
+                            <option value="Exness-MT5Real25">Exness-MT5Real25</option>
+                            <option value="Exness-MT5Real26">Exness-MT5Real26</option>
+                            <option value="Exness-MT5Real27">Exness-MT5Real27</option>
+                            <option value="Exness-MT5Real28">Exness-MT5Real28</option>
+                            <option value="Exness-MT5Real29">Exness-MT5Real29</option>
+                            <option value="Exness-MT5Real30">Exness-MT5Real30</option>
+                            <option value="Exness-MT5Real31">Exness-MT5Real31</option>
+                            <option value="Exness-MT5Real32">Exness-MT5Real32</option>
+                            <option value="Exness-MT5Real33">Exness-MT5Real33</option>
+                            <option value="Exness-MT5Real34">Exness-MT5Real34</option>
+                            <option value="Exness-MT5Real35">Exness-MT5Real35</option>
+                            <option value="ICMarketsSC-MT5-1">ICMarketsSC-MT5-1</option>
+                            <option value="ICMarketsSC-MT5-2">ICMarketsSC-MT5-2</option>
+                            <option value="ICMarketsSC-MT5-3">ICMarketsSC-MT5-3</option>
+                            <option value="ICMarketsSC-MT5-4">ICMarketsSC-MT5-4</option>
+                            <option value="ICMarketsSC-MT5-5">ICMarketsSC-MT5-5</option>
+                            <option value="ICMarketsSC-MT5-6">ICMarketsSC-MT5-6</option>
+                            <option value="ICMarketsSC-MT5-7">ICMarketsSC-MT5-7</option>
+                            <option value="ICMarketsSC-MT5-8">ICMarketsSC-MT5-8</option>
+                            <option value="ICMarketsSC-MT5-9">ICMarketsSC-MT5-9</option>
+                            <option value="ICMarketsSC-MT5-10">ICMarketsSC-MT5-10</option>
+                            <option value="XMGlobal-MT5 1">XMGlobal-MT5 1</option>
+                            <option value="XMGlobal-MT5 2">XMGlobal-MT5 2</option>
+                            <option value="XMGlobal-MT5 3">XMGlobal-MT5 3</option>
+                            <option value="XMGlobal-MT5 4">XMGlobal-MT5 4</option>
+                            <option value="XMGlobal-MT5 5">XMGlobal-MT5 5</option>
+                            <option value="XMGlobal-MT5 6">XMGlobal-MT5 6</option>
+                            <option value="XMGlobal-MT5 7">XMGlobal-MT5 7</option>
+                            <option value="XMGlobal-MT5 8">XMGlobal-MT5 8</option>
+                            <option value="XMGlobal-MT5 9">XMGlobal-MT5 9</option>
+                            <option value="XMGlobal-MT5 10">XMGlobal-MT5 10</option>
+                            <option value="XMGlobal-MT5 11">XMGlobal-MT5 11</option>
+                            <option value="XMGlobal-MT5 12">XMGlobal-MT5 12</option>
+                            <option value="XMGlobal-MT5 13">XMGlobal-MT5 13</option>
+                            <option value="XMGlobal-MT5 14">XMGlobal-MT5 14</option>
+                            <option value="XMGlobal-MT5 15">XMGlobal-MT5 15</option>
+                            <option value="XMGlobal-MT5 16">XMGlobal-MT5 16</option>
+                            <option value="XMGlobal-MT5 17">XMGlobal-MT5 17</option>
+                            <option value="XMGlobal-MT5 18">XMGlobal-MT5 18</option>
+                            <option value="XMGlobal-MT5 19">XMGlobal-MT5 19</option>
+                            <option value="XMGlobal-MT5 20">XMGlobal-MT5 20</option>
+                            <option value="OctaFX-Real">OctaFX-Real</option>
+                            <option value="OctaFX-Real2">OctaFX-Real2</option>
+                            <option value="OctaFX-Real3">OctaFX-Real3</option>
+                            <option value="OctaFX-Real4">OctaFX-Real4</option>
+                            <option value="OctaFX-Real5">OctaFX-Real5</option>
+                            <option value="OctaFX-Real6">OctaFX-Real6</option>
+                            <option value="OctaFX-Real7">OctaFX-Real7</option>
+                            <option value="OctaFX-Real8">OctaFX-Real8</option>
+                            <option value="OctaFX-Real9">OctaFX-Real9</option>
+                            <option value="OctaFX-Real10">OctaFX-Real10</option>
+                            <option value="OctaFX-Real11">OctaFX-Real11</option>
+                            <option value="OctaFX-Real12">OctaFX-Real12</option>
+                            <option value="OctaFX-Real13">OctaFX-Real13</option>
+                            <option value="OctaFX-Real14">OctaFX-Real14</option>
+                            <option value="OctaFX-Real15">OctaFX-Real15</option>
+                            <option value="OctaFX-Real16">OctaFX-Real16</option>
+                            <option value="OctaFX-Real17">OctaFX-Real17</option>
+                            <option value="OctaFX-Real18">OctaFX-Real18</option>
+                            <option value="OctaFX-Real19">OctaFX-Real19</option>
+                            <option value="OctaFX-Real20">OctaFX-Real20</option>
+                            <option value="JustMarkets-Live">JustMarkets-Live</option>
+                            <option value="JustMarkets-Live2">JustMarkets-Live2</option>
+                            <option value="JustMarkets-Live3">JustMarkets-Live3</option>
+                            <option value="JustMarkets-Live4">JustMarkets-Live4</option>
+                            <option value="JustMarkets-Live5">JustMarkets-Live5</option>
+                            <option value="JustMarkets-Live6">JustMarkets-Live6</option>
+                            <option value="JustMarkets-Live7">JustMarkets-Live7</option>
+                            <option value="JustMarkets-Live8">JustMarkets-Live8</option>
+                            <option value="JustMarkets-Live9">JustMarkets-Live9</option>
+                            <option value="JustMarkets-Live10">JustMarkets-Live10</option>
+                            <option value="JustMarkets-Live11">JustMarkets-Live11</option>
+                            <option value="JustMarkets-Live12">JustMarkets-Live12</option>
+                            <option value="JustMarkets-Live13">JustMarkets-Live13</option>
+                            <option value="JustMarkets-Live14">JustMarkets-Live14</option>
+                            <option value="JustMarkets-Live15">JustMarkets-Live15</option>
+                            <option value="JustMarkets-Live16">JustMarkets-Live16</option>
+                            <option value="JustMarkets-Live17">JustMarkets-Live17</option>
+                            <option value="JustMarkets-Live18">JustMarkets-Live18</option>
+                            <option value="JustMarkets-Live19">JustMarkets-Live19</option>
+                            <option value="JustMarkets-Live20">JustMarkets-Live20</option>
+                            <option value="Trade245-Live">Trade245-Live</option>
+                            <option value="Trade245-Live2">Trade245-Live2</option>
+                            <option value="Trade245-Live3">Trade245-Live3</option>
+                            <option value="Trade245-Live4">Trade245-Live4</option>
+                            <option value="Trade245-Live5">Trade245-Live5</option>
+                            <option value="Trade245-Live6">Trade245-Live6</option>
+                            <option value="Trade245-Live7">Trade245-Live7</option>
+                            <option value="Trade245-Live8">Trade245-Live8</option>
+                            <option value="Trade245-Live9">Trade245-Live9</option>
+                            <option value="Trade245-Live10">Trade245-Live10</option>
+                            <option value="VaultMarkets-Live">VaultMarkets-Live</option>
+                            <option value="VaultMarkets-Live2">VaultMarkets-Live2</option>
+                            <option value="VaultMarkets-Live3">VaultMarkets-Live3</option>
+                            <option value="VaultMarkets-Live4">VaultMarkets-Live4</option>
+                            <option value="VaultMarkets-Live5">VaultMarkets-Live5</option>
+                            <option value="VaultMarkets-Live6">VaultMarkets-Live6</option>
+                            <option value="VaultMarkets-Live7">VaultMarkets-Live7</option>
+                            <option value="VaultMarkets-Live8">VaultMarkets-Live8</option>
+                            <option value="VaultMarkets-Live9">VaultMarkets-Live9</option>
+                            <option value="Pepperstone-Live">Pepperstone-Live</option>
+                            <option value="Pepperstone-Live2">Pepperstone-Live2</option>
+                            <option value="Pepperstone-Live3">Pepperstone-Live3</option>
+                            <option value="Pepperstone-Live4">Pepperstone-Live4</option>
+                            <option value="Pepperstone-Live5">Pepperstone-Live5</option>
+                            <option value="Pepperstone-Live6">Pepperstone-Live6</option>
+                            <option value="Pepperstone-Live7">Pepperstone-Live7</option>
+                            <option value="Pepperstone-Live8">Pepperstone-Live8</option>
+                            <option value="Pepperstone-Live9">Pepperstone-Live9</option>
+                            <option value="Pepperstone-Live10">Pepperstone-Live10</option>
+                            <option value="Pepperstone-Live11">Pepperstone-Live11</option>
+                            <option value="Pepperstone-Live12">Pepperstone-Live12</option>
+                            <option value="Pepperstone-Live13">Pepperstone-Live13</option>
+                            <option value="Pepperstone-Live14">Pepperstone-Live14</option>
+                            <option value="Pepperstone-Live15">Pepperstone-Live15</option>
+                            <option value="FXTM-Live">FXTM-Live</option>
+                            <option value="FXTM-Live2">FXTM-Live2</option>
+                            <option value="FXTM-Live3">FXTM-Live3</option>
+                            <option value="FXTM-Live4">FXTM-Live4</option>
+                            <option value="FXTM-Live5">FXTM-Live5</option>
+                            <option value="FXTM-Live6">FXTM-Live6</option>
+                            <option value="FXTM-Live7">FXTM-Live7</option>
+                            <option value="FXTM-Live8">FXTM-Live8</option>
+                            <option value="FXTM-Live9">FXTM-Live9</option>
+                            <option value="FXTM-Live10">FXTM-Live10</option>
+                            <option value="FXTM-Live11">FXTM-Live11</option>
+                            <option value="FXTM-Live12">FXTM-Live12</option>
+                            <option value="FXTM-Live13">FXTM-Live13</option>
+                            <option value="FXTM-Live14">FXTM-Live14</option>
+                            <option value="FXTM-Live15">FXTM-Live15</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="server" class="form-label">Custom Server (Optional)</label>
+                        <input type="text" id="server" name="server" class="form-input" placeholder="Custom Server (optional)">
+                    </div>
+                    <!-- Enhanced Submit Button with Loading State -->
+                    <button type="submit" class="login-button" id="loginButton">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                        <span id="loginButtonText">Login</span>
+                    </button>
+                </form>
+
+                <div class="separator"></div>
+
+                <div class="create-account-section">
+                    <p class="create-account-text">Don't have a trading account?</p>
+                    <a href="https://track.deriv.com/_YD7GpOk0TiG2vdm9PpHVCmNd7ZgqdRLk/1" target="_blank" class="create-account-button">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                        Create Deriv Account
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="features">
+            <div class="feature-card">
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+                <p class="feature-text">Fast Execution</p>
+            </div>
+            <div class="feature-card">
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+                <p class="feature-text">Secure Trading</p>
+            </div>
+            <div class="feature-card">
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                </svg>
+                <p class="feature-text">Smart Analysis</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Professional Error Modal with Contact Information -->
+    <div id="errorOverlay" class="error-overlay" style="display: none;">
+        <div class="error-modal">
+            <div class="error-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                </svg>
+            </div>
+            <h3 class="error-title">Authentication Failed</h3>
+            <div class="error-message" id="errorMessage">Account not found in our system. Please complete your subscription at www.smashthemarket.com and use the Client ID from your confirmation email to register your account in the client portal.</div>
+
+            <!-- Contact Information Section -->
+            <div class="contact-info">
+                <div class="contact-title">
+                    <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    Need Help? Contact Support
+                </div>
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    <span>For SMASH FX BOT issues: <a href="https://wa.me/27680536880" class="contact-link" target="_blank">WhatsApp +27 680 536 880</a></span>
+                </div>
+                <div class="contact-item">
+                    <svg class="contact-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    <span>Email Classic Forex Trader: <a href="mailto:classicforextrader@gmail.com" class="contact-link">classicforextrader@gmail.com</a></span>
+                </div>
+            </div>
+
+            <div class="error-actions">
+                <button class="error-button" onclick="closeErrorModal()">Try Again</button>
+                <button class="error-button whatsapp-button" onclick="openWhatsApp()">WhatsApp Support</button>
+                <button class="error-button email-button" onclick="openEmail()">Email Support</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-fill server field when dropdown changes
+        document.getElementById('server_select').addEventListener('change', function() {
+            document.getElementById('server').value = this.value;
+        });
+
+        // Enhanced form submission with professional error handling
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            // Show loading state
+            showLoadingState();
+
+            // Send request to server
+            fetch('/login', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                hideLoadingState();
+                if (response.ok) {
+                    // Check if it's a redirect (successful login)
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        // Handle successful JSON response
+                        return response.json().then(data => {
+                            if (data.redirect) {
+                                window.location.href = data.redirect;
+                            }
+                        });
+                    }
+                } else {
+                    // Handle error response
+                    return response.json().then(data => {
+                        showErrorModal(data.error || 'An unexpected error occurred. Please try again.');
+                    });
+                }
+            })
+            .catch(error => {
+                hideLoadingState();
+                showErrorModal('Connection failed. Please check your internet connection and try again.');
+                console.error('Login error:', error);
+            });
+        });
+
+        function showLoadingState() {
+            const button = document.getElementById('loginButton');
+            const buttonText = document.getElementById('loginButtonText');
+            button.disabled = true;
+            buttonText.innerHTML = '<div class="loading-spinner"></div> Authenticating...';
+        }
+
+        function hideLoadingState() {
+            const button = document.getElementById('loginButton');
+            const buttonText = document.getElementById('loginButtonText');
+            button.disabled = false;
+            buttonText.textContent = 'Login';
+        }
+
+        function showErrorModal(message) {
+            const overlay = document.getElementById('errorOverlay');
+            const messageElement = document.getElementById('errorMessage');
+            messageElement.textContent = message;
+            overlay.style.display = 'flex';
+        }
+
+        function closeErrorModal() {
+            document.getElementById('errorOverlay').style.display = 'none';
+        }
+
+        function openWhatsApp() {
+            window.open('https://wa.me/27680536880?text=Hello, I need help with SMASH FX EA login issues.', '_blank');
+        }
+
+        function openEmail() {
+            window.open('mailto:classicforextrader@gmail.com?subject=SMASH FX EA Support Request&body=Hello, I need assistance with my SMASH FX EA account.', '_blank');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('errorOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeErrorModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeErrorModal();
+            }
+        });
+    </script>
+
+</body></html>
