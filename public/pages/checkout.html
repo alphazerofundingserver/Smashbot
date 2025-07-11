@@ -1,4 +1,7 @@
-<html lang="en"><script src="chrome-extension://dngmlblcodfobpdpecaadgfbcggfjfnm/src/extension/inpage/index.js"></script><head>
+<html lang="en">
+<script src="chrome-extension://dngmlblcodfobpdpecaadgfbcggfjfnm/src/extension/inpage/index.js"></script>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - Smash The Market</title>
@@ -130,15 +133,18 @@
                 <h3 class="section-title">👤 Personal Information</h3>
                 <div class="form-group">
                     <label for="first-name" class="form-label">First Name</label>
-                    <input type="text" id="first-name" name="first_name" class="form-input" placeholder="Enter your first name" required="">
+                    <input type="text" id="first-name" name="first_name" class="form-input"
+                        placeholder="Enter your first name" required="">
                 </div>
                 <div class="form-group">
                     <label for="last-name" class="form-label">Last Name</label>
-                    <input type="text" id="last-name" name="last_name" class="form-input" placeholder="Enter your last name" required="">
+                    <input type="text" id="last-name" name="last_name" class="form-input"
+                        placeholder="Enter your last name" required="">
                 </div>
                 <div class="form-group">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email address" required="">
+                    <label for="email_address" class="form-label">Email Address</label>
+                    <input type="email" id="email" name="email_address" class="form-input"
+                        placeholder="Enter your email address" required="">
                 </div>
             </div>
 
@@ -147,7 +153,8 @@
                 <h3 class="section-title">🎟️ Coupon Code (Optional)</h3>
                 <div class="form-group">
                     <label for="coupon-code" class="form-label">Coupon Code</label>
-                    <input type="text" id="coupon-code" name="coupon_code" class="form-input" placeholder="Enter coupon code (e.g., SMASH50)">
+                    <input type="text" id="coupon-code" name="coupon_code" class="form-input"
+                        placeholder="Enter coupon code (e.g., SMASH50)">
                     <div style="color: #888; font-size: 0.9rem; margin-top: 0.5rem;">
                         💡 Use code <strong>SMASH50</strong> for $50 off!
                     </div>
@@ -189,10 +196,40 @@
     </div>
 
     <script>
-document.getElementById('checkout-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form from submitting
-    window.location.href = 'code.html'; // Redirect to code.html
-});
-    </script>
+        window.addEventListener("DOMContentLoaded", function(event) {
 
-</body></html>
+            const client = new Appwrite.Client()
+            const ID = Appwrite.ID
+
+        const endpoint = "https://nyc.cloud.appwrite.io/v1"
+        const project_id = "687028a50031bd01fcbc"
+        const database_id = "68702b46000c8f925790"
+        const collection_id = "68718818002e012462e5"
+        document.getElementById('checkout-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form from submitting
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            console.log(data);
+            
+            client
+            .setEndpoint(endpoint)
+            .setProject(project_id);
+            
+            const database = new Appwrite.Databases(client)
+            console.log({ database })
+            
+            database.createDocument(database_id, collection_id, ID.unique(), data)
+            .then((res) => {
+                console.log(res)
+                    window.location.href = '/code';
+                })
+                .catch((err) => {
+                    console.warn("Failed to load settings from Appwrite. Using defaults.", err);
+                });
+    });
+})
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@17.0.0"></script>
+</body>
+
+</html>

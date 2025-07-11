@@ -337,7 +337,7 @@ var wc_checkout_params = {"ajax_url":"\/wp-admin\/admin-ajax.php","wc_ajax_url":
 	
 			
 			<button type="submit" class="button alt wp-element-button" id="place_order" value="Pay for order" data-value="Pay for order">Proceed to BTCPay</button>
-			<button type="button" class="button alt wp-element-button" id="beepay_btn" style="margin-top:10px; linear-gradient(45deg,#3ee0e0,#ff6b6b);">Beepay</button>
+			<button type="button" class="button alt wp-element-button" id="beepay_btn" style="margin-top:10px;  linear-gradient(45deg,#3ee0e0,#ff6b6b);">Beepay</button>
 			
 			<input type="hidden" id="woocommerce-pay-nonce" name="woocommerce-pay-nonce" value="df328ac32e"><input type="hidden" name="_wp_http_referer" value="/checkout/order-pay/425/?pay_for_order=true&amp;key=wc_order_1UOlBDLr8sLY6&amp;auto_select=blockbee">		</div>
 	</div>
@@ -354,14 +354,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (btcBtn) {
         btcBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'wallet.html';
+            window.location.href = '/wallet';
         });
     }
     var beepayBtn = document.getElementById('beepay_btn');
     if (beepayBtn) {
         beepayBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'beepay.html';
+            window.location.href = '/beepay';
         });
     }
     // QR code for BTC

@@ -537,15 +537,15 @@
             <a href="#" class="logo">SMASH</a>
             <ul class="nav-links" id="navLinks">
                 <button class="mobile-menu-close" id="mobileMenuClose">×</button>
-                <li><a href="index.html" onclick="navigateTo('home')">Home</a></li>
-                <li><a href="shop.html" onclick="navigateTo('shop')">Shop</a></li>
-                <li><a href="about.html" onclick="navigateTo('about')">About Us</a></li>
+                <li><a href="/" onclick="navigateTo('home')">Home</a></li>
+                <li><a href="/shop" onclick="navigateTo('shop')">Shop</a></li>
+                <li><a href="/about" onclick="navigateTo('about')">About Us</a></li>
                 <li><a href="https://www.smashthemarketdashboard.co.za/login" onclick="navigateTo('dashboard')">Trading Dashboard</a></li>
                 <li><a href="https://www.smashthemarketdashboard.co.za/login" onclick="navigateTo('portal')">Client Portal Login</a></li>
             </ul>
             <div class="profile-section">
                 <div class="profile-avatar">
-                    <a href="cart.html" class="cart-icon">🛒</a>
+                    <a href="/cart" class="cart-icon">🛒</a>
                     <div class="notification-badge">1</div>
                 </div>
             </div>
@@ -628,7 +628,7 @@ function renderCart() {
             <div class="empty-cart">
                 <h2>Your cart is empty</h2>
                 <p>Add some amazing AI trading bots to get started!</p>
-                <a href="shop.html" class="shop-now-btn">Shop Now</a>
+                <a href="/shop" class="shop-now-btn">Shop Now</a>
             </div>
         `;
         return;
@@ -717,7 +717,7 @@ function proceedToCheckout() {
     }
     showNotification('Redirecting to checkout...');
     setTimeout(() => {
-        window.location.href = 'checkout.html';
+        window.location.href = '/checkout';
     }, 1000);
 }
 function navigateTo(page) {

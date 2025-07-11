@@ -518,7 +518,7 @@
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             document.getElementById('countdown').textContent = 
-                ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')};
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
             if (timeLeft > 0) {
                 timeLeft--;
@@ -551,7 +551,7 @@
         function openWallet() {
             const address = document.getElementById('btcAddress').textContent;
             const amount = '0.00355019';
-            const bitcoinUri = bitcoin:${address}?amount=${amount};
+            const bitcoinUri = `bitcoin:${address}?amount=${amount}`;
             
             // Try to open wallet app
             window.open(bitcoinUri, '_blank');

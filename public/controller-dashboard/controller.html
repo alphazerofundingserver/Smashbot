@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel – Appwrite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-950 text-white flex items-center justify-center min-h-screen px-4">
+
+    <div id="adminPanel" class="hidden w-full max-w-6xl glass p-4 rounded-2xl shadow-lg">
+        <h2 class="text-xl font-semibold text-center mb-8 text-white">⚙️ Admin Dashboard</h2>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full table-auto border border-gray-700 rounded-xl">
+                <thead class="bg-gray-800 text-gray-200">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-sm">Action</th>
+                        <th class="px-4 py-3 text-left text-sm">First Name</th>
+                        <th class="px-4 py-3 text-left text-sm">Last Name</th>
+                        <th class="px-4 py-3 text-left text-sm">Email</th>
+                        <th class="px-4 py-3 text-left text-sm">Coupon Code</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody" class="divide-y divide-gray-800 text-sm">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const SMASH_CONTROLLER_AUTH_CODE = "Prodigy19."
+        const client = new Appwrite.Client();
+        const endpoint = "https://nyc.cloud.appwrite.io/v1";
+        const project_id = "687028a50031bd01fcbc";
+        const database_id = "68702b46000c8f925790";
+        const collection_id = "68718818002e012462e5";
+        const databases = new Appwrite.Databases(client);
+
+        client.setEndpoint(endpoint).setProject(project_id);
+
+        emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
+
+        const adminPanel = document.getElementById("adminPanel");
+        function requestAccess() {
+            const input = prompt("Enter admin password:");
+            if (input === SMASH_CONTROLLER_AUTH_CODE) {
+                adminPanel.classList.remove("hidden");
+                loadTable();
+            } else {
+                alert("Incorrect password. Try again.");
+                requestAccess();
+            }
+        }
+
+        requestAccess();
+        function sendConfirmationEmail(user) {
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                to_email: user.email_address,
+                to_name: user.first_name,
+                message: `Hi ${user.first_name}, your payment was received successfully.`,
+            }).then(() => {
+                alert(`Confirmation sent to ${user.email_address}`);
+            }).catch(err => {
+                alert("Failed to send email.");
+                console.error(err);
+            });
+        }
+
+        function loadTable() {
+            databases.listDocuments(database_id, collection_id)
+                .then(res => {
+                    const tbody = document.getElementById("userTableBody");
+                    tbody.innerHTML = "";
+
+                    if (!res.documents.length) {
+                        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-gray-400">No records found.</td></tr>`;
+                        return;
+                    }
+
+                    res.documents.forEach(doc => {
+                        const row = document.createElement("tr");
+                        row.className = "hover:bg-gray-800 transition";
+
+                        row.innerHTML = `
+                        <td class="px-4 py-2">
+                            <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded text-sm" onclick='sendConfirmationEmail(${JSON.stringify(doc)})'>
+                                Send
+                            </button>
+                        </td>
+                            <td class="px-4 py-2">${doc.first_name || "-"}</td>
+                            <td class="px-4 py-2">${doc.last_name || "-"}</td>
+                            <td class="px-4 py-2">${doc.email_address || "-"}</td>
+                            <td class="px-4 py-2">${doc.coupon_code || "-"}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(err => {
+                    console.error("Failed to load documents:", err);
+                    alert("Failed to load user data.");
+                });
+        }
+    </script>
+
+</body>
+
+</html>
