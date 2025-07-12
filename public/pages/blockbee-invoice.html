@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,19 +14,25 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1a1a1a;
-            color: #ffffff;
+            background-color: #1c1917;
+            color: #d6d3d1;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
 
+        img {
+            width: 100%;
+            height: auto;
+        }
+
         .payment-container {
-            background-color: #2a2a2a;
-            border-radius: 12px;
-            padding: 24px;
+            background-color: #1c1917;
+            border-radius: 5px;
+            border: 1px solid #292524;
             width: 100%;
             max-width: 450px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -33,12 +40,14 @@
 
         .header {
             display: flex;
-            align-items: center;
-            gap: 12px;
+            align-items: flex-start;
+            flex-direction: column;
+            background-color: #292524;
+            padding: 12px;
             margin-bottom: 8px;
         }
 
-        .logo {
+        .profile {
             width: 40px;
             height: 40px;
             background-color: #4a5568;
@@ -49,25 +58,25 @@
             font-size: 20px;
             font-weight: bold;
             color: #ffffff;
+            margin: 9px;
         }
 
         .title {
-            font-size: 24px;
+            font-size: 1.25rem;
             font-weight: 500;
-            color: #ffffff;
         }
 
         .price {
-            font-size: 32px;
-            font-weight: 600;
-            color: #ffffff;
+            font-size: 1.75rem;
+            font-weight: bolder;
             margin-bottom: 4px;
         }
 
         .order-id {
-            font-size: 14px;
-            color: #9ca3af;
+            font-size: 16px;
+            font-weight: 500;
             margin-bottom: 24px;
+            padding-top: 10px;
         }
 
         .section-title {
@@ -80,7 +89,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #fbbf24;
             font-size: 14px;
             margin-bottom: 16px;
         }
@@ -89,7 +97,6 @@
             width: 16px;
             height: 16px;
             border-radius: 50%;
-            border: 2px solid #fbbf24;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -105,8 +112,8 @@
         .search-input {
             width: 100%;
             padding: 12px 16px;
-            background-color: #374151;
-            border: 1px solid #4b5563;
+            background-color: #292524;
+            border: 1px solid #44403c;
             border-radius: 8px;
             color: #ffffff;
             font-size: 14px;
@@ -140,8 +147,8 @@
         }
 
         .crypto-option {
-            background-color: #374151;
-            border: 1px solid #4b5563;
+            background-color: #292524;
+            border: 1px solid #44403c;
             border-radius: 8px;
             padding: 12px;
             cursor: pointer;
@@ -152,7 +159,7 @@
         }
 
         .crypto-option:hover {
-            background-color: #4b5563;
+            background-color: #44403c;
             border-color: #6b7280;
         }
 
@@ -168,13 +175,33 @@
             color: #ffffff;
         }
 
-        .bitcoin { background-color: #f7931a; }
-        .usdt { background-color: #26a17b; }
-        .dogecoin { background-color: #c2a633; }
-        .ethereum { background-color: #627eea; }
-        .litecoin { background-color: #bfbbbb; }
-        .bitcoin-cash { background-color: #8dc351; }
-        .solana { background-color: #9945ff; }
+        .bitcoin {
+            background-color: #f7931a;
+        }
+
+        .usdt {
+            background-color: #26a17b;
+        }
+
+        .dogecoin {
+            background-color: #c2a633;
+        }
+
+        .ethereum {
+            background-color: #627eea;
+        }
+
+        .litecoin {
+            background-color: #bfbbbb;
+        }
+
+        .bitcoin-cash {
+            background-color: #8dc351;
+        }
+
+        .solana {
+            background-color: #9945ff;
+        }
 
         .crypto-info {
             flex: 1;
@@ -206,7 +233,7 @@
         }
 
         .merchant-id-text {
-            font-size: 12px;
+            font-size: 15px;
             color: #9ca3af;
             display: flex;
             align-items: center;
@@ -221,8 +248,8 @@
         }
 
         .report-button {
-            background-color: #374151;
-            border: 1px solid #4b5563;
+            background-color: #1c1917;
+            border: 1px solid #44403c;
             border-radius: 8px;
             padding: 12px 16px;
             color: #ffffff;
@@ -237,12 +264,12 @@
         }
 
         .report-button:hover {
-            background-color: #4b5563;
+            background-color: #44403c;
         }
 
         .powered-by {
             text-align: center;
-            font-size: 12px;
+            font-size: 14px;
             color: #9ca3af;
             display: flex;
             align-items: center;
@@ -251,9 +278,7 @@
         }
 
         .blockbee-logo {
-            width: 16px;
             height: 16px;
-            background-color: #fbbf24;
             border-radius: 2px;
             display: inline-flex;
             align-items: center;
@@ -298,7 +323,7 @@
         }
 
         .back-button:hover {
-            background-color: #374151;
+            background-color: #292524;
             color: #ffffff;
         }
 
@@ -312,6 +337,7 @@
         .qr-container {
             display: flex;
             align-items: center;
+            flex-direction: row;
             gap: 16px;
             margin-bottom: 24px;
         }
@@ -331,7 +357,7 @@
         .qr-pattern {
             width: 100%;
             height: 100%;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 20% 20%, #000 2px, transparent 2px),
                 radial-gradient(circle at 80% 20%, #000 2px, transparent 2px),
                 radial-gradient(circle at 20% 80%, #000 2px, transparent 2px),
@@ -386,10 +412,10 @@
             font-size: 16px;
             color: #ffffff;
             font-family: 'Courier New', monospace;
-            background-color: #374151;
+            background-color: #292524;
             padding: 12px 16px;
             border-radius: 6px;
-            border: 1px solid #4b5563;
+            border: 1px solid #44403c;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -399,7 +425,7 @@
         }
 
         .info-value:hover {
-            background-color: #4b5563;
+            background-color: #44403c;
         }
 
         .copy-btn {
@@ -416,7 +442,7 @@
 
         .copy-btn:hover {
             color: #ffffff;
-            background-color: #4b5563;
+            background-color: #44403c;
         }
 
         .min-transaction {
@@ -433,8 +459,8 @@
 
         .tab {
             padding: 8px 16px;
-            background-color: #374151;
-            border: 1px solid #4b5563;
+            background-color: #292524;
+            border: 1px solid #44403c;
             color: #9ca3af;
             font-size: 12px;
             cursor: pointer;
@@ -450,7 +476,7 @@
         }
 
         .tab.active {
-            background-color: #4b5563;
+            background-color: #44403c;
             color: #ffffff;
             border-color: #6b7280;
         }
@@ -470,145 +496,158 @@
         }
 
         @media (max-width: 480px) {
-            body {
-                padding: 0;
-                min-height: 100vh;
-                background-color: #181818;
-            }
-            .payment-container {
-                max-width: 100vw;
-                width: 100vw;
-                min-height: 100vh;
-                border-radius: 0;
-                box-shadow: none;
-                padding: 0 0 24px 0;
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-            }
+            
             .header {
                 margin-top: 24px;
                 margin-bottom: 8px;
             }
+
             .qr-code {
                 margin: 0 auto;
             }
+
             .crypto-selection,
             .payment-details {
                 padding: 0 12px;
             }
+
             .merchant-id,
             .powered-by {
                 padding: 0 12px;
             }
+
             .crypto-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .solana-option {
                 grid-column: 1;
+            }
+            .qr-container{
+                flex-direction: column;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="payment-container">
         <!-- Header (always visible) -->
         <div class="header">
-            <div class="logo">S</div>
-            <div class="title">SMASH Forex Robot</div>
-        </div>
-        
-        <div class="price">$390.00 USD</div>
-        <div class="order-id">#425</div>
-        
-        <!-- Crypto Selection Page -->
-        <div class="crypto-selection">
-            <div class="section-title">Pay with crypto</div>
-            <div class="warning">
-                <div class="warning-icon">!</div>
-                <span>Make sure you send the right crypto on the right network/blockchain.</span>
+            <div style="display:flex; align-items: center; justify-items: center;">
+                <div class="profile">
+                    <img src="/images/VpovFm9arOapSF9gXIXallCC.webp" alt="profile srcset="
+                        VpovFm9arOapSF9gXIXallCC.webp">
+                </div>
+                <div class="title">SMASH Forex Robot</div>
             </div>
-            
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Search cryptocurrencies">
-                <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </div>
-            
-            <div class="crypto-grid">
-                <div class="crypto-option" data-crypto="bitcoin" data-symbol="BTC" data-amount="0.00360281" data-address="32RA5HYCyQYgetrf18rJPkZqBatqp5NeTi">
-                    <div class="crypto-icon bitcoin">₿</div>
-                    <div class="crypto-info">
-                        <div class="crypto-name">Bitcoin</div>
-                        <div class="crypto-amount">≈0.00360281 BTC</div>
-                    </div>
-                </div>
-                
-                <div class="crypto-option" data-crypto="usdt" data-symbol="USDT" data-amount="389.85400000" data-address="TQRxlSKrKvNcF8qR4vZwKaJt2PmkNc5rGJ">
-                    <div class="crypto-icon usdt">₮</div>
-                    <div class="crypto-info">
-                        <div class="crypto-name">USDT (TRC20)</div>
-                        <div class="crypto-amount">≈389.85400000 USDT</div>
-                    </div>
-                </div>
-                
-                <div class="crypto-option" data-crypto="dogecoin" data-symbol="DOGE" data-amount="2337.15000000" data-address="DKLqmZaVt6K5wQTfNGJdBdmDLjKNqRxZGx">
-                    <div class="crypto-icon dogecoin">Ð</div>
-                    <div class="crypto-info">
-                        <div class="crypto-name">Dogecoin</div>
-                        <div class="crypto-amount">≈2337.15000000 DOGE</div>
-                    </div>
-                </div>
-                
-                <div class="crypto-option" data-crypto="ethereum" data-symbol="ETH" data-amount="0.15476300" data-address="0x8d12A197cB00D4747a1fe03395095ce2A5CC6819">
-                    <div class="crypto-icon ethereum">Ξ</div>
-                    <div class="crypto-info">
-                        <div class="crypto-name">Ethereum (ERC20)</div>
-                        <div class="crypto-amount">≈0.15476300 ETH</div>
-                    </div>
-                </div>
-                
-                <div class="crypto-option" data-crypto="litecoin" data-symbol="LTC" data-amount="4.46140000" data-address="LbW7wgxYSGX6pEH9jgFV3x8R7KNRwGfzGt">
-                    <div class="crypto-icon litecoin">Ł</div>
-                    <div class="crypto-info">
-                        <div class="crypto-name">Litecoin</div>
-                        <div class="crypto-amount">≈4.46140000 LTC</div>
-                    </div>
-                </div>
-                
-                <div class="crypto-option" data-crypto="bitcoin-cash" data-symbol="BCH" data-amount="0.79908300" data-address="qp7h2p3z4wJvKcR8qN5rGx3cPrEsQz7mKt">
-                    <div class="crypto-icon bitcoin-cash">₿</div>
-                    <div class="crypto-info">
-                        <div class="crypto-name">Bitcoin Cash</div>
-                        <div class="crypto-amount">≈0.79908300 BCH</div>
-                    </div>
-                </div>
-                
-                <div class="crypto-option solana-option" data-crypto="solana" data-symbol="SOL" data-amount="2.61992000" data-address="8KwX9HfQnRjR5KvP3QgKrNYbTqN3fG4MhRt7xQvGzK5X">
-                    <div class="crypto-icon solana">◎</div>
-                    <div class="crypto-info">
-                        <div class="crypto-name">Solana (SOL)</div>
-                        <div class="crypto-amount">≈2.61992000 SOL</div>
-                    </div>
-                </div>
-            </div>
+            <div class="price">$390.00 USD</div>
+            <div class="order-id">#425</div>
         </div>
 
-        <!-- Payment Details Page -->
-        <div class="payment-details">
-            <button class="back-button" onclick="goBack()">←</button>
-            
-            <div class="crypto-header">
-                <div class="crypto-title" id="crypto-title">BTC</div>
+        <br>
+        <div style="padding: 10px;">
+            <!-- Crypto Selection Page -->
+            <div class="crypto-selection">
+                <div class="section-title">Pay with crypto</div>
+                <div class="warning">
+                    <div class="warning-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width=".75rem" height=".75rem" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-info inline">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 16v-4"></path>
+                            <path d="M12 8h.01"></path>
+                        </svg>
+                    </div>
+                    <span>Make sure you send the right crypto on the right network/blockchain.</span>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search cryptocurrencies">
+                    <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+
+                <div class="crypto-grid">
+                    <div class="crypto-option" data-crypto="bitcoin" data-symbol="BTC" data-amount="0.00360281"
+                        data-address="32RA5HYCyQYgetrf18rJPkZqBatqp5NeTi">
+                        <div class="crypto-icon bitcoin">₿</div>
+                        <div class="crypto-info">
+                            <div class="crypto-name">Bitcoin</div>
+                            <div class="crypto-amount">≈0.00360281 BTC</div>
+                        </div>
+                    </div>
+
+                    <div class="crypto-option" data-crypto="usdt" data-symbol="USDT" data-amount="389.85400000"
+                        data-address="TQRxlSKrKvNcF8qR4vZwKaJt2PmkNc5rGJ">
+                        <div class="crypto-icon usdt">₮</div>
+                        <div class="crypto-info">
+                            <div class="crypto-name">USDT (TRC20)</div>
+                            <div class="crypto-amount">≈389.85400000 USDT</div>
+                        </div>
+                    </div>
+
+                    <div class="crypto-option" data-crypto="dogecoin" data-symbol="DOGE" data-amount="2337.15000000"
+                        data-address="DKLqmZaVt6K5wQTfNGJdBdmDLjKNqRxZGx">
+                        <div class="crypto-icon dogecoin">Ð</div>
+                        <div class="crypto-info">
+                            <div class="crypto-name">Dogecoin</div>
+                            <div class="crypto-amount">≈2337.15000000 DOGE</div>
+                        </div>
+                    </div>
+
+                    <div class="crypto-option" data-crypto="ethereum" data-symbol="ETH" data-amount="0.15476300"
+                        data-address="0x8d12A197cB00D4747a1fe03395095ce2A5CC6819">
+                        <div class="crypto-icon ethereum">Ξ</div>
+                        <div class="crypto-info">
+                            <div class="crypto-name">Ethereum (ERC20)</div>
+                            <div class="crypto-amount">≈0.15476300 ETH</div>
+                        </div>
+                    </div>
+
+                    <div class="crypto-option" data-crypto="litecoin" data-symbol="LTC" data-amount="4.46140000"
+                        data-address="LbW7wgxYSGX6pEH9jgFV3x8R7KNRwGfzGt">
+                        <div class="crypto-icon litecoin">Ł</div>
+                        <div class="crypto-info">
+                            <div class="crypto-name">Litecoin</div>
+                            <div class="crypto-amount">≈4.46140000 LTC</div>
+                        </div>
+                    </div>
+
+                    <div class="crypto-option" data-crypto="bitcoin-cash" data-symbol="BCH" data-amount="0.79908300"
+                        data-address="qp7h2p3z4wJvKcR8qN5rGx3cPrEsQz7mKt">
+                        <div class="crypto-icon bitcoin-cash">₿</div>
+                        <div class="crypto-info">
+                            <div class="crypto-name">Bitcoin Cash</div>
+                            <div class="crypto-amount">≈0.79908300 BCH</div>
+                        </div>
+                    </div>
+
+                    <div class="crypto-option solana-option" data-crypto="solana" data-symbol="SOL"
+                        data-amount="2.61992000" data-address="8KwX9HfQnRjR5KvP3QgKrNYbTqN3fG4MhRt7xQvGzK5X">
+                        <div class="crypto-icon solana">◎</div>
+                        <div class="crypto-info">
+                            <div class="crypto-name">Solana (SOL)</div>
+                            <div class="crypto-amount">≈2.61992000 SOL</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="qr-container">
-                <div class="qr-code">
-                    <!--
+
+            <!-- Payment Details Page -->
+            <div class="payment-details">
+                <button class="back-button" onclick="goBack()">←</button>
+
+                <div class="crypto-header">
+                    <div class="crypto-title" id="crypto-title">BTC</div>
+                </div>
+
+                <div class="qr-container">
+                    <div class="qr-code">
+                        <!--
                         Place your QR code images for each cryptocurrency in the SAME directory as this HTML file.
                         Name the images exactly as follows:
                             bitcoin.jpg
@@ -620,69 +659,83 @@
                             solana.jpg
                         The correct image will be shown automatically when a user selects a cryptocurrency.
                     -->
-                    <img id="qr-img" src="/images/bitcoin.jpg" alt="QR Code" style="width: 150px; height: 150px; border-radius: 8px; background: #fff; border: 3px solid #f7931a; display: block;" />
-                    <div class="bitcoin-icon-large" id="qr-icon">₿</div>
-                </div>
-                
-                <div class="payment-info">
-                    <div class="info-group">
-                        <div class="info-label">Amount</div>
-                        <div class="info-value" onclick="copyToClipboard(this)">
-                            <span id="payment-amount">0.00360281 BTC</span>
-                            <button class="copy-btn">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                </svg>
-                            </button>
+                        <img id="qr-img" src="/images/bitcoin.jpg" alt="QR Code"
+                            style="width: 150px; height: 150px; border-radius: 8px; background: #fff; border: 3px solid #f7931a; display: block;" />
+                        <div class="bitcoin-icon-large" id="qr-icon">₿</div>
+                    </div>
+
+                    <div class="payment-info">
+                        <div class="info-group">
+                            <div class="info-label">Amount</div>
+                            <div class="info-value" onclick="copyToClipboard(this)">
+                                <span id="payment-amount">0.00360281 BTC</span>
+                                <button class="copy-btn">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="info-group">
+                            <div class="info-label">Address</div>
+                            <div class="info-value" onclick="copyToClipboard(this)">
+                                <span id="payment-address">32RA5HYCyQYgetrf18rJPkZqBatqp5NeTi</span>
+                                <button class="copy-btn">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="min-transaction" id="min-transaction">Min Transaction Amount • 0.00008 BTC</div>
                         </div>
                     </div>
-                    
-                    <div class="info-group">
-                        <div class="info-label">Address</div>
-                        <div class="info-value" onclick="copyToClipboard(this)">
-                            <span id="payment-address">32RA5HYCyQYgetrf18rJPkZqBatqp5NeTi</span>
-                            <button class="copy-btn">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="min-transaction" id="min-transaction">Min Transaction Amount • 0.00008 BTC</div>
-                    </div>
+                </div>
+
+                <div class="tab-container">
+                    <div class="tab active">ADDRESS</div>
+                    <div class="tab">WITH VALUE</div>
+                </div>
+
+                <div class="exchange-warning">
+                    <div class="warning-icon">!</div>
+                    <span>If you're sending the payment from an exchange, ensure it doesn't deduct fees from the sent
+                        amount. If it does, send the requested amount plus the exchange fees to avoid
+                        underpayment.</span>
                 </div>
             </div>
-            
-            <div class="tab-container">
-                <div class="tab active">ADDRESS</div>
-                <div class="tab">WITH VALUE</div>
-            </div>
-            
-            <div class="exchange-warning">
-                <div class="warning-icon">!</div>
-                <span>If you're sending the payment from an exchange, ensure it doesn't deduct fees from the sent amount. If it does, send the requested amount plus the exchange fees to avoid underpayment.</span>
-            </div>
+
         </div>
-        
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin-top: 13px;">
         <div class="merchant-id">
             <div class="merchant-id-text">
                 <svg class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                    </path>
                 </svg>
                 Q9fw7DbrosuTczDkxhrMcdEiL4NtgoM0
             </div>
         </div>
-        
         <button class="report-button">
             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9">
+                </path>
             </svg>
             Report Merchant
         </button>
-        
+
         <div class="powered-by">
             Powered by
-            <div class="blockbee-logo">🐝</div>
-            <strong>BlockBee</strong>
+            <div class="blockbee-logo">
+                <img src="/images/blockbee_logo_nospaces_white.webp" alt="blockbee-logo">
+            </div>
         </div>
     </div>
 
@@ -757,7 +810,7 @@
             document.getElementById('payment-amount').textContent = `${data.amount} ${data.symbol}`;
             document.getElementById('payment-address').textContent = data.address;
             document.getElementById('min-transaction').textContent = `Min Transaction Amount • ${data.minAmount} ${data.symbol}`;
-            
+
             // Update QR icon
             const qrIcon = document.getElementById('qr-icon');
             qrIcon.textContent = data.icon;
@@ -767,7 +820,7 @@
             // The image file must be named exactly as the cryptoType (e.g., bitcoin.jpg, usdt.jpg, etc.)
             // and placed in the same directory as this HTML file.
             const qrImg = document.getElementById('qr-img');
-            qrImg.src = `${cryptoType}.jpg`;
+            qrImg.src = `/images/${cryptoType}.jpg`;
             qrImg.alt = `${data.symbol} QR Code`;
 
             // Show payment details, hide crypto selection
@@ -789,10 +842,10 @@
                 const originalText = element.querySelector('span').textContent;
                 element.querySelector('span').textContent = 'Copied!';
                 element.style.backgroundColor = '#10b981';
-                
+
                 setTimeout(() => {
                     element.querySelector('span').textContent = originalText;
-                    element.style.backgroundColor = '#374151';
+                    element.style.backgroundColor = '#292524';
                 }, 1000);
             }).catch(err => {
                 console.error('Failed to copy: ', err);
@@ -801,7 +854,7 @@
 
         // Add click functionality to crypto options
         document.querySelectorAll('.crypto-option').forEach(option => {
-            option.addEventListener('click', function() {
+            option.addEventListener('click', function () {
                 const cryptoType = this.getAttribute('data-crypto');
                 showPaymentDetails(cryptoType);
             });
@@ -811,9 +864,9 @@
         const searchInput = document.querySelector('.search-input');
         const cryptoOptions = document.querySelectorAll('.crypto-option');
 
-        searchInput.addEventListener('input', function() {
+        searchInput.addEventListener('input', function () {
             const searchTerm = this.value.toLowerCase();
-            
+
             cryptoOptions.forEach(option => {
                 const cryptoName = option.querySelector('.crypto-name').textContent.toLowerCase();
                 if (cryptoName.includes(searchTerm)) {
@@ -825,7 +878,7 @@
         });
 
         // Copy merchant ID functionality
-        document.querySelector('.merchant-id-text').addEventListener('click', function() {
+        document.querySelector('.merchant-id-text').addEventListener('click', function () {
             const merchantId = 'Q9fw7DbrosuTczDkxhrMcdEiL4NtgoM0';
             navigator.clipboard.writeText(merchantId).then(() => {
                 // Show feedback
@@ -839,12 +892,12 @@
 
         // Tab functionality
         document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', function() {
+            tab.addEventListener('click', function () {
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
             });
         });
     </script>
 </body>
-</html>
 
+</html>

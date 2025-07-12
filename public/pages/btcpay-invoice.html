@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,19 +14,18 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: #161b22;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            flex-direction: column;
         }
 
         .payment-container {
-            background: rgba(30, 30, 50, 0.9);
-            border-radius: 20px;
-            padding: 40px;
+            background: #0d1117;
+            padding: 22px;
             max-width: 400px;
             width: 100%;
             text-align: center;
@@ -40,34 +40,54 @@
             letter-spacing: 2px;
             margin-bottom: 30px;
             color: #ffffff;
+            font-weight: 700;
             text-transform: uppercase;
         }
 
         .amount {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 24px;
+            font-weight: 500;
             margin-bottom: 20px;
-            color: #f7931a;
+            color: #ffffff;
         }
 
         .timer-container {
+            background-color: rgb(22, 27, 34);
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
-            color: #6c757d;
+            color: #9da6ad;
             font-size: 14px;
+            gap: 8px;
+            padding: 10px;
         }
 
-        .timer-icon {
+        .timer-spinner {
             width: 16px;
             height: 16px;
-            margin-right: 8px;
-            fill: #6c757d;
+            border: 2px solid #6c757d;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
         .timer {
             font-weight: 500;
+            min-width: 40px;
+            color: #ffffff;
+            text-align: center;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .view-details {
@@ -75,15 +95,52 @@
             border: none;
             color: #4CAF50;
             font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            margin-bottom: 30px;
-            text-decoration: underline;
+            margin-bottom: 20px;
             padding: 5px 0;
         }
 
-        .view-details:hover {
-            color: #45a049;
+        dl>div {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 6px 3px;
         }
+
+        dt {
+            color: #9ca3af;
+            /* dark gray for left labels */
+            font-weight: 500;
+            font-size: 14px;
+            flex: 1;
+            text-align: left;
+        }
+
+        dd {
+            color: #fff;
+            /* white for values on the right */
+            font-weight: 600;
+            font-size: 14px;
+            flex: 1;
+            text-align: right;
+            margin: 0;
+            cursor: pointer;
+            word-break: break-word;
+        }
+
+        .payment-details {
+            transition: max-height 0.3s ease;
+            overflow: hidden;
+        }
+
+        .payment-details.hidden {
+            max-height: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+
 
         .qr-container {
             background: #ffffff;
@@ -95,7 +152,7 @@
         }
 
         .qr-code {
-            width: 200px;
+            width: 100%;
             height: 200px;
             background: #000000;
             position: relative;
@@ -163,22 +220,20 @@
             color: #ffffff;
         }
 
+        .pay-button:hover {
+            background: #51b13e;
+        }
         .pay-button {
-            background: #4CAF50;
+            background: #51b13e;
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 15px 20px;
             border-radius: 25px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
             transition: all 0.3s ease;
-        }
-
-        .pay-button:hover {
-            background: #45a049;
-            transform: translateY(-2px);
         }
 
         .footer {
@@ -209,7 +264,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 20% 80%, #000 15%, transparent 15%),
                 radial-gradient(circle at 80% 20%, #000 15%, transparent 15%),
                 radial-gradient(circle at 40% 40%, #000 15%, transparent 15%),
@@ -228,9 +283,20 @@
             border-radius: 3px;
         }
 
-        .corner-squares:nth-child(1) { top: 10px; left: 10px; }
-        .corner-squares:nth-child(2) { top: 10px; right: 10px; }
-        .corner-squares:nth-child(3) { bottom: 10px; left: 10px; }
+        .corner-squares:nth-child(1) {
+            top: 10px;
+            left: 10px;
+        }
+
+        .corner-squares:nth-child(2) {
+            top: 10px;
+            right: 10px;
+        }
+
+        .corner-squares:nth-child(3) {
+            bottom: 10px;
+            left: 10px;
+        }
 
         .notification {
             position: fixed;
@@ -253,40 +319,69 @@
         }
     </style>
 </head>
+
 <body>
+    <h1 class="title">SMASH AI TRADING BOT</h1>
     <div class="payment-container">
-        <h1 class="title">SMASH AI TRADING BOT</h1>
-        
+
         <div class="amount">0.00355019 BTC</div>
-        
+
         <div class="timer-container">
-            <svg class="timer-icon" viewBox="0 0 24 24">
-                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/>
-            </svg>
+            <div class="timer-spinner"></div>
             <span>This invoice will expire in <span class="timer" id="timer">359:50</span></span>
         </div>
-        
-        <button class="view-details" onclick="toggleDetails()">View Details ▼</button>
-        
-        <div class="qr-container" style="position:relative;display:inline-block;">
-            <img src="/images/bitcoin.jpg" alt="BTC QR Code" class="qr-code" style="width:200px;height:200px;border-radius:10px;" />
-            <div class="bitcoin-logo" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#f7931a;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:28px;color:white;z-index:10;pointer-events:none;">₿</div>
+
+        <div>
+            <button class="view-details " onclick="toggleDetails()">View Details ▼</button>
+            <div id="PaymentDetails" class="payment-details hidden">
+                <dl class="pb-4">
+                    <div id="PaymentDetails-TotalPrice">
+                        <dt>Total Price</dt>
+                        <dd data-clipboard="0.00331595">0.00331595 BTC</dd>
+                    </div>
+                    <div id="PaymentDetails-TotalFiat">
+                        <dt>Total Fiat</dt>
+                        <dd data-clipboard="NaN">$390.00</dd>
+                    </div>
+                    <div id="PaymentDetails-ExchangeRate">
+                        <dt>Exchange Rate</dt>
+                        <dd data-clipboard="NaN">1 BTC = $117,613.60</dd>
+                    </div>
+                    <div id="PaymentDetails-AmountDue">
+                        <dt>Amount Due</dt>
+                        <dd data-clipboard="0.00331595">0.00331595 BTC</dd>
+                    </div>
+                    <div id="PaymentDetails-RecommendedFee">
+                        <dt>Recommended Fee</dt>
+                        <dd data-clipboard="2.114">2.114 sat/byte</dd>
+                    </div>
+                </dl>
+            </div>
         </div>
-        
+<br>
+        <div class="qr-container" style="position:relative;display:inline-block;">
+            <img src="/images/bitcoin.jpg" alt="BTC QR Code" class="qr-code"
+                style="width:200px;height:200px;border-radius:10px;" />
+            <div class="bitcoin-logo"
+                style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#f7931a;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:28px;color:white;z-index:10;pointer-events:none;">
+                ₿</div>
+        </div>
+
         <div class="address-section">
             <div class="address-label">ADDRESS</div>
             <div class="address-container">
                 <span class="address" id="address">bc1qk7wkatvqf0knadazee2qjds5dc59xce03w6g32</span>
                 <button class="copy-btn" onclick="copyAddress()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+                        <path
+                            d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
                     </svg>
                 </button>
             </div>
         </div>
-        
+
         <button class="pay-button" onclick="payInWallet()">Pay in wallet</button>
-        
+
         <div class="footer">
             <div>Powered by <span class="btcpay-logo">BTCPAY</span></div>
             <button class="language-selector" onclick="changeLanguage()">English ▼</button>
@@ -297,13 +392,13 @@
 
     <script>
         let timeLeft = 359 * 60 + 50; // 359:50 in seconds
-        
+
         function updateTimer() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
-            document.getElementById('timer').textContent = 
+            document.getElementById('timer').textContent =
                 `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            
+
             if (timeLeft > 0) {
                 timeLeft--;
                 setTimeout(updateTimer, 1000);
@@ -312,7 +407,7 @@
                 document.getElementById('timer').style.color = '#ff4444';
             }
         }
-        
+
         function copyAddress() {
             const address = document.getElementById('address').textContent;
             navigator.clipboard.writeText(address).then(() => {
@@ -321,7 +416,7 @@
                 showNotification('Failed to copy address');
             });
         }
-        
+
         function showNotification(message) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -330,56 +425,46 @@
                 notification.classList.remove('show');
             }, 3000);
         }
-        
+
+        let isOpen = false;
+
         function toggleDetails() {
+            const details = document.getElementById('PaymentDetails');
             const btn = document.querySelector('.view-details');
-            if (btn.textContent.includes('▼')) {
-                btn.textContent = 'Hide Details ▲';
-                showNotification('Details expanded');
+
+            isOpen = !isOpen;
+
+            if (isOpen) {
+                details.classList.remove('hidden');
             } else {
-                btn.textContent = 'View Details ▼';
-                showNotification('Details collapsed');
+                details.classList.add('hidden');
             }
         }
-        
+
+
         function payInWallet() {
             const address = document.getElementById('address').textContent;
             const amount = '0.00355019';
             const bitcoinUri = `bitcoin:${address}?amount=${amount}`;
-            
+
             // Try to open in wallet app
             window.open(bitcoinUri, '_blank');
             showNotification('Opening wallet application...');
         }
-        
+
         function changeLanguage() {
             const languages = ['English', 'Español', 'Français', 'Deutsch', '中文'];
             const current = document.querySelector('.language-selector').textContent.split(' ')[0];
             const currentIndex = languages.indexOf(current);
             const nextIndex = (currentIndex + 1) % languages.length;
-            
+
             document.querySelector('.language-selector').textContent = languages[nextIndex] + ' ▼';
             showNotification(`Language changed to ${languages[nextIndex]}`);
         }
-        
+
         // Start the timer
         updateTimer();
-        
-        // Add some interactive animations
-        document.querySelector('.qr-container').addEventListener('click', () => {
-            showNotification('QR code contains payment information');
-        });
-        
-        // Add hover effects
-        document.querySelectorAll('button').forEach(button => {
-            button.addEventListener('mouseenter', (e) => {
-                e.target.style.transform = 'scale(1.05)';
-            });
-            
-            button.addEventListener('mouseleave', (e) => {
-                e.target.style.transform = 'scale(1)';
-            });
-        });
     </script>
 </body>
+
 </html>

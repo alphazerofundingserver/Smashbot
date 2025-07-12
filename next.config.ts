@@ -9,8 +9,8 @@ const nextConfig: NextConfig = {
       { source: "/", destination: "/home", },
       { source: "/home", destination: "/index.html", },
       { source: "/about", destination: "/pages/about.html", },
-      { source: "/beepay", destination: "/pages/beepay.html", },
-      { source: "/beepay", destination: "/pages/beepay.html", },
+      { source: "/blockbee-invoice", destination: "/pages/blockbee-invoice.html", },
+      { source: "/btcpay-invoice", destination: "/pages/btcpay-invoice.html", },
       { source: "/bot", destination: "/pages/bot.html", },
       { source: "/login", destination: "/pages/bot.html", },
       { source: "/cart", destination: "/pages/cart.html", },
@@ -19,7 +19,6 @@ const nextConfig: NextConfig = {
       { source: "/funding", destination: "/pages/funding.html", },
       { source: "/shop", destination: "/pages/shop.html", },
       { source: "/steam", destination: "/pages/steam.html", },
-      { source: "/wallet", destination: "/pages/wallet.html", },
       { source: "/smashfx-controller", destination: "/controller-dashboard/controller.html", },
     ];
   },
