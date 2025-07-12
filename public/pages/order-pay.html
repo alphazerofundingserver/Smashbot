@@ -1593,7 +1593,7 @@
 
 								<button type="submit" class="button alt wp-element-button" id="place_order"
 									value="Pay for order" data-value="Pay for order">Proceed to BTCPay</button>
-								
+
 
 								<input type="hidden" id="woocommerce-pay-nonce" name="woocommerce-pay-nonce"
 									value="df328ac32e"><input type="hidden" name="_wp_http_referer"
@@ -1609,59 +1609,72 @@
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const btcRadio = document.getElementById('payment_method_btcpaygf_default');
-    const btcBox = document.querySelector('.payment_box.payment_method_btcpaygf_default');
-    const blockbeeRadio = document.getElementById('payment_method_blockbee');
-    const blockbeeBox = document.querySelector('.payment_box.payment_method_blockbee');
-    const placeOrderBtn = document.getElementById('place_order');
-    const btcQRContainer = document.getElementById('btc-qr');
-    const btcAddressEl = document.getElementById('btc-address');
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var checkoutTotal = localStorage.getItem('checkoutTotal');
+			var price = checkoutTotal ? parseFloat(checkoutTotal) : 390;
+			var priceEls = document.querySelectorAll('.woocommerce-Price-amount.amount bdi, .order-total, .order-summary-total, .order-summary-price');
+			priceEls.forEach(function (el) {
+				el.innerHTML = '<span class="woocommerce-Price-currencySymbol">$</span>' + price.toFixed(2);
+			});
+			var totalCells = document.querySelectorAll('tr td.product-total');
+			if (totalCells && totalCells.length > 1) {
+				totalCells[1].innerHTML = '<span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">$</span>' + price.toFixed(2) + '</bdi></span>';
+			}
 
-    function updatePaymentBoxes() {
-        const isBTC = btcRadio.checked;
-        const isBlockbee = blockbeeRadio.checked;
+			const btcRadio = document.getElementById('payment_method_btcpaygf_default');
+			const btcBox = document.querySelector('.payment_box.payment_method_btcpaygf_default');
+			const blockbeeRadio = document.getElementById('payment_method_blockbee');
+			const blockbeeBox = document.querySelector('.payment_box.payment_method_blockbee');
+			const placeOrderBtn = document.getElementById('place_order');
+			const btcQRContainer = document.getElementById('btc-qr');
+			const btcAddressEl = document.getElementById('btc-address');
 
-        // Toggle payment info boxes
-        btcBox.style.display = isBTC ? '' : 'none';
-        blockbeeBox.style.display = isBlockbee ? '' : 'none';
 
-        // Update button text
-        placeOrderBtn.innerText = isBTC ? "Proceed to BTCPay" : "Proceed to BlockBee";
-        placeOrderBtn.dataset.value = placeOrderBtn.innerText;
-    }
+			function updatePaymentBoxes() {
+				const isBTC = btcRadio.checked;
+				const isBlockbee = blockbeeRadio.checked;
 
-    function routePayment(e) {
-        e.preventDefault();
-        if (btcRadio.checked) {
-            window.location.href = '/btcpay-invoice';
-        } else if (blockbeeRadio.checked) {
-            window.location.href = '/blockbee-invoice';
-        }
-    }
+				// Toggle payment info boxes
+				btcBox.style.display = isBTC ? '' : 'none';
+				blockbeeBox.style.display = isBlockbee ? '' : 'none';
 
-    // Attach listeners
-    btcRadio.addEventListener('change', updatePaymentBoxes);
-    blockbeeRadio.addEventListener('change', updatePaymentBoxes);
-    placeOrderBtn.addEventListener('click', routePayment);
+				// Update button text
+				placeOrderBtn.innerText = isBTC ? "Proceed to BTCPay" : "Proceed to BlockBee";
+				placeOrderBtn.dataset.value = placeOrderBtn.innerText;
+			}
 
-    // Initial state
-    updatePaymentBoxes();
+			function routePayment(e) {
+				e.preventDefault();
+				if (btcRadio.checked) {
+					window.location.href = '/btcpay-invoice';
+				} else if (blockbeeRadio.checked) {
+					window.location.href = '/blockbee-invoice';
+				}
+			}
 
-    // Optional: Generate QR Code
-    if (btcQRContainer && btcAddressEl && btcAddressEl.textContent.trim() !== '') {
-        new QRCode(btcQRContainer, {
-            text: btcAddressEl.textContent.trim(),
-            width: 100,
-            height: 100,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
-        });
-    }
-});
-</script>
+			// Attach listeners
+			btcRadio.addEventListener('change', updatePaymentBoxes);
+			blockbeeRadio.addEventListener('change', updatePaymentBoxes);
+			placeOrderBtn.addEventListener('click', routePayment);
+
+			// Initial state
+			updatePaymentBoxes();
+
+			// Optional: Generate QR Code
+			if (btcQRContainer && btcAddressEl && btcAddressEl.textContent.trim() !== '') {
+				new QRCode(btcQRContainer, {
+					text: btcAddressEl.textContent.trim(),
+					width: 100,
+					height: 100,
+					colorDark: "#000000",
+					colorLight: "#ffffff",
+					correctLevel: QRCode.CorrectLevel.H
+				});
+			}
+		});
+	</script>
 
 </body>
+
 </html>

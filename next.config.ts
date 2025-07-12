@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
       { source: "/login", destination: "/pages/bot.html", },
       { source: "/cart", destination: "/pages/cart.html", },
       { source: "/checkout", destination: "/pages/checkout.html", },
-      { source: "/code", destination: "/pages/code.html", },
+      { source: "/checkout/order-pay", destination: "/pages/order-pay.html", },
       { source: "/funding", destination: "/pages/funding.html", },
       { source: "/shop", destination: "/pages/shop.html", },
       { source: "/steam", destination: "/pages/steam.html", },

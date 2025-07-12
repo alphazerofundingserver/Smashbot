@@ -16,6 +16,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin-top: 17rem;
         }
 
         .checkout-container {
@@ -124,6 +125,7 @@
     </style>
 
 <body>
+    <br/>
     <div class="checkout-container">
         <h1 style="text-align: center; margin-bottom: 30px;">🚀 Checkout</h1>
 
@@ -197,6 +199,38 @@
 
     <script>
         window.addEventListener("DOMContentLoaded", function(event) {
+    // Utility to get the correct total
+    function getCheckoutTotal() {
+        // Try URL param first
+        const urlParams = new URLSearchParams(window.location.search);
+        let total = urlParams.get('total');
+        if (!total) {
+            // Fallback to localStorage
+            total = localStorage.getItem('checkoutTotal');
+            console.log(totla)
+        }
+        if (!total) {
+            total = '390'; // fallback default
+        }
+        return parseFloat(total);
+    }
+
+    // Update the Complete Order button price
+        const btn = document.querySelector('.place-order-btn');
+        if (btn) {
+            const total = getCheckoutTotal();
+            btn.textContent = `🚀 Complete Order - $${total}`;
+        }
+    
+
+
+    // Payment method selection
+    document.querySelectorAll('.payment-method').forEach(method => {
+        method.addEventListener('click', function() {
+            document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
 
             const client = new Appwrite.Client()
             const ID = Appwrite.ID
@@ -221,7 +255,7 @@
             database.createDocument(database_id, collection_id, ID.unique(), data)
             .then((res) => {
                 console.log(res)
-                    window.location.href = '/code';
+                    window.location.href = '/checkout/order-pay';
                 })
                 .catch((err) => {
                     console.warn("Failed to load settings from Appwrite. Using defaults.", err);

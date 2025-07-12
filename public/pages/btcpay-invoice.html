@@ -223,6 +223,7 @@
         .pay-button:hover {
             background: #51b13e;
         }
+
         .pay-button {
             background: #51b13e;
             color: white;
@@ -332,24 +333,24 @@
         </div>
 
         <div>
-            <button class="view-details " onclick="toggleDetails()">View Details ▼</button>
+            <button class="view-details" id="view-details">View Details ▼</button>
             <div id="PaymentDetails" class="payment-details hidden">
                 <dl class="pb-4">
                     <div id="PaymentDetails-TotalPrice">
                         <dt>Total Price</dt>
-                        <dd data-clipboard="0.00331595">0.00331595 BTC</dd>
+                        <dd data-clipboard="0.00331595" id="totalPrice">0.00331595 BTC</dd>
                     </div>
                     <div id="PaymentDetails-TotalFiat">
                         <dt>Total Fiat</dt>
-                        <dd data-clipboard="NaN">$390.00</dd>
+                        <dd data-clipboard="NaN" id="totalFait">$390.00</dd>
                     </div>
                     <div id="PaymentDetails-ExchangeRate">
                         <dt>Exchange Rate</dt>
-                        <dd data-clipboard="NaN">1 BTC = $117,613.60</dd>
+                        <dd data-clipboard="NaN" id="exchangeRate">1 BTC = $117,613.60</dd>
                     </div>
                     <div id="PaymentDetails-AmountDue">
                         <dt>Amount Due</dt>
-                        <dd data-clipboard="0.00331595">0.00331595 BTC</dd>
+                        <dd data-clipboard="0.00331595" id="amountDue">0.00331595 BTC</dd>
                     </div>
                     <div id="PaymentDetails-RecommendedFee">
                         <dt>Recommended Fee</dt>
@@ -358,7 +359,7 @@
                 </dl>
             </div>
         </div>
-<br>
+        <br>
         <div class="qr-container" style="position:relative;display:inline-block;">
             <img src="/images/bitcoin.jpg" alt="BTC QR Code" class="qr-code"
                 style="width:200px;height:200px;border-radius:10px;" />
@@ -391,79 +392,102 @@
     <div class="notification" id="notification"></div>
 
     <script>
-        let timeLeft = 359 * 60 + 50; // 359:50 in seconds
+        window.addEventListener("DOMContentLoaded", function (ev) {
+            const btcExchangeRate = 179680066.61
+            var checkoutTotal = localStorage.getItem('checkoutTotal');
+            var usd = checkoutTotal ? parseFloat(checkoutTotal) : 390;
+            var amountEl = document.querySelector('.amount');
+            const formatedPrice = `$${usd}.00 USD`
+            const formatedExchangeRate = `1 BTC = ${btcExchangeRate.toLocaleString()}`
+            if (amountEl) amountEl.textContent = formatedPrice;
+            document.getElementById("totalPrice").textContent = formatedPrice
+            document.getElementById("totalFait").textContent = formatedPrice
+            document.getElementById("exchangeRate").textContent = formatedExchangeRate;
 
-        function updateTimer() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            document.getElementById('timer').textContent =
-                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            // const amountInBtc = convertUsdToBtc(usd)
+            document.getElementById("amountDue").textContent = formatedPrice + " in BTC"
 
-            if (timeLeft > 0) {
-                timeLeft--;
-                setTimeout(updateTimer, 1000);
-            } else {
-                document.getElementById('timer').textContent = 'EXPIRED';
-                document.getElementById('timer').style.color = '#ff4444';
+            let timeLeft = 359 * 60 + 50; // 359:50 in seconds
+
+            function updateTimer() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent =
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    setTimeout(updateTimer, 1000);
+                } else {
+                    document.getElementById('timer').textContent = 'EXPIRED';
+                    document.getElementById('timer').style.color = '#ff4444';
+                }
             }
-        }
 
-        function copyAddress() {
-            const address = document.getElementById('address').textContent;
-            navigator.clipboard.writeText(address).then(() => {
-                showNotification('Address copied to clipboard!');
-            }).catch(() => {
-                showNotification('Failed to copy address');
-            });
-        }
+            function copyAddress() {
+                const address = document.getElementById('address').textContent;
+                navigator.clipboard.writeText(address).then(() => {
+                    showNotification('Address copied to clipboard!');
+                }).catch(() => {
+                    showNotification('Failed to copy address');
+                });
+            }
 
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
+            function showNotification(message) {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
 
-        let isOpen = false;
+            let isOpen = false;
 
-        function toggleDetails() {
             const details = document.getElementById('PaymentDetails');
-            const btn = document.querySelector('.view-details');
-
+            const btn = document.getElementById('view-details');
             isOpen = !isOpen;
 
-            if (isOpen) {
-                details.classList.remove('hidden');
-            } else {
-                details.classList.add('hidden');
+            btn.addEventListener("click", function (ev) {
+                if (isOpen) {
+                    details.classList.remove('hidden');
+                } else {
+                    details.classList.add('hidden');
+                }
+            })
+
+            function convertUsdToBtc(amountInUSD, btcRate) {
+                // if (!amountInUSD || !btcRate || btcRate === 0) return 0;
+                // const btcAmount = parseFloat(amountInUSD) / parseFloat(btcRate);
+                // return parseFloat(btcAmount.toFixed(8));
             }
-        }
 
 
-        function payInWallet() {
-            const address = document.getElementById('address').textContent;
-            const amount = '0.00355019';
-            const bitcoinUri = `bitcoin:${address}?amount=${amount}`;
 
-            // Try to open in wallet app
-            window.open(bitcoinUri, '_blank');
-            showNotification('Opening wallet application...');
-        }
 
-        function changeLanguage() {
-            const languages = ['English', 'Español', 'Français', 'Deutsch', '中文'];
-            const current = document.querySelector('.language-selector').textContent.split(' ')[0];
-            const currentIndex = languages.indexOf(current);
-            const nextIndex = (currentIndex + 1) % languages.length;
+            function payInWallet() {
+                const address = document.getElementById('address').textContent;
+                const amount = '0.00355019';
+                const bitcoinUri = `bitcoin:${address}?amount=${amount}`;
 
-            document.querySelector('.language-selector').textContent = languages[nextIndex] + ' ▼';
-            showNotification(`Language changed to ${languages[nextIndex]}`);
-        }
+                // Try to open in wallet app
+                window.open(bitcoinUri, '_blank');
+                showNotification('Opening wallet application...');
+            }
 
-        // Start the timer
-        updateTimer();
+            function changeLanguage() {
+                const languages = ['English', 'Español', 'Français', 'Deutsch', '中文'];
+                const current = document.querySelector('.language-selector').textContent.split(' ')[0];
+                const currentIndex = languages.indexOf(current);
+                const nextIndex = (currentIndex + 1) % languages.length;
+
+                document.querySelector('.language-selector').textContent = languages[nextIndex] + ' ▼';
+                showNotification(`Language changed to ${languages[nextIndex]}`);
+            }
+
+            // Start the timer
+            updateTimer();
+        })
     </script>
 </body>
 

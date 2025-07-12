@@ -496,7 +496,7 @@
         }
 
         @media (max-width: 480px) {
-            
+
             .header {
                 margin-top: 24px;
                 margin-bottom: 8px;
@@ -523,7 +523,8 @@
             .solana-option {
                 grid-column: 1;
             }
-            .qr-container{
+
+            .qr-container {
                 flex-direction: column;
             }
         }
@@ -541,7 +542,7 @@
                 </div>
                 <div class="title">SMASH Forex Robot</div>
             </div>
-            <div class="price">$390.00 USD</div>
+            <div class="price" id="price-display">$390.00 USD</div>
             <div class="order-id">#425</div>
         </div>
 
@@ -740,161 +741,168 @@
     </div>
 
     <script>
-        // Cryptocurrency data
-        const cryptoData = {
-            bitcoin: {
-                symbol: 'BTC',
-                icon: '₿',
-                color: '#f7931a',
-                amount: '0.00360281',
-                address: 'bc1qk7wkatvqf0knadazee2qjds5dc59xce03w6g32',
-                minAmount: '0.00008'
-            },
-            usdt: {
-                symbol: 'USDT',
-                icon: '₮',
-                color: '#26a17b',
-                amount: '389.85400000',
-                address: 'TKxUeoLHaDsNdmCyJzhUZzwzehHCJKCQWi',
-                minAmount: '1.00000'
-            },
-            dogecoin: {
-                symbol: 'DOGE',
-                icon: 'Ð',
-                color: '#c2a633',
-                amount: '2337.15000000',
-                address: 'D5VBHXeeAp94hanpXqz88kMszmh82PDrG5',
-                minAmount: '1.00000'
-            },
-            ethereum: {
-                symbol: 'ETH',
-                icon: 'Ξ',
-                color: '#627eea',
-                amount: '0.15476300',
-                address: '0xe34e9ba16CACB7eDe2A749ea1fC6BE5b67C2734C',
-                minAmount: '0.00100'
-            },
-            litecoin: {
-                symbol: 'LTC',
-                icon: 'Ł',
-                color: '#bfbbbb',
-                amount: '4.46140000',
-                address: 'ltc1qxwedw2zwu8sy5wyd37h86z80yattp6gg9ccf24',
-                minAmount: '0.00100'
-            },
-            'bitcoin-cash': {
-                symbol: 'BCH',
-                icon: '₿',
-                color: '#8dc351',
-                amount: '0.79908300',
-                address: 'qr2yvrfqknq7kngdsg5dkpdxye98nw4jscnufe63pr ',
-                minAmount: '0.00100'
-            },
-            solana: {
-                symbol: 'SOL',
-                icon: '◎',
-                color: '#9945ff',
-                amount: '2.61992000',
-                address: '99Cnm6UXfNJnuMev36eNWYJNWwFiT5rZjFQQUicpARMr',
-                minAmount: '0.01000'
-            }
-        };
+        window.addEventListener("DOMContentLoaded", function (ev) {
+            var checkoutTotal = localStorage.getItem('checkoutTotal');
+            var priceDisplay = document.getElementById('price-display');
+            var usd = checkoutTotal ? parseFloat(checkoutTotal) : 390;
+            if (priceDisplay) priceDisplay.textContent = `$${usd}.00 USD`
 
-        // Show payment details for selected crypto
-        function showPaymentDetails(cryptoType) {
-            const data = cryptoData[cryptoType];
-            if (!data) return;
-
-            // Update payment details
-            document.getElementById('crypto-title').textContent = data.symbol;
-            document.getElementById('payment-amount').textContent = `${data.amount} ${data.symbol}`;
-            document.getElementById('payment-address').textContent = data.address;
-            document.getElementById('min-transaction').textContent = `Min Transaction Amount • ${data.minAmount} ${data.symbol}`;
-
-            // Update QR icon
-            const qrIcon = document.getElementById('qr-icon');
-            qrIcon.textContent = data.icon;
-            qrIcon.style.backgroundColor = data.color;
-
-            // Set QR image for the selected crypto
-            // The image file must be named exactly as the cryptoType (e.g., bitcoin.jpg, usdt.jpg, etc.)
-            // and placed in the same directory as this HTML file.
-            const qrImg = document.getElementById('qr-img');
-            qrImg.src = `/images/${cryptoType}.jpg`;
-            qrImg.alt = `${data.symbol} QR Code`;
-
-            // Show payment details, hide crypto selection
-            document.querySelector('.crypto-selection').classList.add('hidden');
-            document.querySelector('.payment-details').classList.add('active');
-        }
-
-        // Go back to crypto selection
-        function goBack() {
-            document.querySelector('.crypto-selection').classList.remove('hidden');
-            document.querySelector('.payment-details').classList.remove('active');
-        }
-
-        // Copy to clipboard function
-        function copyToClipboard(element) {
-            const textToCopy = element.querySelector('span').textContent;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                // Show feedback
-                const originalText = element.querySelector('span').textContent;
-                element.querySelector('span').textContent = 'Copied!';
-                element.style.backgroundColor = '#10b981';
-
-                setTimeout(() => {
-                    element.querySelector('span').textContent = originalText;
-                    element.style.backgroundColor = '#292524';
-                }, 1000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        }
-
-        // Add click functionality to crypto options
-        document.querySelectorAll('.crypto-option').forEach(option => {
-            option.addEventListener('click', function () {
-                const cryptoType = this.getAttribute('data-crypto');
-                showPaymentDetails(cryptoType);
-            });
-        });
-
-        // Search functionality
-        const searchInput = document.querySelector('.search-input');
-        const cryptoOptions = document.querySelectorAll('.crypto-option');
-
-        searchInput.addEventListener('input', function () {
-            const searchTerm = this.value.toLowerCase();
-
-            cryptoOptions.forEach(option => {
-                const cryptoName = option.querySelector('.crypto-name').textContent.toLowerCase();
-                if (cryptoName.includes(searchTerm)) {
-                    option.style.display = 'flex';
-                } else {
-                    option.style.display = 'none';
+            // Cryptocurrency data
+            const cryptoData = {
+                bitcoin: {
+                    symbol: 'BTC',
+                    icon: '₿',
+                    color: '#f7931a',
+                    amount: '0.00360281',
+                    address: 'bc1qk7wkatvqf0knadazee2qjds5dc59xce03w6g32',
+                    minAmount: '0.00008'
+                },
+                usdt: {
+                    symbol: 'USDT',
+                    icon: '₮',
+                    color: '#26a17b',
+                    amount: '389.85400000',
+                    address: 'TKxUeoLHaDsNdmCyJzhUZzwzehHCJKCQWi',
+                    minAmount: '1.00000'
+                },
+                dogecoin: {
+                    symbol: 'DOGE',
+                    icon: 'Ð',
+                    color: '#c2a633',
+                    amount: '2337.15000000',
+                    address: 'D5VBHXeeAp94hanpXqz88kMszmh82PDrG5',
+                    minAmount: '1.00000'
+                },
+                ethereum: {
+                    symbol: 'ETH',
+                    icon: 'Ξ',
+                    color: '#627eea',
+                    amount: '0.15476300',
+                    address: '0xe34e9ba16CACB7eDe2A749ea1fC6BE5b67C2734C',
+                    minAmount: '0.00100'
+                },
+                litecoin: {
+                    symbol: 'LTC',
+                    icon: 'Ł',
+                    color: '#bfbbbb',
+                    amount: '4.46140000',
+                    address: 'ltc1qxwedw2zwu8sy5wyd37h86z80yattp6gg9ccf24',
+                    minAmount: '0.00100'
+                },
+                'bitcoin-cash': {
+                    symbol: 'BCH',
+                    icon: '₿',
+                    color: '#8dc351',
+                    amount: '0.79908300',
+                    address: 'qr2yvrfqknq7kngdsg5dkpdxye98nw4jscnufe63pr ',
+                    minAmount: '0.00100'
+                },
+                solana: {
+                    symbol: 'SOL',
+                    icon: '◎',
+                    color: '#9945ff',
+                    amount: '2.61992000',
+                    address: '99Cnm6UXfNJnuMev36eNWYJNWwFiT5rZjFQQUicpARMr',
+                    minAmount: '0.01000'
                 }
-            });
-        });
+            };
 
-        // Copy merchant ID functionality
-        document.querySelector('.merchant-id-text').addEventListener('click', function () {
-            const merchantId = 'Q9fw7DbrosuTczDkxhrMcdEiL4NtgoM0';
-            navigator.clipboard.writeText(merchantId).then(() => {
-                // Show feedback
-                const originalText = this.innerHTML;
-                this.innerHTML = this.innerHTML.replace('Q9fw7DbrosuTczDkxhrMcdEiL4NtgoM0', 'Copied!');
-                setTimeout(() => {
-                    this.innerHTML = originalText;
-                }, 1000);
-            });
-        });
+            // Show payment details for selected crypto
+            function showPaymentDetails(cryptoType) {
+                const data = cryptoData[cryptoType];
+                if (!data) return;
 
-        // Tab functionality
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', function () {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
+                // Update payment details
+                document.getElementById('crypto-title').textContent = data.symbol;
+                document.getElementById('payment-amount').textContent = `${data.amount} ${data.symbol}`;
+                document.getElementById('payment-address').textContent = data.address;
+                document.getElementById('min-transaction').textContent = `Min Transaction Amount • ${data.minAmount} ${data.symbol}`;
+
+                // Update QR icon
+                const qrIcon = document.getElementById('qr-icon');
+                qrIcon.textContent = data.icon;
+                qrIcon.style.backgroundColor = data.color;
+
+                // Set QR image for the selected crypto
+                // The image file must be named exactly as the cryptoType (e.g., bitcoin.jpg, usdt.jpg, etc.)
+                // and placed in the same directory as this HTML file.
+                const qrImg = document.getElementById('qr-img');
+                qrImg.src = `/images/${cryptoType}.jpg`;
+                qrImg.alt = `${data.symbol} QR Code`;
+
+                // Show payment details, hide crypto selection
+                document.querySelector('.crypto-selection').classList.add('hidden');
+                document.querySelector('.payment-details').classList.add('active');
+            }
+
+            // Go back to crypto selection
+            function goBack() {
+                document.querySelector('.crypto-selection').classList.remove('hidden');
+                document.querySelector('.payment-details').classList.remove('active');
+            }
+
+            // Copy to clipboard function
+            function copyToClipboard(element) {
+                const textToCopy = element.querySelector('span').textContent;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    // Show feedback
+                    const originalText = element.querySelector('span').textContent;
+                    element.querySelector('span').textContent = 'Copied!';
+                    element.style.backgroundColor = '#10b981';
+
+                    setTimeout(() => {
+                        element.querySelector('span').textContent = originalText;
+                        element.style.backgroundColor = '#292524';
+                    }, 1000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            }
+
+            // Add click functionality to crypto options
+            document.querySelectorAll('.crypto-option').forEach(option => {
+                option.addEventListener('click', function () {
+                    const cryptoType = this.getAttribute('data-crypto');
+                    showPaymentDetails(cryptoType);
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            const cryptoOptions = document.querySelectorAll('.crypto-option');
+
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+
+                cryptoOptions.forEach(option => {
+                    const cryptoName = option.querySelector('.crypto-name').textContent.toLowerCase();
+                    if (cryptoName.includes(searchTerm)) {
+                        option.style.display = 'flex';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+            });
+
+            // Copy merchant ID functionality
+            document.querySelector('.merchant-id-text').addEventListener('click', function () {
+                const merchantId = 'Q9fw7DbrosuTczDkxhrMcdEiL4NtgoM0';
+                navigator.clipboard.writeText(merchantId).then(() => {
+                    // Show feedback
+                    const originalText = this.innerHTML;
+                    this.innerHTML = this.innerHTML.replace('Q9fw7DbrosuTczDkxhrMcdEiL4NtgoM0', 'Copied!');
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                    }, 1000);
+                });
+            });
+
+            // Tab functionality
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function () {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
         });
     </script>

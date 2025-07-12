@@ -438,15 +438,14 @@
 
             <ul class="nav-links" id="navLinks">
                 <button class="mobile-menu-close" id="mobileMenuClose">×</button>
-                <li><a href="/">Home</a></li>
+                <li><a href="/index">Home</a></li>
                 <li><a href="/shop">Shop</a></li>
                 <li><a href="/about">About Us</a></li>
                 <li><a href="https://www.smashthemarketdashboard.co.za/login" target="_blank">Trading Dashboard</a></li>
-                <li><a href="/login">Client Portal Login</a></li>
+                <li><a href="login">Client Portal Login</a></li>
                 <li>
                     <a href="/cart" class="cart-icon">
                         🛒
-                        
                     </a>
                 </li>
             </ul>
@@ -522,7 +521,7 @@
     .product-image {
         width: 100%;
         height: 500px;
-        background-image: url("/images/smash-ai-product.png");
+        background-image: url("/images/WhatsApp Image 2025-07-04 at 15.27.11_afe2ee92.jpg");
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
@@ -860,10 +859,7 @@
         <div class="product-container">
             <!-- Product Image Section -->
             <div class="product-image-container">
-                <div class="product-image">
-                    <img src="/images/WhatsApp Image 2025-07-04 at 15.27.14_5b80068f.jpg" alt="SMASH AI TRADING BOT">
-
-                </div>
+                <div class="product-image"></div>
                 <div class="ai-badge">AI POWERED</div>
             </div>
 
@@ -895,15 +891,15 @@
                             <span class="countdown-label-small">Days</span>
                         </div>
                         <div class="countdown-item-small">
-                            <span class="countdown-number-small" id="hours-small">07</span>
+                            <span class="countdown-number-small" id="hours-small">20</span>
                             <span class="countdown-label-small">Hours</span>
                         </div>
                         <div class="countdown-item-small">
-                            <span class="countdown-number-small" id="minutes-small">40</span>
+                            <span class="countdown-number-small" id="minutes-small">21</span>
                             <span class="countdown-label-small">Min</span>
                         </div>
                         <div class="countdown-item-small">
-                            <span class="countdown-number-small" id="seconds-small">29</span>
+                            <span class="countdown-number-small" id="seconds-small">30</span>
                             <span class="countdown-label-small">Sec</span>
                         </div>
                     </div>
@@ -915,14 +911,16 @@
                 <div class="purchase-section">
                     <div class="stock-info">✅ 979 units in stock</div>
 
-                    <div class="quantity-selector">
-                        <label for="quantity" style="color: white; font-weight: 600;">Quantity:</label>
-                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="5" class="quantity-input">
-                    </div>
+                    <form action="cart" method="POST">
+                        <div class="quantity-selector">
+                            <label for="quantity" style="color: white; font-weight: 600;">Quantity:</label>
+                            <input type="number" id="quantity" name="quantity" value="1" min="1" max="5" class="quantity-input">
+                        </div>
 
-                    <button type="button" class="add-to-cart-btn" id="addToCartBtn">
-                        🛒 Add to Cart - $390
-                    </button>
+                        <button type="submit" class="add-to-cart-btn">
+                            🛒 Add to Cart - $390
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -970,33 +968,81 @@
 </script>
 
 <script>
-// Add to Cart functionality using localStorage
+// --- Cart Logic for shop (ensures cart count is always live) ---
+const CART_KEY = 'smash_cart';
+const PRODUCT = {
+    id: 'smash-ai-bot',
+    name: 'SMASH AI TRADING BOT',
+    price: 390,
+    image: '/static/images/smash-ai-product.png',
+};
 function getCart() {
-    const cart = localStorage.getItem('cart');
-    return cart ? JSON.parse(cart) : [];
+    try {
+        return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+    } catch {
+        return [];
+    }
 }
 function setCart(cart) {
-    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
 }
-document.getElementById('addToCartBtn').onclick = function() {
-    const quantity = parseInt(document.getElementById('quantity').value) || 1;
-    let cart = getCart();
-    // Check if product already in cart (id: 1 for SMASH AI TRADING BOT)
-    const productId = 1;
-    const existing = cart.find(item => item.id === productId);
-    if (existing) {
-        existing.quantity += quantity;
-    } else {
-        cart.push({
-            id: productId,
-            title: 'SMASH AI TRADING BOT',
-            price: 390,
-            quantity: quantity
+function getCartCount() {
+    return getCart().reduce((sum, item) => sum + item.quantity, 0);
+}
+function updateCartCountDisplay() {
+    let cartIcon = document.querySelector('.cart-icon');
+    if (!cartIcon) return;
+    let count = getCartCount();
+    let badge = cartIcon.querySelector('.cart-count');
+    if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'cart-count';
+        cartIcon.appendChild(badge);
+    }
+    badge.textContent = count > 0 ? count : '';
+}
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartCountDisplay();
+    // Add to Cart handler
+    const form = document.querySelector('.purchase-section form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const qtyInput = form.querySelector('input[name="quantity"]');
+            let quantity = parseInt(qtyInput.value, 10) || 1;
+            if (quantity < 1) quantity = 1;
+            if (quantity > 5) quantity = 5;
+            let cart = getCart();
+            let existing = cart.find(item => item.id === PRODUCT.id);
+            if (existing) {
+                existing.quantity += quantity;
+                if (existing.quantity > 5) existing.quantity = 5;
+            } else {
+                cart.push({ ...PRODUCT, quantity });
+            }
+            setCart(cart);
+            updateCartCountDisplay();
+            showFlashMessage('Added to cart!', 'success');
         });
     }
-    setCart(cart);
-    window.location.href = '/cart';
-};
+    // Flash message logic
+    function showFlashMessage(msg, type) {
+        let container = document.querySelector('.flash-messages');
+        if (!container) {
+            container = document.createElement('div');
+            container.className = 'flash-messages';
+            document.body.appendChild(container);
+        }
+        let div = document.createElement('div');
+        div.className = 'flash-message ' + (type || '');
+        div.textContent = msg;
+        container.appendChild(div);
+        setTimeout(() => {
+            div.style.animation = 'slideIn 0.3s ease-out reverse';
+            setTimeout(() => div.remove(), 300);
+        }, 2000);
+    }
+});
 </script>
 
 
