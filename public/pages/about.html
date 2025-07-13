@@ -1327,10 +1327,7 @@
                 startSlideshow();
             }
 
-            // Start the slideshow when page loads
-            document.addEventListener('DOMContentLoaded', function () {
-                startSlideshow();
-            });
+           
 
             // Pause slideshow on hover
             const imageContainer = document.querySelector('.creator-image-container');
@@ -1433,6 +1430,8 @@
             }
         });
         window.addEventListener('DOMContentLoaded', function (ev) {
+            startSlideshow();
+
             function getCart() {
                 try {
                     return JSON.parse(localStorage.getItem("smash_cart")) || [];

@@ -21,7 +21,7 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            margin-top:  5rem;
+            margin-top: 5rem;
         }
 
         .payment-container {
@@ -221,10 +221,7 @@
             color: #ffffff;
         }
 
-        .pay-button:hover {
-            background: #51b13e;
-        }
-
+        
         .pay-button {
             background: #51b13e;
             color: white;
@@ -237,6 +234,9 @@
             width: 100%;
             transition: all 0.3s ease;
         }
+            .pay-button:hover {
+                background: #3a7a2e;
+            }
 
         .footer {
             margin-top: 30px;
@@ -373,7 +373,7 @@
             <div class="address-label">ADDRESS</div>
             <div class="address-container">
                 <span class="address" id="address">bc1qk7wkatvqf0knadazee2qjds5dc59xce03w6g32</span>
-                <button class="copy-btn" onclick="copyAddress()">
+                <button class="copy-btn" id="copy-btn">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path
                             d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
@@ -382,7 +382,7 @@
             </div>
         </div>
 
-        <button class="pay-button" onclick="payInWallet()">Pay in wallet</button>
+        <button class="pay-button" id="payInWallet">Pay in wallet</button>
 
         <div class="footer">
             <div>Powered by <span class="btcpay-logo">BTCPAY</span></div>
@@ -424,15 +424,15 @@
                     document.getElementById('timer').style.color = '#ff4444';
                 }
             }
-
-            function copyAddress() {
-                const address = document.getElementById('address').textContent;
-                navigator.clipboard.writeText(address).then(() => {
-                    showNotification('Address copied to clipboard!');
-                }).catch(() => {
-                    showNotification('Failed to copy address');
-                });
-            }
+            document.getElementById('copy-btn').addEventListener("click",
+                function () {
+                    const address = document.getElementById('address').textContent;
+                    navigator.clipboard.writeText(address).then(() => {
+                        showNotification('Address copied to clipboard!');
+                    }).catch(() => {
+                        showNotification('Failed to copy address');
+                    });
+                })
 
             function showNotification(message) {
                 const notification = document.getElementById('notification');
@@ -465,8 +465,9 @@
 
 
 
+            const payInWalletbtn = document.getElementById('payInWallet');
 
-            function payInWallet() {
+            payInWalletbtn.addEventListener('click', function () {
                 const address = document.getElementById('address').textContent;
                 const amount = '0.00355019';
                 const bitcoinUri = `bitcoin:${address}?amount=${amount}`;
@@ -474,7 +475,7 @@
                 // Try to open in wallet app
                 window.open(bitcoinUri, '_blank');
                 showNotification('Opening wallet application...');
-            }
+            })
 
             function changeLanguage() {
                 const languages = ['English', 'Español', 'Français', 'Deutsch', '中文'];

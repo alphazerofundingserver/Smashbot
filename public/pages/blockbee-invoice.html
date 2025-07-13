@@ -641,7 +641,7 @@
 
             <!-- Payment Details Page -->
             <div class="payment-details">
-                <button class="back-button" onclick="goBack()">←</button>
+                <button class="back-button" id="goBack">←</button>
 
                 <div class="crypto-header">
                     <div class="crypto-title" id="crypto-title">BTC</div>
@@ -669,7 +669,7 @@
                     <div class="payment-info">
                         <div class="info-group">
                             <div class="info-label">Amount</div>
-                            <div class="info-value" onclick="copyToClipboard(this)">
+                            <div class="info-value" id="InfoValue">
                                 <span id="payment-amount">0.00360281 BTC</span>
                                 <button class="copy-btn">
                                     <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -683,7 +683,7 @@
 
                         <div class="info-group">
                             <div class="info-label">Address</div>
-                            <div class="info-value" onclick="copyToClipboard(this)">
+                            <div class="info-value" id="infoValue">
                                 <span id="payment-address">32RA5HYCyQYgetrf18rJPkZqBatqp5NeTi</span>
                                 <button class="copy-btn">
                                     <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -837,10 +837,18 @@
             }
 
             // Go back to crypto selection
-            function goBack() {
+           document.getElementById("goBack").addEventListener(`click`, function () {
                 document.querySelector('.crypto-selection').classList.remove('hidden');
                 document.querySelector('.payment-details').classList.remove('active');
-            }
+            })
+
+            document.getElementById("infoValue").addEventListener('click', function () {
+                copyToClipboard(this);
+            });
+
+            document.getElementById("InfoValue").addEventListener('click', function () {
+                copyToClipboard(this);
+            });
 
             // Copy to clipboard function
             function copyToClipboard(element) {
@@ -849,7 +857,7 @@
                     // Show feedback
                     const originalText = element.querySelector('span').textContent;
                     element.querySelector('span').textContent = 'Copied!';
-                    element.style.backgroundColor = '#10b981';
+                    element.style.backgroundColor = 'rgb(49 46 45)';
 
                     setTimeout(() => {
                         element.querySelector('span').textContent = originalText;
