@@ -1023,6 +1023,9 @@ document.addEventListener('DOMContentLoaded', function() {
             setCart(cart);
             updateCartCountDisplay();
             showFlashMessage('Added to cart!', 'success');
+            setTimeout(() => {
+                window.location.href = checkoutUrl="/cart"
+            }, 500);
         });
     }
     // Flash message logic
