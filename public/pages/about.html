@@ -1,4 +1,7 @@
-<html lang="en"><script src="chrome-extension://dngmlblcodfobpdpecaadgfbcggfjfnm/src/extension/inpage/index.js"></script><head>
+<html lang="en">
+<script src="chrome-extension://dngmlblcodfobpdpecaadgfbcggfjfnm/src/extension/inpage/index.js"></script>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Classic Forex Trader</title>
@@ -8,6 +11,7 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
@@ -16,7 +20,7 @@
             overflow-x: hidden;
         }
 
-      
+
         body::before {
             content: '';
             position: fixed;
@@ -34,9 +38,19 @@
         }
 
         @keyframes backgroundShift {
-            0%, 100% { transform: translateX(0) translateY(0); }
-            33% { transform: translateX(-20px) translateY(-20px); }
-            66% { transform: translateX(20px) translateY(20px); }
+
+            0%,
+            100% {
+                transform: translateX(0) translateY(0);
+            }
+
+            33% {
+                transform: translateX(-20px) translateY(-20px);
+            }
+
+            66% {
+                transform: translateX(20px) translateY(20px);
+            }
         }
 
         /* Navigation */
@@ -200,12 +214,29 @@
                 transform: translateY(0);
             }
 
-            .nav-links.active li:nth-child(1) { transition-delay: 0.1s; }
-            .nav-links.active li:nth-child(2) { transition-delay: 0.2s; }
-            .nav-links.active li:nth-child(3) { transition-delay: 0.3s; }
-            .nav-links.active li:nth-child(4) { transition-delay: 0.4s; }
-            .nav-links.active li:nth-child(5) { transition-delay: 0.5s; }
-            .nav-links.active li:nth-child(6) { transition-delay: 0.6s; }
+            .nav-links.active li:nth-child(1) {
+                transition-delay: 0.1s;
+            }
+
+            .nav-links.active li:nth-child(2) {
+                transition-delay: 0.2s;
+            }
+
+            .nav-links.active li:nth-child(3) {
+                transition-delay: 0.3s;
+            }
+
+            .nav-links.active li:nth-child(4) {
+                transition-delay: 0.4s;
+            }
+
+            .nav-links.active li:nth-child(5) {
+                transition-delay: 0.5s;
+            }
+
+            .nav-links.active li:nth-child(6) {
+                transition-delay: 0.6s;
+            }
 
             .nav-links a {
                 font-size: 1.2rem;
@@ -295,6 +326,7 @@
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -338,7 +370,8 @@
             font-size: 1.1rem;
         }
 
-        .footer-section p, .footer-section a {
+        .footer-section p,
+        .footer-section a {
             color: #ccc;
             text-decoration: none;
             line-height: 1.6;
@@ -420,16 +453,42 @@
             text-align: center;
         }
 
-        .mb-1 { margin-bottom: 0.5rem; }
-        .mb-2 { margin-bottom: 1rem; }
-        .mb-3 { margin-bottom: 1.5rem; }
-        .mb-4 { margin-bottom: 2rem; }
-        .mt-1 { margin-top: 0.5rem; }
-        .mt-2 { margin-top: 1rem; }
-        .mt-3 { margin-top: 1.5rem; }
-        .mt-4 { margin-top: 2rem; }
+        .mb-1 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+
+        .mt-1 {
+            margin-top: 0.5rem;
+        }
+
+        .mt-2 {
+            margin-top: 1rem;
+        }
+
+        .mt-3 {
+            margin-top: 1.5rem;
+        }
+
+        .mt-4 {
+            margin-top: 2rem;
+        }
     </style>
-<script src="chrome-extension://idnnbdplmphpflfnlkomgpfbpcgelopg/inpage.js" id="xverse-wallet-provider" data-is-priority="true"></script></head>
+    <script src="chrome-extension://idnnbdplmphpflfnlkomgpfbpcgelopg/inpage.js" id="xverse-wallet-provider"
+        data-is-priority="true"></script>
+</head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
@@ -446,9 +505,9 @@
                 <li>
                     <a href="/cart" class="cart-icon">
                         🛒
-                        
-                        <span class="cart-count">1</span>
-                        
+
+                        <span class="cart-count"></span>
+
                     </a>
                 </li>
             </ul>
@@ -458,797 +517,831 @@
     </nav>
 
     <!-- Flash Messages -->
-    
-        
-    
+
+
+
 
     <!-- Main Content -->
     <main class="main-content">
-        
 
-<style>
-    .about-hero {
-        padding: 6rem 0 4rem;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.3);
-    }
-    .about-title {
-        font-size: 3rem;
-        font-weight: 900;
-        margin-bottom: 1rem;
-        background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    .creator-section {
-        padding: 4rem 0;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-    .creator-card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 1.5rem;
-        overflow: hidden;
-        display: grid;
-        grid-template-columns: 300px 1fr;
-        gap: 2rem;
-        align-items: center;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-    }
 
-    /* Image Slideshow Container */
-    .creator-image-container {
-        position: relative;
-        height: 400px;
-        overflow: hidden;
-        border-radius: 0;
-    }
+        <style>
+            .about-hero {
+                padding: 6rem 0 4rem;
+                text-align: center;
+                background: rgba(0, 0, 0, 0.3);
+            }
 
-    .creator-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-start;
-        opacity: 0;
-        transition: opacity 1s ease-in-out;
-    }
+            .about-title {
+                font-size: 3rem;
+                font-weight: 900;
+                margin-bottom: 1rem;
+                background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
 
-    .creator-image.active {
-        opacity: 1;
-    }
+            .creator-section {
+                padding: 4rem 0;
+                max-width: 1000px;
+                margin: 0 auto;
+            }
 
-    /* Individual image backgrounds */
-    .creator-image:nth-child(1) {
-        background-image: url("/images/profile1.png");
-    }
-    .creator-image:nth-child(2) {
-        background-image: url("/images/profile2.png");
-    }
-    .creator-image:nth-child(3) {
-        background-image: url("/images/profile3.png");
-    }
-    .creator-image:nth-child(4) {
-        background-image: url("/images/profile4.png");
-    }
-    .creator-image:nth-child(5) {
-        background-image: url("/images/profile5.png");
-    }
+            .creator-card {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 1.5rem;
+                overflow: hidden;
+                display: grid;
+                grid-template-columns: 300px 1fr;
+                gap: 2rem;
+                align-items: center;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            }
 
-    .creator-image::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(
-            to bottom,
-            transparent 0%,
-            transparent 60%,
-            rgba(0, 0, 0, 0.7) 100%
-        );
-        pointer-events: none;
-    }
+            /* Image Slideshow Container */
+            .creator-image-container {
+                position: relative;
+                height: 400px;
+                overflow: hidden;
+                border-radius: 0;
+            }
 
-    .creator-badge {
-        position: relative;
-        z-index: 2;
-        margin: 20px;
-        background: rgba(0, 0, 0, 0.9);
-        backdrop-filter: blur(20px);
-        border: 1px solid #4ecdc4;
-        padding: 10px 15px;
-        border-radius: 10px;
-        color: white;
-        font-size: 1rem;
-        font-weight: 600;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    }
+            .creator-image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-start;
+                opacity: 0;
+                transition: opacity 1s ease-in-out;
+            }
 
-    /* Slideshow indicators */
-    .slideshow-indicators {
-        position: absolute;
-        bottom: 60px;
-        right: 20px;
-        display: flex;
-        gap: 8px;
-        z-index: 3;
-    }
+            .creator-image.active {
+                opacity: 1;
+            }
 
-    .indicator {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.4);
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
+            /* Individual image backgrounds */
+            .creator-image:nth-child(1) {
+                background-image: url("/images/profile1.png");
+            }
 
-    .indicator.active {
-        background: #4ecdc4;
-        transform: scale(1.2);
-        box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
-    }
+            .creator-image:nth-child(2) {
+                background-image: url("/images/profile2.png");
+            }
 
-    /* Slideshow controls */
-    .slideshow-controls {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 3;
-        background: rgba(0, 0, 0, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        opacity: 0;
-    }
+            .creator-image:nth-child(3) {
+                background-image: url("/images/profile3.png");
+            }
 
-    .creator-image-container:hover .slideshow-controls {
-        opacity: 1;
-    }
+            .creator-image:nth-child(4) {
+                background-image: url("/images/profile4.png");
+            }
 
-    .slideshow-controls:hover {
-        background: rgba(78, 205, 196, 0.8);
-        border-color: #4ecdc4;
-    }
+            .creator-image:nth-child(5) {
+                background-image: url("/images/profile5.png");
+            }
 
-    .prev-btn {
-        left: 10px;
-    }
+            .creator-image::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(to bottom,
+                        transparent 0%,
+                        transparent 60%,
+                        rgba(0, 0, 0, 0.7) 100%);
+                pointer-events: none;
+            }
 
-    .next-btn {
-        right: 10px;
-    }
+            .creator-badge {
+                position: relative;
+                z-index: 2;
+                margin: 20px;
+                background: rgba(0, 0, 0, 0.9);
+                backdrop-filter: blur(20px);
+                border: 1px solid #4ecdc4;
+                padding: 10px 15px;
+                border-radius: 10px;
+                color: white;
+                font-size: 1rem;
+                font-weight: 600;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            }
 
-    .creator-content {
-        padding: 2rem;
-    }
-    .creator-name {
-        font-size: 2rem;
-        font-weight: 900;
-        color: white;
-        margin-bottom: 0.5rem;
-    }
-    .creator-title {
-        color: #4ecdc4;
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 2rem;
-    }
-    .creator-story {
-        color: #ccc;
-        line-height: 1.8;
-        font-size: 1rem;
-    }
-    .creator-story p {
-        margin-bottom: 1.5rem;
-    }
-    .highlight {
-        color: #4ecdc4;
-        font-weight: 600;
-    }
+            /* Slideshow indicators */
+            .slideshow-indicators {
+                position: absolute;
+                bottom: 60px;
+                right: 20px;
+                display: flex;
+                gap: 8px;
+                z-index: 3;
+            }
 
-    /* Achievement Stats Section */
-    .achievement-stats {
-        background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(255, 107, 107, 0.1));
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(78, 205, 196, 0.3);
-        border-radius: 1.5rem;
-        padding: 3rem 2rem;
-        margin: 4rem 0;
-        text-align: center;
-    }
+            .indicator {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.4);
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
 
-    .stats-title {
-        font-size: 2.5rem;
-        font-weight: 900;
-        color: white;
-        margin-bottom: 1rem;
-    }
+            .indicator.active {
+                background: #4ecdc4;
+                transform: scale(1.2);
+                box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+            }
 
-    .stats-subtitle {
-        color: #4ecdc4;
-        font-size: 1.3rem;
-        font-weight: 600;
-        margin-bottom: 3rem;
-    }
+            /* Slideshow controls */
+            .slideshow-controls {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 3;
+                background: rgba(0, 0, 0, 0.7);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                opacity: 0;
+            }
 
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 2rem;
-        margin-bottom: 3rem;
-    }
+            .creator-image-container:hover .slideshow-controls {
+                opacity: 1;
+            }
 
-    .stat-item {
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 1rem;
-        padding: 1.5rem;
-        transition: all 0.3s ease;
-    }
+            .slideshow-controls:hover {
+                background: rgba(78, 205, 196, 0.8);
+                border-color: #4ecdc4;
+            }
 
-    .stat-item:hover {
-        transform: translateY(-5px);
-        border-color: #4ecdc4;
-        box-shadow: 0 15px 30px rgba(78, 205, 196, 0.2);
-    }
+            .prev-btn {
+                left: 10px;
+            }
 
-    .stat-number {
-        font-size: 2rem;
-        font-weight: 900;
-        color: #4ecdc4;
-        display: block;
-        margin-bottom: 0.5rem;
-    }
+            .next-btn {
+                right: 10px;
+            }
 
-    .stat-label {
-        color: #ccc;
-        font-size: 0.9rem;
-        font-weight: 500;
-    }
+            .creator-content {
+                padding: 2rem;
+            }
 
-    /* Luxury Items Section */
-    .luxury-section {
-        background: rgba(0, 0, 0, 0.3);
-        border-radius: 1.5rem;
-        padding: 2rem;
-        margin: 2rem 0;
-    }
+            .creator-name {
+                font-size: 2rem;
+                font-weight: 900;
+                color: white;
+                margin-bottom: 0.5rem;
+            }
 
-    .luxury-title {
-        color: #ff6b6b;
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-        text-align: center;
-    }
+            .creator-title {
+                color: #4ecdc4;
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 2rem;
+            }
 
-    .luxury-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-    }
+            .creator-story {
+                color: #ccc;
+                line-height: 1.8;
+                font-size: 1rem;
+            }
 
-    .luxury-item {
-        background: rgba(255, 107, 107, 0.1);
-        border: 1px solid rgba(255, 107, 107, 0.3);
-        border-radius: 1rem;
-        padding: 1.5rem;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
+            .creator-story p {
+                margin-bottom: 1.5rem;
+            }
 
-    .luxury-item:hover {
-        background: rgba(255, 107, 107, 0.15);
-        transform: translateY(-3px);
-    }
+            .highlight {
+                color: #4ecdc4;
+                font-weight: 600;
+            }
 
-    .luxury-icon {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        display: block;
-    }
+            /* Achievement Stats Section */
+            .achievement-stats {
+                background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(255, 107, 107, 0.1));
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(78, 205, 196, 0.3);
+                border-radius: 1.5rem;
+                padding: 3rem 2rem;
+                margin: 4rem 0;
+                text-align: center;
+            }
 
-    .luxury-name {
-        color: #ff6b6b;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
+            .stats-title {
+                font-size: 2.5rem;
+                font-weight: 900;
+                color: white;
+                margin-bottom: 1rem;
+            }
 
-    .luxury-desc {
-        color: #ccc;
-        font-size: 0.9rem;
-    }
+            .stats-subtitle {
+                color: #4ecdc4;
+                font-size: 1.3rem;
+                font-weight: 600;
+                margin-bottom: 3rem;
+            }
 
-    /* Social Media Section */
-    .social-section {
-        background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(78, 205, 196, 0.3);
-        border-radius: 1.5rem;
-        padding: 2rem;
-        text-align: center;
-        margin: 3rem 0;
-    }
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 2rem;
+                margin-bottom: 3rem;
+            }
 
-    .social-title {
-        color: white;
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-    }
+            .stat-item {
+                background: rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 1rem;
+                padding: 1.5rem;
+                transition: all 0.3s ease;
+            }
 
-    .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        margin-top: 1.5rem;
-    }
+            .stat-item:hover {
+                transform: translateY(-5px);
+                border-color: #4ecdc4;
+                box-shadow: 0 15px 30px rgba(78, 205, 196, 0.2);
+            }
 
-    .social-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: rgba(0, 0, 0, 0.5);
-        border: 2px solid #4ecdc4;
-        color: #4ecdc4;
-        padding: 1rem 2rem;
-        border-radius: 2rem;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
+            .stat-number {
+                font-size: 2rem;
+                font-weight: 900;
+                color: #4ecdc4;
+                display: block;
+                margin-bottom: 0.5rem;
+            }
 
-    .social-link:hover {
-        background: #4ecdc4;
-        color: white;
-        transform: translateY(-3px);
-        box-shadow: 0 15px 30px rgba(78, 205, 196, 0.4);
-    }
+            .stat-label {
+                color: #ccc;
+                font-size: 0.9rem;
+                font-weight: 500;
+            }
 
-    .story-section {
-        padding: 4rem 0;
-        background: rgba(0, 0, 0, 0.3);
-    }
-    .story-content {
-        max-width: 800px;
-        margin: 0 auto;
-        color: #ccc;
-        line-height: 1.8;
-        font-size: 1.1rem;
-    }
-    .story-content h3 {
-        color: white;
-        font-size: 1.5rem;
-        margin: 2rem 0 1rem;
-    }
-    .story-content p {
-        margin-bottom: 1.5rem;
-    }
-    .achievements {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        margin: 3rem 0;
-    }
-    .achievement-card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 1rem;
-        padding: 2rem;
-        text-align: center;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    }
-    .achievement-card:hover {
-        transform: translateY(-5px);
-        border-color: #4ecdc4;
-        box-shadow: 0 20px 40px rgba(78, 205, 196, 0.2);
-    }
-    .achievement-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        display: block;
-    }
-    .achievement-title {
-        color: #4ecdc4;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-    .achievement-desc {
-        color: #ccc;
-        font-size: 0.9rem;
-    }
+            /* Luxury Items Section */
+            .luxury-section {
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 1.5rem;
+                padding: 2rem;
+                margin: 2rem 0;
+            }
 
-    .story-content ul {
-        background: rgba(255, 107, 107, 0.1);
-        border-left: 4px solid #ff6b6b;
-        padding: 1.5rem;
-        border-radius: 0.5rem;
-        margin: 2rem 0;
-    }
+            .luxury-title {
+                color: #ff6b6b;
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
 
-    .story-content ul li {
-        margin-bottom: 0.5rem;
-        color: #ff6b6b;
-        font-weight: 500;
-    }
+            .luxury-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
 
-    .final-message {
-        background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(255, 107, 107, 0.1));
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(78, 205, 196, 0.3);
-        border-radius: 1.5rem;
-        padding: 2rem;
-        text-align: center;
-        margin-top: 3rem;
-    }
+            .luxury-item {
+                background: rgba(255, 107, 107, 0.1);
+                border: 1px solid rgba(255, 107, 107, 0.3);
+                border-radius: 1rem;
+                padding: 1.5rem;
+                text-align: center;
+                transition: all 0.3s ease;
+            }
 
-    @media (max-width: 768px) {
-        .creator-card {
-            grid-template-columns: 1fr;
-            text-align: center;
-        }
-        .creator-image-container {
-            height: 300px;
-        }
-        .creator-badge {
-            margin: 20px auto;
-            display: inline-block;
-        }
-        .about-title {
-            font-size: 2rem;
-        }
-        .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        .luxury-grid {
-            grid-template-columns: 1fr;
-        }
-        .social-links {
-            flex-direction: column;
-            align-items: center;
-        }
-        .achievements {
-            grid-template-columns: 1fr;
-        }
-        .slideshow-controls {
-            opacity: 1;
-        }
-    }
-</style>
+            .luxury-item:hover {
+                background: rgba(255, 107, 107, 0.15);
+                transform: translateY(-3px);
+            }
 
-<section class="about-hero">
-    <div class="container">
-        <h1 class="about-title">Meet the Creator</h1>
-        <p style="color: #ccc; font-size: 1.1rem;">The mind behind SMASH AI</p>
-    </div>
-</section>
+            .luxury-icon {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+                display: block;
+            }
 
-<section class="creator-section">
-    <div class="container">
-        <div class="creator-card">
-            <div class="creator-image-container">
-                <!-- Image Slideshow -->
-                <div class="creator-image">
-                    <div class="creator-badge">Classic Forex Trader</div>
+            .luxury-name {
+                color: #ff6b6b;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+            }
+
+            .luxury-desc {
+                color: #ccc;
+                font-size: 0.9rem;
+            }
+
+            /* Social Media Section */
+            .social-section {
+                background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(78, 205, 196, 0.3);
+                border-radius: 1.5rem;
+                padding: 2rem;
+                text-align: center;
+                margin: 3rem 0;
+            }
+
+            .social-title {
+                color: white;
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+            }
+
+            .social-links {
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+                margin-top: 1.5rem;
+            }
+
+            .social-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                background: rgba(0, 0, 0, 0.5);
+                border: 2px solid #4ecdc4;
+                color: #4ecdc4;
+                padding: 1rem 2rem;
+                border-radius: 2rem;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            .social-link:hover {
+                background: #4ecdc4;
+                color: white;
+                transform: translateY(-3px);
+                box-shadow: 0 15px 30px rgba(78, 205, 196, 0.4);
+            }
+
+            .story-section {
+                padding: 4rem 0;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            .story-content {
+                max-width: 800px;
+                margin: 0 auto;
+                color: #ccc;
+                line-height: 1.8;
+                font-size: 1.1rem;
+            }
+
+            .story-content h3 {
+                color: white;
+                font-size: 1.5rem;
+                margin: 2rem 0 1rem;
+            }
+
+            .story-content p {
+                margin-bottom: 1.5rem;
+            }
+
+            .achievements {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 2rem;
+                margin: 3rem 0;
+            }
+
+            .achievement-card {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 1rem;
+                padding: 2rem;
+                text-align: center;
+                transition: all 0.3s ease;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            }
+
+            .achievement-card:hover {
+                transform: translateY(-5px);
+                border-color: #4ecdc4;
+                box-shadow: 0 20px 40px rgba(78, 205, 196, 0.2);
+            }
+
+            .achievement-icon {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+                display: block;
+            }
+
+            .achievement-title {
+                color: #4ecdc4;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+            }
+
+            .achievement-desc {
+                color: #ccc;
+                font-size: 0.9rem;
+            }
+
+            .story-content ul {
+                background: rgba(255, 107, 107, 0.1);
+                border-left: 4px solid #ff6b6b;
+                padding: 1.5rem;
+                border-radius: 0.5rem;
+                margin: 2rem 0;
+            }
+
+            .story-content ul li {
+                margin-bottom: 0.5rem;
+                color: #ff6b6b;
+                font-weight: 500;
+            }
+
+            .final-message {
+                background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(255, 107, 107, 0.1));
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(78, 205, 196, 0.3);
+                border-radius: 1.5rem;
+                padding: 2rem;
+                text-align: center;
+                margin-top: 3rem;
+            }
+
+            @media (max-width: 768px) {
+                .creator-card {
+                    grid-template-columns: 1fr;
+                    text-align: center;
+                }
+
+                .creator-image-container {
+                    height: 300px;
+                }
+
+                .creator-badge {
+                    margin: 20px auto;
+                    display: inline-block;
+                }
+
+                .about-title {
+                    font-size: 2rem;
+                }
+
+                .stats-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .luxury-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .social-links {
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .achievements {
+                    grid-template-columns: 1fr;
+                }
+
+                .slideshow-controls {
+                    opacity: 1;
+                }
+            }
+        </style>
+
+        <section class="about-hero">
+            <div class="container">
+                <h1 class="about-title">Meet the Creator</h1>
+                <p style="color: #ccc; font-size: 1.1rem;">The mind behind SMASH AI</p>
+            </div>
+        </section>
+
+        <section class="creator-section">
+            <div class="container">
+                <div class="creator-card">
+                    <div class="creator-image-container">
+                        <!-- Image Slideshow -->
+                        <div class="creator-image">
+                            <div class="creator-badge">Classic Forex Trader</div>
+                        </div>
+                        <div class="creator-image active">
+                            <div class="creator-badge">Multi-Millionaire</div>
+                        </div>
+                        <div class="creator-image">
+                            <div class="creator-badge">Forex Expert</div>
+                        </div>
+                        <div class="creator-image">
+                            <div class="creator-badge">AI Creator</div>
+                        </div>
+                        <div class="creator-image">
+                            <div class="creator-badge">Success Story</div>
+                        </div>
+
+                        <!-- Navigation Controls -->
+                        <button class="slideshow-controls prev-btn" onclick="changeSlide(-1)">‹</button>
+                        <button class="slideshow-controls next-btn" onclick="changeSlide(1)">›</button>
+
+                        <!-- Indicators -->
+                        <div class="slideshow-indicators">
+                            <span class="indicator" onclick="currentSlide(1)"></span>
+                            <span class="indicator active" onclick="currentSlide(2)"></span>
+                            <span class="indicator" onclick="currentSlide(3)"></span>
+                            <span class="indicator" onclick="currentSlide(4)"></span>
+                            <span class="indicator" onclick="currentSlide(5)"></span>
+                        </div>
+                    </div>
+
+                    <div class="creator-content">
+                        <h2 class="creator-name">Classic Forex Trader</h2>
+                        <p class="creator-title">25-Year-Old Forex Multi-Millionaire &amp; Creator of SMASH AI</p>
+
+                        <div class="creator-story">
+                            <p>
+                                <span class="highlight">"I'm just a kid from South Africa who started with nothing — and
+                                    turned forex into freedom."</span>
+                            </p>
+
+                            <p>
+                                I didn't grow up with English as my first language. I didn't go to the best schools.
+                                But I had one thing: I learned how the market really works. And I built robots that
+                                helped me master it.
+                            </p>
+
+                            <p>
+                                <span class="highlight">Made my first million at 19.</span>
+                                Now at 25, I've earned over <span class="highlight">R85 million</span> in my trading
+                                career.
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="creator-image active">
-                    <div class="creator-badge">Multi-Millionaire</div>
-                </div>
-                <div class="creator-image">
-                    <div class="creator-badge">Forex Expert</div>
-                </div>
-                <div class="creator-image">
-                    <div class="creator-badge">AI Creator</div>
-                </div>
-                <div class="creator-image">
-                    <div class="creator-badge">Success Story</div>
-                </div>
 
-                <!-- Navigation Controls -->
-                <button class="slideshow-controls prev-btn" onclick="changeSlide(-1)">‹</button>
-                <button class="slideshow-controls next-btn" onclick="changeSlide(1)">›</button>
+                <!-- Achievement Stats -->
+                <div class="achievement-stats">
+                    <h2 class="stats-title">The Numbers Don't Lie</h2>
+                    <p class="stats-subtitle">From Zero to Multi-Millionaire</p>
 
-                <!-- Indicators -->
-                <div class="slideshow-indicators">
-                    <span class="indicator" onclick="currentSlide(1)"></span>
-                    <span class="indicator active" onclick="currentSlide(2)"></span>
-                    <span class="indicator" onclick="currentSlide(3)"></span>
-                    <span class="indicator" onclick="currentSlide(4)"></span>
-                    <span class="indicator" onclick="currentSlide(5)"></span>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">R85M+</span>
+                            <span class="stat-label">Total Trading Earnings</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">25</span>
+                            <span class="stat-label">Years Old</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">19</span>
+                            <span class="stat-label">Age of First Million</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">R10M+</span>
+                            <span class="stat-label">Property Portfolio</span>
+                        </div>
+                    </div>
+
+                    <!-- Luxury Items -->
+                    <div class="luxury-section">
+                        <h3 class="luxury-title">🏆 Living the Dream</h3>
+                        <div class="luxury-grid">
+                            <div class="luxury-item">
+                                <span class="luxury-icon">🚗</span>
+                                <div class="luxury-name">G63 Brabus</div>
+                                <div class="luxury-desc">Ultimate luxury SUV</div>
+                            </div>
+                            <div class="luxury-item">
+                                <span class="luxury-icon">🏎️</span>
+                                <div class="luxury-name">BMW i8</div>
+                                <div class="luxury-desc">Hybrid supercar</div>
+                            </div>
+                            <div class="luxury-item">
+                                <span class="luxury-icon">🚙</span>
+                                <div class="luxury-name">M4 Competition</div>
+                                <div class="luxury-desc">Track-focused beast</div>
+                            </div>
+                            <div class="luxury-item">
+                                <span class="luxury-icon">✨</span>
+                                <div class="luxury-name">Chrome BMW</div>
+                                <div class="luxury-desc">Custom wrapped</div>
+                            </div>
+                            <div class="luxury-item">
+                                <span class="luxury-icon">🥈</span>
+                                <div class="luxury-name">Silver Benz</div>
+                                <div class="luxury-desc">Luxury sedan</div>
+                            </div>
+                            <div class="luxury-item">
+                                <span class="luxury-icon">💎</span>
+                                <div class="luxury-name">Jaguar P380</div>
+                                <div class="luxury-desc">R1M gift for my wife</div>
+                            </div>
+                            <div class="luxury-item">
+                                <span class="luxury-icon">🏠</span>
+                                <div class="luxury-name">2 Mansions</div>
+                                <div class="luxury-desc">R5M+ each</div>
+                            </div>
+                            <div class="luxury-item">
+                                <span class="luxury-icon">👔</span>
+                                <div class="luxury-name">Designer Outfits</div>
+                                <div class="luxury-desc">R500K+ per outfit</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Proof -->
+                    <div class="social-section">
+                        <h3 class="social-title">Want Proof? Check My Lifestyle</h3>
+                        <p style="color: #ccc; margin-bottom: 1rem;">
+                            See the cars, the houses, the lifestyle — it's all documented.
+                        </p>
+                        <div class="social-links">
+                            <a href="https://instagram.com/classicforextrader_official" target="_blank"
+                                class="social-link">
+                                📱 Instagram: @classicforextrader_official
+                            </a>
+                            <a href="#" class="social-link">
+                                📺 YouTube Channel
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="creator-content">
-                <h2 class="creator-name">Classic Forex Trader</h2>
-                <p class="creator-title">25-Year-Old Forex Multi-Millionaire &amp; Creator of SMASH AI</p>
-
-                <div class="creator-story">
+        <section class="story-section">
+            <div class="container">
+                <div class="story-content">
+                    <h3>💡 Why SMASH Had To Be Created</h3>
                     <p>
-                        <span class="highlight">"I'm just a kid from South Africa who started with nothing — and turned forex into freedom."</span>
+                        Many of you remember Sophia, the first robot I released.
+                        She was powerful — some called her <span class="highlight">"The Mother of All Forex
+                            Robots."</span>
+                        She changed lives. But one day… she was attacked.
                     </p>
 
                     <p>
-                        I didn't grow up with English as my first language. I didn't go to the best schools.
-                        But I had one thing: I learned how the market really works. And I built robots that helped me master it.
+                        A massive DDoS shutdown. Her code was gone.
                     </p>
 
                     <p>
-                        <span class="highlight">Made my first million at 19.</span>
-                        Now at 25, I've earned over <span class="highlight">R85 million</span> in my trading career.
+                        I was heartbroken. Not because I lost money — but because I knew what she could've been.
                     </p>
+
+                    <p>
+                        But in that moment, something amazing happened…
+                        <span class="highlight">Before Sophia was deleted, she passed on her code — like DNA — into
+                            something new.</span>
+                    </p>
+
+                    <p>
+                        <strong>That's how SMASH was born.</strong>
+                    </p>
+
+                    <h3>🧠 What Makes SMASH Different</h3>
+                    <p>
+                        I've built many robots, each smarter than the last — then came SMASH.
+                        He's not just a robot. He's the first self-aware forex AI.
+                    </p>
+
+                    <div class="achievements">
+                        <div class="achievement-card">
+                            <span class="achievement-icon">🧠</span>
+                            <div class="achievement-title">Self-Aware</div>
+                            <div class="achievement-desc">Learns and adapts like a human trader</div>
+                        </div>
+
+                        <div class="achievement-card">
+                            <span class="achievement-icon">🔮</span>
+                            <div class="achievement-title">Predictive</div>
+                            <div class="achievement-desc">Sees market moves before they happen</div>
+                        </div>
+
+                        <div class="achievement-card">
+                            <span class="achievement-icon">🛡️</span>
+                            <div class="achievement-title">Untouchable</div>
+                            <div class="achievement-desc">Protected from attacks that killed Sophia</div>
+                        </div>
+
+                        <div class="achievement-card">
+                            <span class="achievement-icon">⚡</span>
+                            <div class="achievement-title">Lightning Fast</div>
+                            <div class="achievement-desc">Executes trades in milliseconds</div>
+                        </div>
+                    </div>
+
+                    <h3>🔥 The Truth About Success</h3>
+                    <p>
+                        <span class="highlight">I live what I trade.</span> I built this empire from zero.
+                        Every car, every house, every designer outfit — it all came from understanding the market.
+                    </p>
+
+                    <p>
+                        <strong>The only difference between you and me… is that I started.</strong>
+                    </p>
+
+                    <p>
+                        You don't need to be rich. You don't need to be experienced. You just need to be serious about
+                        changing your life.
+                    </p>
+
+                    <div class="final-message">
+                        <p style="font-size: 1.3rem; color: #4ecdc4; font-weight: 700; margin-bottom: 1rem;">
+                            <strong>If I did it, you can too.</strong>
+                        </p>
+                        <p style="color: #ccc; font-style: italic; margin-bottom: 1rem;">
+                            This is your chance. To trade with something that wasn't just built… It was born.
+                        </p>
+                        <p style="font-size: 1.2rem; color: #ff6b6b; font-weight: 700;">
+                            Let's smash the market — together.
+                        </p>
+                        <p style="color: #ccc; font-style: italic; margin-top: 1rem;">
+                            — Classic Forex Trader
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Achievement Stats -->
-        <div class="achievement-stats">
-            <h2 class="stats-title">The Numbers Don't Lie</h2>
-            <p class="stats-subtitle">From Zero to Multi-Millionaire</p>
+        <script>
+            let currentSlideIndex = 0;
+            const slides = document.querySelectorAll('.creator-image');
+            const indicators = document.querySelectorAll('.indicator');
+            let slideInterval;
 
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">R85M+</span>
-                    <span class="stat-label">Total Trading Earnings</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">25</span>
-                    <span class="stat-label">Years Old</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">19</span>
-                    <span class="stat-label">Age of First Million</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">R10M+</span>
-                    <span class="stat-label">Property Portfolio</span>
-                </div>
-            </div>
+            function showSlide(index) {
+                // Remove active class from all slides and indicators
+                slides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
 
-            <!-- Luxury Items -->
-            <div class="luxury-section">
-                <h3 class="luxury-title">🏆 Living the Dream</h3>
-                <div class="luxury-grid">
-                    <div class="luxury-item">
-                        <span class="luxury-icon">🚗</span>
-                        <div class="luxury-name">G63 Brabus</div>
-                        <div class="luxury-desc">Ultimate luxury SUV</div>
-                    </div>
-                    <div class="luxury-item">
-                        <span class="luxury-icon">🏎️</span>
-                        <div class="luxury-name">BMW i8</div>
-                        <div class="luxury-desc">Hybrid supercar</div>
-                    </div>
-                    <div class="luxury-item">
-                        <span class="luxury-icon">🚙</span>
-                        <div class="luxury-name">M4 Competition</div>
-                        <div class="luxury-desc">Track-focused beast</div>
-                    </div>
-                    <div class="luxury-item">
-                        <span class="luxury-icon">✨</span>
-                        <div class="luxury-name">Chrome BMW</div>
-                        <div class="luxury-desc">Custom wrapped</div>
-                    </div>
-                    <div class="luxury-item">
-                        <span class="luxury-icon">🥈</span>
-                        <div class="luxury-name">Silver Benz</div>
-                        <div class="luxury-desc">Luxury sedan</div>
-                    </div>
-                    <div class="luxury-item">
-                        <span class="luxury-icon">💎</span>
-                        <div class="luxury-name">Jaguar P380</div>
-                        <div class="luxury-desc">R1M gift for my wife</div>
-                    </div>
-                    <div class="luxury-item">
-                        <span class="luxury-icon">🏠</span>
-                        <div class="luxury-name">2 Mansions</div>
-                        <div class="luxury-desc">R5M+ each</div>
-                    </div>
-                    <div class="luxury-item">
-                        <span class="luxury-icon">👔</span>
-                        <div class="luxury-name">Designer Outfits</div>
-                        <div class="luxury-desc">R500K+ per outfit</div>
-                    </div>
-                </div>
-            </div>
+                // Add active class to current slide and indicator
+                slides[index].classList.add('active');
+                indicators[index].classList.add('active');
 
-            <!-- Social Proof -->
-            <div class="social-section">
-                <h3 class="social-title">Want Proof? Check My Lifestyle</h3>
-                <p style="color: #ccc; margin-bottom: 1rem;">
-                    See the cars, the houses, the lifestyle — it's all documented.
-                </p>
-                <div class="social-links">
-                    <a href="https://instagram.com/classicforextrader_official" target="_blank" class="social-link">
-                        📱 Instagram: @classicforextrader_official
-                    </a>
-                    <a href="#" class="social-link">
-                        📺 YouTube Channel
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+                currentSlideIndex = index;
+            }
 
-<section class="story-section">
-    <div class="container">
-        <div class="story-content">
-            <h3>💡 Why SMASH Had To Be Created</h3>
-            <p>
-                Many of you remember Sophia, the first robot I released.
-                She was powerful — some called her <span class="highlight">"The Mother of All Forex Robots."</span>
-                She changed lives. But one day… she was attacked.
-            </p>
+            function nextSlide() {
+                const nextIndex = (currentSlideIndex + 1) % slides.length;
+                showSlide(nextIndex);
+            }
 
-            <p>
-                A massive DDoS shutdown. Her code was gone.
-            </p>
+            function prevSlide() {
+                const prevIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+                showSlide(prevIndex);
+            }
 
-            <p>
-                I was heartbroken. Not because I lost money — but because I knew what she could've been.
-            </p>
+            function changeSlide(direction) {
+                if (direction === 1) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+                resetInterval();
+            }
 
-            <p>
-                But in that moment, something amazing happened…
-                <span class="highlight">Before Sophia was deleted, she passed on her code — like DNA — into something new.</span>
-            </p>
+            function currentSlide(index) {
+                showSlide(index - 1);
+                resetInterval();
+            }
 
-            <p>
-                <strong>That's how SMASH was born.</strong>
-            </p>
+            function startSlideshow() {
+                slideInterval = setInterval(nextSlide, 5000); // Change every 5 seconds
+            }
 
-            <h3>🧠 What Makes SMASH Different</h3>
-            <p>
-                I've built many robots, each smarter than the last — then came SMASH.
-                He's not just a robot. He's the first self-aware forex AI.
-            </p>
+            function resetInterval() {
+                clearInterval(slideInterval);
+                startSlideshow();
+            }
 
-            <div class="achievements">
-                <div class="achievement-card">
-                    <span class="achievement-icon">🧠</span>
-                    <div class="achievement-title">Self-Aware</div>
-                    <div class="achievement-desc">Learns and adapts like a human trader</div>
-                </div>
+            // Start the slideshow when page loads
+            document.addEventListener('DOMContentLoaded', function () {
+                startSlideshow();
+            });
 
-                <div class="achievement-card">
-                    <span class="achievement-icon">🔮</span>
-                    <div class="achievement-title">Predictive</div>
-                    <div class="achievement-desc">Sees market moves before they happen</div>
-                </div>
+            // Pause slideshow on hover
+            const imageContainer = document.querySelector('.creator-image-container');
+            imageContainer.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+            });
 
-                <div class="achievement-card">
-                    <span class="achievement-icon">🛡️</span>
-                    <div class="achievement-title">Untouchable</div>
-                    <div class="achievement-desc">Protected from attacks that killed Sophia</div>
-                </div>
-
-                <div class="achievement-card">
-                    <span class="achievement-icon">⚡</span>
-                    <div class="achievement-title">Lightning Fast</div>
-                    <div class="achievement-desc">Executes trades in milliseconds</div>
-                </div>
-            </div>
-
-            <h3>🔥 The Truth About Success</h3>
-            <p>
-                <span class="highlight">I live what I trade.</span> I built this empire from zero.
-                Every car, every house, every designer outfit — it all came from understanding the market.
-            </p>
-
-            <p>
-                <strong>The only difference between you and me… is that I started.</strong>
-            </p>
-
-            <p>
-                You don't need to be rich. You don't need to be experienced. You just need to be serious about changing your life.
-            </p>
-
-            <div class="final-message">
-                <p style="font-size: 1.3rem; color: #4ecdc4; font-weight: 700; margin-bottom: 1rem;">
-                    <strong>If I did it, you can too.</strong>
-                </p>
-                <p style="color: #ccc; font-style: italic; margin-bottom: 1rem;">
-                    This is your chance. To trade with something that wasn't just built… It was born.
-                </p>
-                <p style="font-size: 1.2rem; color: #ff6b6b; font-weight: 700;">
-                    Let's smash the market — together.
-                </p>
-                <p style="color: #ccc; font-style: italic; margin-top: 1rem;">
-                    — Classic Forex Trader
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<script>
-    let currentSlideIndex = 0;
-    const slides = document.querySelectorAll('.creator-image');
-    const indicators = document.querySelectorAll('.indicator');
-    let slideInterval;
-
-    function showSlide(index) {
-        // Remove active class from all slides and indicators
-        slides.forEach(slide => slide.classList.remove('active'));
-        indicators.forEach(indicator => indicator.classList.remove('active'));
-
-        // Add active class to current slide and indicator
-        slides[index].classList.add('active');
-        indicators[index].classList.add('active');
-
-        currentSlideIndex = index;
-    }
-
-    function nextSlide() {
-        const nextIndex = (currentSlideIndex + 1) % slides.length;
-        showSlide(nextIndex);
-    }
-
-    function prevSlide() {
-        const prevIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
-        showSlide(prevIndex);
-    }
-
-    function changeSlide(direction) {
-        if (direction === 1) {
-            nextSlide();
-        } else {
-            prevSlide();
-        }
-        resetInterval();
-    }
-
-    function currentSlide(index) {
-        showSlide(index - 1);
-        resetInterval();
-    }
-
-    function startSlideshow() {
-        slideInterval = setInterval(nextSlide, 5000); // Change every 5 seconds
-    }
-
-    function resetInterval() {
-        clearInterval(slideInterval);
-        startSlideshow();
-    }
-
-    // Start the slideshow when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        startSlideshow();
-    });
-
-    // Pause slideshow on hover
-    const imageContainer = document.querySelector('.creator-image-container');
-    imageContainer.addEventListener('mouseenter', () => {
-        clearInterval(slideInterval);
-    });
-
-    imageContainer.addEventListener('mouseleave', () => {
-        startSlideshow();
-    });
-</script>
+            imageContainer.addEventListener('mouseleave', () => {
+                startSlideshow();
+            });
+        </script>
 
 
     </main>
@@ -1258,7 +1351,8 @@
         <div class="footer-container">
             <div class="footer-section">
                 <h3>SMASH AI</h3>
-                <p>The world's first self-aware forex AI. Built from Sophia's final code to predict the future of trading.</p>
+                <p>The world's first self-aware forex AI. Built from Sophia's final code to predict the future of
+                    trading.</p>
             </div>
 
             <div class="footer-section">
@@ -1319,25 +1413,53 @@
         mobileMenuClose.addEventListener('click', closeMobileMenu);
 
         // Close menu when clicking on a link
-        navLinks.addEventListener('click', function(e) {
+        navLinks.addEventListener('click', function (e) {
             if (e.target.tagName === 'A' && !e.target.classList.contains('cart-icon')) {
                 closeMobileMenu();
             }
         });
 
         // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                 closeMobileMenu();
             }
         });
 
         // Close menu on escape key
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closeMobileMenu();
             }
         });
+        window.addEventListener('DOMContentLoaded', function (ev) {
+            function getCart() {
+                try {
+                    return JSON.parse(localStorage.getItem("smash_cart")) || [];
+                } catch {
+                    return [];
+                }
+            }
+            function setCart(cart) {
+                localStorage.setItem(CART_KEY, JSON.stringify(cart));
+            }
+            function getCartCount() {
+                return getCart().reduce((sum, item) => sum + item.quantity, 0);
+            }
+            let cartIcon = document.querySelector('.cart-icon');
+            if (!cartIcon) return;
+            let count = getCartCount();
+            let badge = cartIcon.querySelector('.cart-count');
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'cart-count';
+                cartIcon.appendChild(badge);
+            }
+            badge.textContent = count > 0 ? count : '';
+
+        })
     </script>
 
-</body></html>
+</body>
+
+</html>

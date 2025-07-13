@@ -23,6 +23,12 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  async redirects(){
+    return [
+      { source: "/get_countdown", destination: "/api/get_countdown",permanent: true },
+    ]
+  }
+
 };
 
 export default nextConfig;
