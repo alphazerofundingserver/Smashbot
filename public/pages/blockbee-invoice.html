@@ -22,7 +22,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            margin-top:  3rem;
+            margin-top:  1rem;
         }
 
         img {
@@ -157,6 +157,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            height: 61px;
+            min-width: -webkit-fill-available;
         }
 
         .crypto-option:hover {
@@ -410,9 +412,8 @@
         }
 
         .info-value {
-            font-size: 16px;
+            font-size: 14px;
             color: #ffffff;
-            font-family: 'Courier New', monospace;
             background-color: #292524;
             padding: 12px 16px;
             border-radius: 6px;
@@ -518,7 +519,6 @@
             }
 
             .crypto-grid {
-                grid-template-columns: 1fr;
             }
 
             .solana-option {
@@ -815,7 +815,7 @@
 
                 // Update payment details
                 document.getElementById('crypto-title').textContent = data.symbol;
-                document.getElementById('payment-amount').textContent = `$${usd}.00 in ${data.symbol}`;
+                document.getElementById('payment-amount').textContent = `${data.amount} ${data.symbol}`;
                 document.getElementById('payment-address').textContent = data.address;
                 document.getElementById('min-transaction').textContent = `Min Transaction Amount • ${data.minAmount} ${data.symbol}`;
 
