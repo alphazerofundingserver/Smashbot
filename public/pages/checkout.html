@@ -156,7 +156,7 @@
                 <h3 class="section-title">🎟️ Coupon Code (Optional)</h3>
                 <div class="form-group">
                     <label for="coupon-code" class="form-label">Coupon Code</label>
-                    <input type="text" id="coupon-code" name="coupon_code" class="form-input"
+                    <input type="text" id="coupon-code" style="opacity: 0.7;" name="coupon_code" class="form-input"
                         placeholder="Enter coupon code (e.g., SMASH50)">
                     <div style="color: #888; font-size: 0.9rem; margin-top: 0.5rem;">
                         💡 Use code <strong>SMASH50</strong> for $50 off!
@@ -201,6 +201,7 @@
     <script>
         window.addEventListener("DOMContentLoaded", function(event) {
     // Utility to get the correct total
+    document.getElementById("coupon-code").value=localStorage.getItem("applied_coupon")
     function getCheckoutTotal() {
         // Try URL param first
         const urlParams = new URLSearchParams(window.location.search);
