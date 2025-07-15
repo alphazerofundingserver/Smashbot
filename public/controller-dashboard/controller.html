@@ -131,7 +131,7 @@
                     prevBtn.disabled = currentPage === 1;
                     nextBtn.disabled = currentPage === totalPages;
     
-                    res.documents.forEach(doc => {
+                    res.documents.reverse().forEach(doc => {
                         const row = document.createElement("tr");
                         row.className = "hover:bg-gray-800 transition";
     
@@ -149,7 +149,7 @@
                             <td class="px-4 py-2">${doc.coupon_code || "-"}</td>
                         `;
                         tbody.appendChild(row);
-                    });
+                    })
                 })
                 .catch(err => {
                     console.error("Failed to load documents:", err);
