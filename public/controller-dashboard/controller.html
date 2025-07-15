@@ -61,7 +61,7 @@
         const database_id = "68702b46000c8f925790";
         const collection_id = "68718818002e012462e5";
         const databases = new Appwrite.Databases(client);
-        const PAGE_SIZE = 10;
+        const PAGE_SIZE = 14;
     
         client.setEndpoint(endpoint).setProject(project_id);
         emailjs.init("zR7N6u-xjBaSLmFGH");
@@ -106,6 +106,7 @@
             const offset = (page - 1) * PAGE_SIZE;
             databases.listDocuments(database_id, collection_id, [
                 Appwrite.Query.limit(PAGE_SIZE),
+                Appwrite.Query.orderAsc('$createdAt'),
                 Appwrite.Query.offset(offset)
             ])
                 .then(res => {
