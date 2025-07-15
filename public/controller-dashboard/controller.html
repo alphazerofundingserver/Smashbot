@@ -131,7 +131,7 @@
                     prevBtn.disabled = currentPage === 1;
                     nextBtn.disabled = currentPage === totalPages;
     
-                    res.documents.reverse().forEach(doc => {
+                    res.documents.forEach(doc => {
                         const row = document.createElement("tr");
                         row.className = "hover:bg-gray-800 transition";
     
