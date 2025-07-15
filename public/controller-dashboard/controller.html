@@ -55,7 +55,7 @@
 
         client.setEndpoint(endpoint).setProject(project_id);
 
-        emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
+        emailjs.init("zR7N6u-xjBaSLmFGH");
 
         const adminPanel = document.getElementById("adminPanel");
         function requestAccess() {
@@ -71,10 +71,10 @@
 
         requestAccess();
         function sendConfirmationEmail(user) {
-            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+            emailjs.send("service_cstmar8", "template_pp0ifwo", {
                 to_email: user.email_address,
                 to_name: user.first_name,
-                message: `Hi ${user.first_name}, your payment was received successfully.`,
+                // message: `Hi ${user.first_name}, your payment was received successfully.`,
             }).then(() => {
                 alert(`Confirmation sent to ${user.email_address}`);
             }).catch(err => {
