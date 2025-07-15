@@ -42,68 +42,106 @@
                 </tbody>
             </table>
         </div>
+        <div class="flex justify-between items-center mt-4">
+            <button id="prevPage" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded disabled:opacity-40" disabled>
+                Previous
+            </button>
+            <span id="pageInfo" class="text-sm text-gray-300"></span>
+            <button id="nextPage" class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded disabled:opacity-40" disabled>
+                Next
+            </button>
+        </div>
     </div>
 
     <script>
-        const SMASH_CONTROLLER_AUTH_CODE = "Prodigy19."
+        const SMASH_CONTROLLER_AUTH_CODE = "Prodigy19.";
         const client = new Appwrite.Client();
         const endpoint = "https://nyc.cloud.appwrite.io/v1";
         const project_id = "687028a50031bd01fcbc";
         const database_id = "68702b46000c8f925790";
         const collection_id = "68718818002e012462e5";
         const databases = new Appwrite.Databases(client);
-
+        const PAGE_SIZE = 10;
+    
         client.setEndpoint(endpoint).setProject(project_id);
-
         emailjs.init("zR7N6u-xjBaSLmFGH");
-
+    
         const adminPanel = document.getElementById("adminPanel");
+        let currentPage = 1;
+        let totalPages = 1;
+    
         function requestAccess() {
             const input = prompt("Enter admin password:");
             if (input === SMASH_CONTROLLER_AUTH_CODE) {
                 adminPanel.classList.remove("hidden");
-                loadTable();
+                loadTable(currentPage);
             } else {
                 alert("Incorrect password. Try again.");
                 requestAccess();
             }
         }
-
+    
         requestAccess();
-        function sendConfirmationEmail(user) {
+    
+        function sendConfirmationEmail(user, button) {
+            const originalText = button.innerText;
+            button.disabled = true;
+            button.innerText = "Sending...";
+    
             emailjs.send("service_cstmar8", "template_pp0ifwo", {
                 to_email: user.email_address,
                 to_name: user.first_name,
-                // message: `Hi ${user.first_name}, your payment was received successfully.`,
             }).then(() => {
                 alert(`Confirmation sent to ${user.email_address}`);
             }).catch(err => {
                 alert("Failed to send email.");
                 console.error(err);
+            }).finally(() => {
+                button.disabled = false;
+                button.innerText = originalText;
             });
         }
-
-        function loadTable() {
-            databases.listDocuments(database_id, collection_id)
+    
+        function loadTable(page = 1) {
+            const offset = (page - 1) * PAGE_SIZE;
+            databases.listDocuments(database_id, collection_id, [
+                Appwrite.Query.limit(PAGE_SIZE),
+                Appwrite.Query.offset(offset)
+            ])
                 .then(res => {
                     const tbody = document.getElementById("userTableBody");
+                    const pageInfo = document.getElementById("pageInfo");
+                    const nextBtn = document.getElementById("nextPage");
+                    const prevBtn = document.getElementById("prevPage");
+    
                     tbody.innerHTML = "";
-
+    
                     if (!res.documents.length) {
                         tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-gray-400">No records found.</td></tr>`;
+                        pageInfo.innerText = "";
+                        nextBtn.disabled = true;
+                        prevBtn.disabled = true;
                         return;
                     }
-
+    
+                    totalPages = Math.ceil(res.total / PAGE_SIZE);
+                    pageInfo.innerText = `Page ${currentPage} of ${totalPages}`;
+    
+                    prevBtn.disabled = currentPage === 1;
+                    nextBtn.disabled = currentPage === totalPages;
+    
                     res.documents.forEach(doc => {
                         const row = document.createElement("tr");
                         row.className = "hover:bg-gray-800 transition";
-
+    
+                        const docJson = JSON.stringify(doc).replace(/"/g, '&quot;');
+    
                         row.innerHTML = `
-                        <td class="px-4 py-2">
-                            <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded text-sm" onclick='sendConfirmationEmail(${JSON.stringify(doc)})'>
-                                Send
-                            </button>
-                        </td>
+                            <td class="px-4 py-2">
+                                <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded text-sm" onclick='sendConfirmationEmail(${docJson}, this)'>
+                                    Send
+                                </button>
+                            </td>
                             <td class="px-4 py-2">${doc.first_name || "-"}</td>
                             <td class="px-4 py-2">${doc.last_name || "-"}</td>
                             <td class="px-4 py-2">${doc.email_address || "-"}</td>
@@ -117,8 +155,22 @@
                     alert("Failed to load user data.");
                 });
         }
+    
+        document.getElementById("nextPage").addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadTable(currentPage);
+            }
+        });
+    
+        document.getElementById("prevPage").addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                loadTable(currentPage);
+            }
+        });
     </script>
-
+    
 </body>
 
 </html>
