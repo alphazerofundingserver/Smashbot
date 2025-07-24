@@ -969,7 +969,7 @@ function applyCoupon(event) {
         return;
     }
     
-    const validCoupons = ['SMASH50', 'SAVE110', 'TRADER20', 'FINAL280', 'MEGA150'];
+    const validCoupons = ['SMASH50','MEGA100'];
     const upperCoupon = couponCode.toUpperCase();
     
     if (validCoupons.includes(upperCoupon)) {
@@ -997,8 +997,8 @@ function checkout() {
             case 'SMASH50':
                 discount = 50;
                 break;
-            case 'MEGA90':
-                discount = 90;
+            case 'MEGA100':
+                discount = 100;
                 break;
         }
     }
