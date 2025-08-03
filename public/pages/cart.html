@@ -970,7 +970,7 @@ function applyCoupon(event) {
         return;
     }
     
-    const validCoupons = ['SMASH50','MEGA100'];
+    const validCoupons = ['SMASH150','SMASH100'];
     const upperCoupon = couponCode.toUpperCase();
     
     if (validCoupons.includes(upperCoupon)) {
@@ -995,10 +995,10 @@ function checkout() {
     
     if (appliedCoupon) {
         switch(appliedCoupon.toUpperCase()) {
-            case 'SMASH50':
-                discount = 50;
+            case 'SMASH150':
+                discount = 150;
                 break;
-            case 'MEGA100':
+            case 'SMASH100':
                 discount = 100;
                 break;
         }
@@ -1128,6 +1128,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 
 </body></html>
+
 
 
 
