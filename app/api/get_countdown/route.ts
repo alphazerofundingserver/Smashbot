@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
 export async function GET() {
-  const countdownTarget = new Date('2025-09-11T17:58:20.117Z')
+  const countdownTarget = new Date('2025-09-3T17:58:20.117Z')
   const now = new Date()
   const diff = countdownTarget.getTime() - now.getTime()
 
